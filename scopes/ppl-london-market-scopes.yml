@@ -1,0 +1,56 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  Docs only. python3 0-working/derive-oauth-scopes.py returned nothing for this provider because
+  none of the five PPL OpenAPI documents declares an oauth2 securityScheme — the OAuth contract is
+  published only in developer-portal prose.
+docs: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+also_documented_at: https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+model: >-
+  PPL does not operate its own authorization server and does not publish a per-resource scope
+  catalogue. Authorization is delegated wholesale to Microsoft Entra ID (Azure AD) in the LIMOSS
+  API Common Services tenant, and the LIMOSS API Gateway gates on a single delegated-permission
+  scope. Resource-level authorization is then enforced by team/user context carried in the
+  X-Auth-Team and X-Auth-Impersonated-User headers, and by the market roles held by that user —
+  not by OAuth scopes.
+schemes:
+- name: entraIdBearer
+  type: oauth2
+  provider: Microsoft Entra ID (Azure AD)
+  source: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize
+    tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+  - flow: onBehalfOf
+    tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+  - flow: clientCredentials
+    tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+scopes:
+- scope: user_impersonation
+  description: >-
+    The single delegated permission the LIMOSS API Gateway checks. The Base API Standard states the
+    JWT must carry the claim "scp": "user_impersonation"; the Authentication page states that "if
+    there is a scope claim which includes 'user_impersonation', then it may be passed directly to
+    the API Gateway", and that otherwise the caller must acquire an on-behalf-of token that has it.
+  flows: [authorizationCode, onBehalfOf, clientCredentials]
+  sources: [https://developer.pplnextgen.com/Get-Started/Authentication-Information, https://developer.pplnextgen.com/Get-Started/Base-API-Standard]
+audience:
+  note: >-
+    Where the downstream API validates the audience claim, the gateway may need an on-behalf-of
+    token with the correct audience set. PPL does not publish the audience/resource identifier
+    values — they are issued per organisation and per environment during onboarding.
+  published: false
+not_published:
+- Per-API or per-resource scopes (there is no read:placements / write:contracts style catalogue).
+- A scopes or permissions reference page.
+- Any consent screen or scope-selection UI for third-party applications.
+authorization_model:
+  primary: single delegated Entra ID scope (user_impersonation)
+  secondary: >-
+    Team and user context supplied on every call via X-Auth-Team and X-Auth-Impersonated-User,
+    validated by the platform. An invalid combination returns HTTP 404 with error code
+    INVALID_ROLE_OR_TEAM.
+  transport: mutual TLS with a per-environment registered X.509 client certificate
+related:
+  authentication: authentication/ppl-london-market-authentication.yml

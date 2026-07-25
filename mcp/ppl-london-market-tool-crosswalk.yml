@@ -1,0 +1,441 @@
+generated: '2026-07-25'
+method: derived
+source: mcp/ppl-london-market-mcp.yml + openapi/ (5 OpenAPI 3.0.1 documents)
+note: >-
+  PPL publishes no MCP server and no GraphQL surface. The MCP side of this crosswalk is the
+  DERIVED candidate tool set in mcp/ppl-london-market-mcp.yml, which is generated one-to-one from the
+  OpenAPI operations — so every binding is exact by construction and there are no MCP-only
+  tools. It is recorded so that a future PPL (or partner) MCP server has a ready-made,
+  verified map from tool name to backing operationId and its real input contract.
+surfaces:
+  openapi:
+  - {file: openapi/ppl-london-market-placements.json, api: placements, gated: false, note: spec is publicly downloadable}
+  - {file: openapi/ppl-london-market-submissions.json, api: submissions, gated: false, note: spec is publicly downloadable}
+  - {file: openapi/ppl-london-market-organisations.json, api: organisations, gated: false, note: spec is publicly downloadable}
+  - {file: openapi/ppl-london-market-documents.json, api: documents, gated: false, note: spec is publicly downloadable}
+  - {file: openapi/ppl-london-market-events.json, api: events, gated: false, note: spec is publicly downloadable}
+  graphql: null   # PPL publishes no GraphQL surface
+  mcp:
+    url: null
+    gated: true
+    note: no server published; tools/list not probeable
+  rest_runtime:
+    production: https://api.londonmarketgroup.co.uk/ppl/nextgen/
+    sandbox: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/
+    gated: true
+    note: >-
+      /health answers anonymously on both hosts; every business operation requires Entra ID
+      bearer token plus a registered X.509 client certificate.
+crosswalk:
+- tool: placements_placement_get_all
+  category: placement
+  rest: [Placement_GetAll_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_placement_post
+  category: placement
+  rest: [Placement_Post_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_placement_get_by_id
+  category: placement
+  rest: [Placement_GetById_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_placement_put
+  category: placement
+  rest: [Placement_Put_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_placement_delete
+  category: placement
+  rest: [Placement_Delete_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_programme_post
+  category: placement
+  rest: [Programme_Post_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_programme_get_by_id
+  category: placement
+  rest: [Programme_GetById_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_programme_put
+  category: placement
+  rest: [Programme_Put_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_programme_delete
+  category: placement
+  rest: [Programme_Delete_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_contract_get_all
+  category: placement
+  rest: [Contract_GetAll_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_contract_post
+  category: placement
+  rest: [Contract_Post_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_contract_get_by_id
+  category: placement
+  rest: [Contract_GetById_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_contract_put
+  category: placement
+  rest: [Contract_Put_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_contract_delete
+  category: placement
+  rest: [Contract_Delete_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_section_get_all
+  category: placement
+  rest: [Section_GetAll_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_section_post
+  category: placement
+  rest: [Section_Post_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_section_get_by_id
+  category: placement
+  rest: [Section_GetById_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_section_put
+  category: placement
+  rest: [Section_Put_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_section_delete
+  category: placement
+  rest: [Section_Delete_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_participation_get_all
+  category: placement
+  rest: [Participation_GetAll_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_participation_post
+  category: placement
+  rest: [Participation_Post_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_participation_get_by_id
+  category: placement
+  rest: [Participation_GetById_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_participation_put
+  category: placement
+  rest: [Participation_Put_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_participation_delete
+  category: placement
+  rest: [Participation_Delete_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_negotiation_get_all
+  category: negotiation
+  rest: [Negotiation_GetAll_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_negotiation_post
+  category: negotiation
+  rest: [Negotiation_Post_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_negotiation_get_by_id
+  category: negotiation
+  rest: [Negotiation_GetById_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_negotiation_put
+  category: negotiation
+  rest: [Negotiation_Put_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_negotiation_send
+  category: negotiation
+  rest: [Negotiation_Send_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: placements_contract_assign_roles
+  category: placement
+  rest: [Contract_AssignRoles_v1]
+  spec: openapi/ppl-london-market-placements.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_negotiation_get_all
+  category: negotiation
+  rest: [Negotiation_GetAll_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_negotiation_post
+  category: negotiation
+  rest: [Negotiation_Post_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_negotiation_get_by_id
+  category: negotiation
+  rest: [Negotiation_GetById_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_negotiation_put
+  category: negotiation
+  rest: [Negotiation_Put_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_negotiation_reassign
+  category: negotiation
+  rest: [Negotiation_Reassign_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_submission_get_all
+  category: submission
+  rest: [Submission_GetAll_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_submission_get_by_id
+  category: submission
+  rest: [Submission_GetById_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: submissions_submission_send
+  category: submission
+  rest: [Submission_Send_v1]
+  spec: openapi/ppl-london-market-submissions.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: organisations_broker_organisations
+  category: reference-data
+  rest: [brokerOrganisations_v1]
+  spec: openapi/ppl-london-market-organisations.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: organisations_carrier_organisations
+  category: reference-data
+  rest: [carrierOrganisations_v1]
+  spec: openapi/ppl-london-market-organisations.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: organisations_broker_markets_facilities
+  category: reference-data
+  rest: [brokerMarkets_Facilities_v1]
+  spec: openapi/ppl-london-market-organisations.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: organisations_broker_markets_underwriters
+  category: reference-data
+  rest: [brokerMarkets_Underwriters_v1]
+  spec: openapi/ppl-london-market-organisations.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: organisations_broker_markets_stamps
+  category: reference-data
+  rest: [brokerMarkets_Stamps_v1]
+  spec: openapi/ppl-london-market-organisations.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_get_all
+  category: document
+  rest: [Document_GetAll_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_post
+  category: document
+  rest: [Document_Post_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_get_by_id
+  category: document
+  rest: [Document_GetById_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_put
+  category: document
+  rest: [Document_Put_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_delete
+  category: document
+  rest: [Document_Delete_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_get_content
+  category: document
+  rest: [Document_GetContent_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_post_download
+  category: document
+  rest: [Document_PostDownload_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_get_security_content
+  category: document
+  rest: [Document_GetSecurityContent_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: documents_document_post_security_download
+  category: document
+  rest: [Document_PostSecurityDownload_v1]
+  spec: openapi/ppl-london-market-documents.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: events_notification_get_all
+  category: events
+  rest: [Notification_GetAll_v1]
+  spec: openapi/ppl-london-market-events.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: events_notification_get_by_id
+  category: events
+  rest: [Notification_GetById_v1]
+  spec: openapi/ppl-london-market-events.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: events_notification_mark_all_as_read
+  category: events
+  rest: [Notification_MarkAllAsRead_v1]
+  spec: openapi/ppl-london-market-events.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: events_transaction_get_all
+  category: events
+  rest: [Transaction_GetAll_v1]
+  spec: openapi/ppl-london-market-events.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+- tool: events_transaction_get_by_id
+  category: events
+  rest: [Transaction_GetById_v1]
+  spec: openapi/ppl-london-market-events.json
+  binding: rest
+  confidence: high
+  note: derived one-to-one from the operation; inputSchema is that operation's parameters + requestBody
+mcp_only: []   # no published MCP server, therefore no MCP-only capability
+rest_only:
+- group: service probes
+  operations: [Health, Version]
+  reason: >-
+    Per-API /health and /version probes (2 per API across all five APIs) are operational
+    endpoints, not business capability, and are deliberately not exposed as tools.
+coverage:
+  tools_named: 57
+  tools_bound: 57
+  mcp_only: 0
+  rest_operations_total: 67
+  rest_operations_with_tool: 57

@@ -1,0 +1,94 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/ (5 OpenAPI 3.0.1 documents) + https://developer.pplnextgen.com/Placements/Technical-Model
+format: custom
+format_note: >-
+  PPL does not use RFC 9457 application/problem+json. Every 4xx/5xx response across all five
+  APIs returns the same JSON envelope, components.schemas.error_document, with a single
+  errors[] array. Each error carries code, message, and — for field-level validation —
+  field and argument. Content type is application/json.
+envelope:
+  media_type: application/json
+  schema: error_document
+  shape:
+    errors:
+    - code: string        # the machine-readable error code
+      message: string     # the human-readable error message
+      field: string|null  # the field the error occurred on, when field specific
+      argument: string|null # the syntax argument the field was validated against
+problems:
+- status: 400
+  title: "Mandatory header parameter is missing from the request."
+  schema: error_document
+  apis: [documents, events, organisations, placements, submissions]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+  - openapi/ppl-london-market-placements.json#Placement_Post_v1
+  - openapi/ppl-london-market-placements.json#Placement_GetById_v1
+- status: 401
+  title: "Authentication error."
+  schema: error_document
+  apis: [documents, events, organisations, placements, submissions]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+  - openapi/ppl-london-market-placements.json#Placement_Post_v1
+  - openapi/ppl-london-market-placements.json#Placement_GetById_v1
+- status: 404
+  title: "Invalid team or user."
+  schema: error_document
+  apis: [documents, events, organisations, placements, submissions]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+  - openapi/ppl-london-market-placements.json#Placement_Post_v1
+  - openapi/ppl-london-market-placements.json#Placement_GetById_v1
+- status: 414
+  title: "The maximum field length of the URI provided for the request has been exceeded."
+  schema: error_document
+  apis: [documents, events, organisations, placements, submissions]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+  - openapi/ppl-london-market-placements.json#Placement_Post_v1
+  - openapi/ppl-london-market-placements.json#Placement_GetById_v1
+- status: 429
+  title: "Too many requests"
+  schema: error_document
+  apis: [placements]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetById_v1
+  - openapi/ppl-london-market-placements.json#Placement_Put_v1
+  - openapi/ppl-london-market-placements.json#Placement_Delete_v1
+- status: 429
+  title: "Too many requests."
+  schema: error_document
+  apis: [documents, events, organisations, placements, submissions]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+  - openapi/ppl-london-market-placements.json#Placement_Post_v1
+  - openapi/ppl-london-market-placements.json#Programme_Post_v1
+- status: 500
+  title: "Internal server error"
+  schema: error_document
+  apis: [documents, events, organisations, placements, submissions]
+  source_operations:
+  - openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+  - openapi/ppl-london-market-placements.json#Placement_Post_v1
+  - openapi/ppl-london-market-placements.json#Placement_GetById_v1
+error_codes:
+  method: searched
+  source: https://developer.pplnextgen.com/Placements/Technical-Model
+  note: >-
+    Codes observed in the worked request/response examples published on the API
+    Technical Model pages. PPL publishes no consolidated error-code reference, so this
+    list is the documented subset, not the complete registry.
+  codes:
+  - code: MANDATORY_PARAMETER
+    meaning: "A mandatory parameter or header was missing from the request."
+  - code: UNAUTHENTICATED
+    meaning: "The caller presented no valid Azure AD bearer token, or the token lacked the user_impersonation scope."
+  - code: INVALID_PARAMETER_FORMAT
+    meaning: "A supplied parameter did not match the expected syntax or format."
+  - code: INVALID_ROLE_OR_TEAM
+    meaning: "The X-Auth-Team / X-Auth-Impersonated-User combination is not a valid team or user for the caller."
+related:
+  conventions: conventions/ppl-london-market-conventions.yml
+  authentication: authentication/ppl-london-market-authentication.yml

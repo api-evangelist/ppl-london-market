@@ -60,6 +60,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ppl-london-market-placements.json
+  - type: Overlay
+    url: overlays/ppl-london-market-placements-overlay.yaml
   - type: Documentation
     url: https://developer.pplnextgen.com/placements
   - type: APIReference
@@ -89,6 +91,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ppl-london-market-submissions.json
+  - type: Overlay
+    url: overlays/ppl-london-market-submissions-overlay.yaml
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -117,6 +121,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ppl-london-market-organisations.json
+  - type: Overlay
+    url: overlays/ppl-london-market-organisations-overlay.yaml
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -145,6 +151,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ppl-london-market-documents.json
+  - type: Overlay
+    url: overlays/ppl-london-market-documents-overlay.yaml
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -173,6 +181,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ppl-london-market-events.json
+  - type: Overlay
+    url: overlays/ppl-london-market-events-overlay.yaml
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -184,6 +194,60 @@ apis:
   - type: PostmanCollection
     url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 common:
+- type: Authentication
+  name: PPL authentication profile (Entra ID + mutual TLS)
+  url: authentication/ppl-london-market-authentication.yml
+- type: OAuthScopes
+  name: PPL OAuth scopes (user_impersonation)
+  url: scopes/ppl-london-market-scopes.yml
+- type: Conventions
+  name: PPL API conventions
+  url: conventions/ppl-london-market-conventions.yml
+- type: Idempotency
+  name: Idempotent methods and the X-Last-Modified concurrency precondition
+  url: conventions/ppl-london-market-conventions.yml
+- type: ErrorCatalog
+  name: PPL error envelope and documented error codes
+  url: errors/ppl-london-market-problem-types.yml
+- type: Lifecycle
+  name: PPL versioning, release status and support lifecycle
+  url: lifecycle/ppl-london-market-lifecycle.yml
+- type: Conformance
+  name: Standards conformance assessment
+  url: conformance/ppl-london-market-conformance.yml
+- type: Sandbox
+  name: Sand (JIT2) / PreProd / Prod environments
+  url: sandbox/ppl-london-market-sandbox.yml
+- type: DataModel
+  name: Placement to negotiation entity graph
+  url: data-model/ppl-london-market-data-model.yml
+- type: MCPServer
+  name: Derived candidate MCP tool surface (no server published by PPL)
+  url: mcp/ppl-london-market-mcp.yml
+- type: ToolCrosswalk
+  name: MCP tool to OpenAPI operationId crosswalk
+  url: mcp/ppl-london-market-tool-crosswalk.yml
+- type: AgentSkill
+  name: Packaged agent skills for the PPL marquee flows
+  url: skills/_index.yml
+- type: LLMsTxt
+  name: Generated llms.txt for PPL
+  url: llms/ppl-london-market-llms.txt
+- type: WellKnown
+  name: Probed /.well-known/ surface (none published)
+  url: well-known/ppl-london-market-well-known.yml
+- type: Packages
+  name: Client library search (no first-party SDKs published)
+  url: packages/ppl-london-market-packages.yml
+- type: GettingStarted
+  url: https://developer.pplnextgen.com/Get-Started
+- type: Postman
+  name: PPL API catalogue - five downloadable Postman collections
+  url: https://developer.pplnextgen.com/Explore-Innovate
+- type: AgenticAccess
+  url: agentic-access/ppl-london-market-agentic-access.yml
+- type: DomainSecurity
+  url: security/ppl-london-market-domain-security.yml
 - type: Website
   url: https://placingplatformlimited.com/
 - type: DeveloperPortal

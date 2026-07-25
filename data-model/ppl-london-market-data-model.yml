@@ -1,0 +1,150 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/ (5 OpenAPI 3.0.1 documents, 380 component schemas)
+note: >-
+  Entity graph derived from URI path nesting and from the *_id reference fields declared on
+  the PPL component schemas. PPL states the design follows the ACORD GRLC (Global Reinsurance
+  and Large Commercial) data model, but the string ACORD does not appear in any of the five
+  OpenAPI documents, so no ACORD class mapping is asserted here.
+id_convention:
+  style: snake_case_id_fields
+  examples: [placement_id, programme_id, contract_id, section_id, participation_id, negotiation_id, submission_id, document_id, document_version_id, notification_id, transaction_id, team_id, stamp_id]
+  format: opaque string identifier (no documented prefix scheme)
+  business_key: unique_market_reference (UMR) is the London Market business key carried on contracts and negotiations
+entities:
+- entity: Placement
+  api: placements
+  id_field: placement_id
+  description: "The top-level container for a client's placing exercise in a given effective year."
+  relationships:
+  - {kind: has_many, target: Programme, via: placement_id}
+  - {kind: belongs_to, target: BrokerTeam, via: broker_team}
+  - {kind: belongs_to, target: BrokerUser, via: broker_user}
+- entity: Programme
+  api: placements
+  id_field: programme_id
+  description: "A programme of cover within a Placement."
+  relationships:
+  - {kind: belongs_to, target: Placement, via: placement_id}
+  - {kind: has_many, target: Contract, via: contracts}
+- entity: Contract
+  api: placements
+  id_field: contract_id
+  description: "A (re)insurance contract, identified in the market by its Unique Market Reference."
+  relationships:
+  - {kind: belongs_to, target: Programme, via: programme_id}
+  - {kind: has_many, target: Section, via: contract_id}
+  - {kind: has_many, target: Negotiation, via: contract_id}
+  - {kind: has_one, target: Document, via: contract_id}
+- entity: Section
+  api: placements
+  id_field: section_id
+  description: "A section of a Contract; the unit carriers actually write lines against."
+  relationships:
+  - {kind: belongs_to, target: Contract, via: contract_id}
+  - {kind: has_many, target: Participation, via: section_id}
+- entity: Participation
+  api: placements
+  id_field: participation_id
+  description: "A carrier/underwriter participation on a Section."
+  relationships:
+  - {kind: belongs_to, target: Section, via: section_id}
+  - {kind: belongs_to, target: CarrierOrganisation, via: company_name}
+  - {kind: has_many, target: Negotiation, via: participation_id}
+- entity: Negotiation
+  api: placements + submissions
+  id_field: negotiation_id
+  description: "The negotiation of terms between a broker and an underwriter. Modelled on both sides: broker-side under /contracts/{contractId}/negotiations, underwriter-side under /submissions/{submissionId}/negotiations."
+  relationships:
+  - {kind: belongs_to, target: Contract, via: contract_id}
+  - {kind: belongs_to, target: Section, via: section_id}
+  - {kind: belongs_to, target: Participation, via: participation_id}
+  - {kind: belongs_to, target: Submission, via: submission_id}
+  - {kind: has_one, target: Negotiation, via: responding_to_negotiation_id}
+- entity: Submission
+  api: submissions
+  id_field: submission_id
+  description: "The broker's request to an underwriter, as seen from the carrier side."
+  relationships:
+  - {kind: has_many, target: Negotiation, via: submission_id}
+  - {kind: belongs_to, target: Contract, via: contract_id}
+- entity: Document
+  api: documents
+  id_field: document_id
+  description: "A document attached somewhere on the Placement hierarchy, including the Market Reform Contract."
+  relationships:
+  - {kind: has_many, target: DocumentVersion, via: document_id}
+  - {kind: belongs_to, target: Placement, via: placement_id}
+  - {kind: belongs_to, target: Context, via: context_id / context_type}
+- entity: DocumentVersion
+  api: documents
+  id_field: document_version_id
+  description: "An individual version of a Document; content and download are addressed by version."
+  relationships:
+  - {kind: belongs_to, target: Document, via: document_id}
+- entity: Notification
+  api: events
+  id_field: notification_id
+  description: "An informative or actionable notification about an interested party's involvement in a placement."
+  relationships:
+  - {kind: belongs_to, target: Placement, via: placement_id}
+  - {kind: belongs_to, target: Contract, via: contract_id}
+  - {kind: belongs_to, target: Section, via: section_id}
+  - {kind: belongs_to, target: Programme, via: programme_id}
+- entity: Transaction
+  api: events
+  id_field: transaction_id
+  description: "An entry in the business transaction log for contract-related engagements."
+  relationships:
+  - {kind: belongs_to, target: Contract, via: contract_id}
+- entity: BrokerOrganisation
+  api: organisations
+  id_field: company_id
+  description: "A broking firm and its team structure, members and roles."
+  relationships:
+  - {kind: has_many, target: Team, via: team_id}
+- entity: CarrierOrganisation
+  api: organisations
+  id_field: company_id
+  description: "A carrier and its team structure, members and roles."
+  relationships:
+  - {kind: has_many, target: Team, via: team_id}
+  - {kind: has_many, target: MarketUnderwriter, via: underwriter_email}
+- entity: MarketFacility
+  api: organisations
+  id_field: facility_panel_id
+  description: "A market facility a broker can place against."
+  relationships:
+  - {kind: belongs_to, target: CarrierOrganisation, via: company_name}
+- entity: MarketUnderwriter
+  api: organisations
+  id_field: underwriter_email
+  description: "An underwriter in the market, addressed by email."
+  relationships:
+  - {kind: has_many, target: Stamp, via: underwriter_email}
+- entity: Stamp
+  api: organisations + placements
+  id_field: stamp_id
+  description: "An underwriter stamp carrying agency type/code, risk codes, written line and line conditions."
+  relationships:
+  - {kind: belongs_to, target: MarketUnderwriter, via: underwriter_email}
+  - {kind: belongs_to, target: Negotiation, via: negotiation_id}
+- entity: Subjectivity
+  api: placements
+  id_field: subjectivity_id
+  description: "A subjectivity attached to a negotiation, with confirmation and off-cover flags."
+  relationships:
+  - {kind: belongs_to, target: Negotiation, via: negotiation_id}
+- entity: LineCondition
+  api: placements
+  id_field: line_condition_id
+  description: "A line condition attached to a stamp within a negotiation."
+  relationships:
+  - {kind: belongs_to, target: Stamp, via: stamp_id}
+core_path:
+  - Placement -> Programme -> Contract -> Section -> Participation -> Negotiation
+  - Submission -> Negotiation (the same negotiation seen from the carrier side)
+  - Contract -> Document (Market Reform Contract) -> DocumentVersion
+coverage:
+  entities: 18
+  relationships: 39

@@ -1,0 +1,42 @@
+generated: '2026-07-25'
+method: searched
+source: public package-registry searches, 2026-07-25
+result: none
+summary: >-
+  PPL publishes no first-party client libraries. Every public registry below was searched for PPL /
+  PPL Next Gen / Placing Platform / London Market Group terms and returned no first-party package,
+  and PPL operates no GitHub organisation to publish from. The published integration artefacts are
+  the five OpenAPI 3.0.1 documents and the five Postman collections on the developer portal — from
+  which a consumer is expected to generate their own client. The roadmap commits to adding "code
+  snippets next to the Swagger details with additional Tx/Rx samples", but no SDK is promised.
+packages: []
+registries_searched:
+- {registry: npm, query: 'ppl-nextgen, pplnextgen, placing-platform, londonmarketgroup', result: no first-party package}
+- {registry: PyPI, query: 'ppl-nextgen, pplnextgen', result: 404 on the JSON API for both}
+- {registry: GitHub, query: 'orgs placingplatformlimited, ppl-nextgen, pplnextgen, london-market-group, limoss', result: 404 — no GitHub organisation exists for PPL or LIMOSS}
+- {registry: NuGet, query: PPL / LIMOSS, result: no first-party package (the portal sample is inline ASP.NET Core / MSAL configuration, not a published library)}
+- {registry: Maven Central, query: PPL / londonmarketgroup, result: no first-party package}
+- {registry: RubyGems, query: PPL Next Gen, result: no first-party package}
+- {registry: Packagist, query: PPL Next Gen, result: no first-party package}
+- {registry: crates.io, query: PPL Next Gen, result: no first-party package}
+- {registry: pkg.go.dev, query: PPL Next Gen, result: no first-party package}
+generation_path:
+  note: >-
+    A consumer generates a client from the published specs. All five parse cleanly as OpenAPI
+    3.0.1 and are downloadable anonymously.
+  specs:
+  - openapi/ppl-london-market-placements.json
+  - openapi/ppl-london-market-submissions.json
+  - openapi/ppl-london-market-organisations.json
+  - openapi/ppl-london-market-documents.json
+  - openapi/ppl-london-market-events.json
+  caveat: >-
+    A generated client still needs the auth contract bolted on by hand, because none of the five
+    documents declares securitySchemes. overlays/ppl-london-market-*-overlay.yaml supplies it.
+postman:
+  published: true
+  count: 5
+  detail: sandbox/ppl-london-market-sandbox.yml
+cli:
+  published: false
+official_sdks: 0

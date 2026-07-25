@@ -1,0 +1,236 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+derived_from: openapi/ (5 OpenAPI 3.0.1 documents, 67 operations)
+note: >-
+  PPL publishes an unusually complete written API standard — the "Base API Standard" page on the
+  PPL Next Gen developer portal — with RFC-2119 style MUST/SHOULD language. Where the shipped
+  OpenAPI documents diverge from that standard, BOTH are recorded below: `standard:` is what the
+  published standard mandates, `implemented:` is what the five harvested specs actually declare.
+  That divergence is real and is the most useful thing in this file.
+
+authentication:
+  style: OAuth 2.0 bearer (Microsoft Entra ID) + mandatory mutual TLS (X.509 client certificate)
+  header: 'Authorization: Bearer {JWT}'
+  required_claim: 'scp: user_impersonation'
+  detail: authentication/ppl-london-market-authentication.yml
+
+base_url:
+  template: https://api.londonmarketgroup.co.uk/{Deployment}/{ApiOwnerOrg}/{APIName}/{versionNo}/{resource}
+  production: https://api.londonmarketgroup.co.uk/ppl/nextgen/{api}/v1
+  sandbox: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/{api}
+  apis: [placements, submissions, organisations, documents, events]
+
+versioning:
+  scheme: Major.Minor, major version in the URI path
+  standard: >-
+    "Endpoints must be versioned using a Major.Minor scheme, E.g. 4.5". The major version is
+    embedded in the URI; minor versions are transparent — "consumers must automatically be routed
+    by the API gateway to the latest minor version that exists for the major version". Minor
+    versions preserve backward compatibility; major versions may break it.
+  implemented: v1 across all five APIs; info.version is "1" in every document.
+  detail: lifecycle/ppl-london-market-lifecycle.yml
+
+http_methods:
+  supported: [GET, POST, PUT, DELETE, HEAD]
+  patch_supported: false
+  standard_rules:
+  - GET requests must not modify the state of a resource.
+  - PUT requests must update the state of an existing resource, or create a new resource.
+  - POST requests should create a new resource if they do not terminate in an error.
+  - PATCH is not supported.
+  - HEAD must be supported for resources.
+  implemented: >-
+    GET/POST/PUT/DELETE are used across the 67 operations. Several POSTs are commands rather than
+    creates (Negotiation_Send_v1, Submission_Send_v1, Contract_AssignRoles_v1,
+    Notification_MarkAllAsRead_v1, Document_PostDownload_v1, Document_PostSecurityDownload_v1).
+
+idempotency:
+  supported: true
+  model: >-
+    Method-level idempotency plus mandatory optimistic concurrency control. PPL does NOT operate an
+    Idempotency-Key style replay cache for POST — the standard is explicit that "GET requests must
+    be idempotent" and "PUT requests must be idempotent", and POST idempotency is not mandated.
+  idempotent_methods: [GET, PUT, HEAD, DELETE]
+  non_idempotent_methods: [POST]
+  concurrency_control:
+    required: true
+    standard: >-
+      "Resources must use optimistic concurrency control via the use of If-Unmodified-Since and
+      If-Match HTTP headers." The standard also requires ETag on responses and Last-Modified
+      (RFC 1123 format) on GET/HEAD.
+    implemented:
+      header: X-Last-Modified
+      in: header
+      required: true
+      applies_to: >-
+        Every PUT across the write-bearing APIs, plus POST
+        /contracts/{contractId}/negotiations/{negotiationId}/send — 10 operations in total:
+        Placement_Put_v1, Programme_Put_v1, Contract_Put_v1, Section_Put_v1, Participation_Put_v1,
+        Negotiation_Put_v1 and Negotiation_Send_v1 (placements); Document_Put_v1 (documents);
+        Negotiation_Put_v1 and Negotiation_Reassign_v1 (submissions).
+      note: >-
+        The shipped APIs implement the concurrency precondition as the custom request header
+        X-Last-Modified rather than the standard's If-Match / If-Unmodified-Since. A caller must
+        read the resource, carry its last-modified value forward, and send it on the update; a
+        stale value fails the precondition rather than silently overwriting another market
+        participant's edit.
+  replay_key: null
+  retention: not published
+
+pagination:
+  style: page-number
+  standard:
+    params: {page_size: _pageSize, page_number: _pageNum}
+    max_page_size: 200
+    page_starts_at: 1
+    response: total count plus a links structure with first / last / prev / next relations
+  implemented:
+    params: {page_size: pageSize, page_number: pageNumber}
+    in: query
+    response_fields: [page_number, page_size, count, total_results]
+    collection_field: named after the resource (placements, negotiations, submissions, documents, notifications, transactions, ...)
+    hateoas_links: false
+    note: >-
+      The shipped specs use unprefixed pageSize / pageNumber and return a flat envelope with
+      page_number, page_size, count and total_results. No first/last/prev/next link structure is
+      present in any of the five documents, so the standard's link relations are not implemented.
+
+sorting:
+  standard: '_order=field1,field2 with a leading - for descending (e.g. _order=-created)'
+  implemented:
+    param: sort
+    in: query
+    note: A `sort` query parameter is declared on every collection operation across all five APIs.
+
+filtering:
+  standard_operators:
+    equality: status=open
+    multi_value: status=open,pending
+    negation: status=!closed
+    range: numFollowers=2..4 or range(2,incl,4,incl)
+    text: contains(text) / prefix(text) / match_casesens(text)
+  implemented: >-
+    Filtering is by explicit typed query parameters declared per operation rather than by the
+    generic operator grammar — for example the Placements collection accepts clientName,
+    placementStatus, effectiveYear, brokerEmail, uniqueMarketReference, inceptionDate,
+    createdDate, modifiedDate and others. 91 distinct query parameters are declared across the
+    five APIs.
+
+field_selection:
+  standard:
+    select: '_select=field1,field2 — reduce the fields returned'
+    expand: '_expand=fieldName — inline a linked resource'
+    last_modified: '_last_modified=2019-08-01T15:29:24 — filter by modification datetime'
+  implemented: false
+  note: >-
+    None of _select, _expand or _last_modified appears in any of the five OpenAPI documents.
+    Related resources are instead inlined by default through nesting (a placement carries its
+    programmes, a programme its contracts, a contract its sections).
+
+request_tracing:
+  header: X-Correlation-Id
+  direction: request
+  documented_at: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+  in_spec: false
+  note: >-
+    Documented platform-wide for correlating a request across the platform, but not declared as a
+    parameter in any of the five OpenAPI documents. The error envelope "may include correlation or
+    transaction identifiers for support".
+
+context_headers:
+  note: >-
+    PPL's distinctive convention. Every business operation carries the acting market identity in
+    headers, not in the token alone.
+  headers:
+  - {name: X-Auth-Impersonated-User, required: true, description: the market user the call acts on behalf of}
+  - {name: X-Auth-Team, required: true, description: the broker or carrier team context}
+
+error_envelope:
+  media_type: application/json
+  shape: '{ errors: [ { code, message, field, argument } ] }'
+  schema: error_document
+  rfc9457: false
+  standard_rules:
+  - The payload must carry a machine-readable error message.
+  - It must not expose stack traces or internal implementation details.
+  - It may include correlation or transaction identifiers for support.
+  status_codes_in_spec: [200, 400, 401, 404, 414, 429, 500]
+  status_codes_in_standard: [400, 401, 403, 404, 409, 429, 500, 503]
+  note: >-
+    The shipped specs never declare 403 or 409. Authorization failure surfaces as 404 with
+    INVALID_ROLE_OR_TEAM, and 414 (URI Too Long) is declared on every operation — an unusual
+    choice driven by the very wide query-filter surface.
+  detail: errors/ppl-london-market-problem-types.yml
+
+rate_limiting:
+  signalled: true
+  status_code: 429
+  response_header: Retry-After
+  in_spec: >-
+    429 "Too many requests." is declared on all 57 business operations across the five APIs, but
+    no Retry-After response header is declared in any document and no limit values are published.
+  published_limits: none
+  note: >-
+    The Base API Standard requires Retry-After with 429 (throttling) and with 503 (maintenance).
+    Actual quotas are set per consumer through the LIMOSS API Gateway subscription and are not
+    published.
+
+caching:
+  standard:
+    etag: SHOULD be included on responses
+    last_modified: MUST be included for GET/HEAD, in RFC 1123 format
+    cache_control: '"must-revalidate, private" or "must-revalidate, public"'
+    cookies: Cookie should not be sent by the client and must be ignored by the service.
+  in_spec: false
+
+content_types:
+  request: application/json
+  response: application/json
+  standard: '"Structured representations must use one of the following MIME types: application/xml or application/json", negotiated via Accept.'
+  implemented: >-
+    All five specs declare application/json only. Document content retrieval
+    (Document_GetContent_v1, Document_GetSecurityContent_v1) returns the file payload.
+
+data_formats:
+  date: ISO 8601 / xsd:date (e.g. 2008-10-31)
+  date_time: ISO 8601 / xsd:dateTime (e.g. 2008-10-31T15:07:38.6875000-05:00)
+  http_dates: RFC 1123 (Last-Modified header)
+  field_naming: snake_case in payloads (placement_id, client_name, effective_year, unique_market_reference)
+  query_naming: camelCase in query and header parameters (placementId, pageSize, X-Auth-Team)
+  identity_field: 'id — "resource identity should be carried within the HTTP response payload"; PPL uses typed <entity>_id fields'
+
+resource_naming:
+  standard: >-
+    "The domain and path do not contain project names, code names or company names but instead
+    include only business concepts." Collections use plural nouns; resources are addressed by
+    natural business keys or surrogate UUIDs.
+  implemented: plural nouns throughout (/placements, /contracts, /sections, /participations, /negotiations, /submissions, /documents, /notifications, /transactions)
+
+operational_endpoints:
+  standard: Every endpoint must support /version and /health.
+  implemented:
+  - {path: /health, auth: none, returns: 'UP if ok', operationId: Health, present_in: all 5 APIs}
+  - {path: /version, auth: required, returns: 'apiVersionNumber + implementationVersion', operationId: Version, present_in: all 5 APIs}
+  probe_note: >-
+    /health answers anonymously on both the production and sandbox gateways — verified
+    2026-07-25 at https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health (200) and
+    https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health (200).
+
+events:
+  push: false
+  webhooks: false
+  callbacks_in_spec: false
+  model: >-
+    Pull only. The Events API exposes GET /notifications, GET /notifications/{notificationId},
+    POST /notifications/markAllAsRead, GET /transactions and GET /transactions/{transactionId}.
+    Consumers poll. There is no webhook catalogue, no callbacks object in any document and no
+    AsyncAPI artifact anywhere on PPL's properties.
+
+related:
+  authentication: authentication/ppl-london-market-authentication.yml
+  scopes: scopes/ppl-london-market-scopes.yml
+  errors: errors/ppl-london-market-problem-types.yml
+  lifecycle: lifecycle/ppl-london-market-lifecycle.yml
+  data_model: data-model/ppl-london-market-data-model.yml
+  conformance: conformance/ppl-london-market-conformance.yml

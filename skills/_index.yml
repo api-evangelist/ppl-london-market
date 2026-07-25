@@ -1,0 +1,36 @@
+generated: '2026-07-25'
+method: generated
+source: openapi/ (5 OpenAPI 3.0.1 documents) + conventions/ppl-london-market-conventions.yml + errors/ppl-london-market-problem-types.yml
+note: >-
+  PPL publishes no AGENTS.md and no skill files of its own — the developer portal, corporate site
+  and the five specs were searched. These skills are GENERATED, and every operationId named in
+  them was grepped out of the published specification. Each skill covers one marquee flow of the
+  platform and carries the cross-cutting rules that are easy to get wrong on PPL: the market gate,
+  the X-Last-Modified concurrency precondition instead of an idempotency key, the custom error
+  envelope, and the fact that there is no event push.
+skills:
+- file: ppl-london-market-place-a-risk.md
+  name: Place a risk on PPL — placement to bound contract
+  api: openapi/ppl-london-market-placements.json
+  role: broker
+  operations: [Placement_Post_v1, Programme_Post_v1, Contract_Post_v1, Section_Post_v1, Participation_Post_v1, Negotiation_Post_v1, Negotiation_Send_v1, Contract_AssignRoles_v1, Placement_GetById_v1, Contract_GetById_v1, Negotiation_GetById_v1]
+- file: ppl-london-market-respond-to-submission.md
+  name: Respond to a broker submission as an underwriter
+  api: openapi/ppl-london-market-submissions.json
+  role: underwriter / carrier
+  operations: [Submission_GetAll_v1, Submission_GetById_v1, Negotiation_GetAll_v1, Negotiation_GetById_v1, Negotiation_Post_v1, Negotiation_Put_v1, Negotiation_Reassign_v1, Submission_Send_v1]
+- file: ppl-london-market-manage-contract-documents.md
+  name: Manage Market Reform Contract documents
+  api: openapi/ppl-london-market-documents.json
+  role: broker / carrier
+  operations: [Document_GetAll_v1, Document_Post_v1, Document_GetById_v1, Document_Put_v1, Document_Delete_v1, Document_GetContent_v1, Document_PostDownload_v1, Document_GetSecurityContent_v1, Document_PostSecurityDownload_v1]
+- file: ppl-london-market-poll-notifications.md
+  name: Poll PPL notifications and the transaction log
+  api: openapi/ppl-london-market-events.json
+  role: any onboarded consumer
+  operations: [Notification_GetAll_v1, Notification_GetById_v1, Notification_MarkAllAsRead_v1, Transaction_GetAll_v1, Transaction_GetById_v1]
+- file: ppl-london-market-resolve-reference-data.md
+  name: Resolve London Market reference data before placing
+  api: openapi/ppl-london-market-organisations.json
+  role: broker
+  operations: [brokerOrganisations_v1, carrierOrganisations_v1, brokerMarkets_Facilities_v1, brokerMarkets_Underwriters_v1, brokerMarkets_Stamps_v1]

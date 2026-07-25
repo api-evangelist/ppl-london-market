@@ -1,0 +1,71 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for PPL Placement API
+  version: 1.0.0
+extends: openapi/ppl-london-market-placements.json
+x-generated: '2026-07-25'
+x-method: generated
+x-source: apis.yml + https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+actions:
+- target: $.info
+  description: Add provider identity, licence posture and API Evangelist provenance.
+  update:
+    x-apievangelist-provider: ppl-london-market
+    x-apievangelist-api: ppl-placements-api
+    x-provider-name: PPL (Placing Platform Limited)
+    x-market: London Market (re)insurance
+    x-data-model: ACORD GRLC (asserted by PPL in published material; not declared in this document)
+    x-access-model: market-gated (PPL onboarding + LIMOSS API Common Services subscription + Entra ID guesting + per-environment X.509 certificate)
+- target: $
+  description: >-
+    Add the production server. The harvested document declares only the JIT2 sandbox host;
+    the production host is documented on the API Key Details page but absent from servers[].
+  update:
+    servers:
+    - url: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
+      description: Production LIMOSS API Gateway (documented at https://developer.pplnextgen.com/Placements/Key-Details-On-API)
+    - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
+      description: Joint Integration Testing (JIT2 / Sand) environment
+- target: $.components
+  description: >-
+    Declare the security schemes PPL documents in prose but omits from the machine-readable
+    document. Source: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+    and https://developer.pplnextgen.com/Get-Started/Base-API-Standard.
+  update:
+    securitySchemes:
+      entraIdBearer:
+        type: oauth2
+        description: >-
+          Microsoft Entra ID (Azure AD) JWT presented as a bearer token. The token must be
+          signed by a Security Token Service and must carry the scp claim user_impersonation.
+          Browser flows must exchange the initial token for an on-behalf-of token with the
+          correct audience before calling the gateway.
+        flows:
+          authorizationCode:
+            authorizationUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize
+            tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+            scopes:
+              user_impersonation: Act on behalf of the signed-in market user against the LIMOSS API Gateway
+          clientCredentials:
+            tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+            scopes:
+              user_impersonation: Headless service-account access (dummy email claim), server to server
+      clientCertificate:
+        type: mutualTLS
+        description: >-
+          Mutual HTTPS is mandatory. A distinct X.509 client certificate must be registered per
+          API Gateway environment (Sand, PreProd, Prod); the certificate CN identifies the
+          calling application.
+- target: $
+  description: Apply both schemes to every operation (PPL requires them together).
+  update:
+    security:
+    - entraIdBearer: [user_impersonation]
+      clientCertificate: []
+- target: $.info
+  description: Record the cross-cutting conventions captured in conventions/ and errors/.
+  update:
+    x-conventions: conventions/ppl-london-market-conventions.yml
+    x-error-catalog: errors/ppl-london-market-problem-types.yml
+    x-authentication: authentication/ppl-london-market-authentication.yml
+    x-operations-count: 32

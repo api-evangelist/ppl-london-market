@@ -1,0 +1,151 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/ (5 OpenAPI 3.0.1 documents — none declares securitySchemes)
+docs: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+also_documented_at:
+- https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+- https://developer.pplnextgen.com/Get-Started/Registration-Onboarding
+- https://developer.pplnextgen.com/Get-Started/Reference-Architecture
+spec_gap: >-
+  None of the five published PPL OpenAPI documents declares components.securitySchemes and
+  none declares a security requirement. The entire auth contract lives in developer-portal
+  prose, not in the machine-readable artifacts. This profile is therefore SEARCHED from the
+  documentation, not derived from the specs. overlays/ppl-london-market-*-overlay.yaml carries
+  the securitySchemes PPL omits, as an OpenAPI Overlay over each original document.
+summary:
+  types: [oauth2, mutualTLS]
+  api_keys: false
+  api_key_in: []
+  oauth2_flows: [authorizationCode, clientCredentials, on-behalf-of]
+  identity_provider: Microsoft Entra ID (Azure AD)
+  gateway: LIMOSS API Gateway
+  self_serve: false
+  anonymous_endpoints: [/health]
+schemes:
+- name: entraIdBearer
+  type: oauth2
+  description: >-
+    Every business call is fronted by the LIMOSS API Gateway and must present a Microsoft Entra
+    ID (Azure AD) JWT in the Authorization header as a bearer token. The Base API Standard states
+    the JWT "must be signed by a Security Token Service (STS)" and must carry the claim
+    "scp": "user_impersonation". Only identities that have been guested into the API Gateway
+    Azure AD tenant for that environment can obtain a usable token.
+  header: 'Authorization: Bearer {JWT}'
+  required_claims:
+    scp: user_impersonation
+  optional_claims:
+    amr: mfa   # indicates the user completed multi-factor authentication
+  flows:
+  - flow: authorizationCode
+    description: >-
+      Browser sign-in for an application user. Configured in the portal's ASP.NET Core / MSAL
+      sample as OpenID Connect with ResponseType "code id_token" and CallbackPath /signin-oidc,
+      with the default authenticate scheme set to cookie authentication.
+    authorizationUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize
+    tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+    note: >-
+      The token produced by the initial sign-in does NOT carry the scopes the gateway requires.
+      The application must then request a second token directly from Azure AD on the user's
+      behalf (on-behalf-of) before any API call will pass the gateway.
+  - flow: onBehalfOf
+    description: >-
+      OAuth 2.0 on-behalf-of exchange. Required when the initial token lacks the scope claim, and
+      also when the downstream API validates the audience claim — "the gateway may also need to
+      obtain an on-behalf-of token with the correct audience set". PPL documents the TTL rule
+      explicitly: "Any token issued by the API Gateway must not have a TTL longer than that of the
+      token which called it", with nbf set to the current time and exp matched to the original.
+    tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+  - flow: clientCredentials
+    description: >-
+      Service-account (headless) server-to-server token, used where no browser is involved. PPL
+      notes that service-account tokens carry a dummy email claim.
+    tokenUrl: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+  configuration:
+    source: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+    keys:
+      Instance: https://login.microsoftonline.com/
+      TenantId: environment specific (Sand, PreProd, Prod are separate tenanted environments)
+      ClientId: issued during onboarding
+      ClientSecret: issued during onboarding
+      CallbackPath: /signin-oidc
+      ResponseType: code id_token
+- name: clientCertificate
+  type: mutualTLS
+  description: >-
+    Mutual HTTPS is mandatory. The Base API Standard requires an X.509 client certificate whose
+    CN identifies the calling application. A DIFFERENT certificate must be registered for each
+    API Gateway environment: "A different X.509 certificate should be used for each API Gateway
+    (Sand, PreProd and Prod)." The portal's sample loads the certificate from the Personal
+    certificate store by thumbprint, gated on a UseCertificate configuration flag, with a
+    one-hour sliding cache.
+  registration: https://admin.limoss.london/wp-content/uploads/2020/04/CS-Developers-On-Boarding-Guide-v1.1.pdf
+  per_environment: true
+- name: xAssertHeader
+  type: apiKey
+  in: header
+  parameter_name: X-Assert
+  description: >-
+    Documented as an alternative header scheme for non-token scenarios, carrying the user's email
+    address. This is an internal/gateway construct, not a consumer credential — it does not
+    replace the Entra ID bearer token or the client certificate for external consumers.
+  consumer_facing: false
+required_call_headers:
+  note: >-
+    Derived from the parameters declared on every business operation across the five OpenAPI
+    documents. These are transmitted in addition to Authorization.
+  headers:
+  - name: X-Auth-Impersonated-User
+    required: true
+    scope: every business operation in all five APIs
+    description: The market user the call is being made on behalf of.
+  - name: X-Auth-Team
+    required: true
+    scope: every business operation except the Organisations broker/carrier organisation lookups
+    description: The broker or carrier team context for the call.
+  - name: X-Last-Modified
+    required: true
+    scope: every PUT (and Negotiation_Send_v1)
+    description: >-
+      Optimistic-concurrency precondition. PPL's implementation of the Base API Standard rule that
+      "Resources must use optimistic concurrency control"; the standard names If-Match and
+      If-Unmodified-Since, the shipped APIs use the X-Last-Modified request header.
+  - name: X-Correlation-Id
+    required: false
+    scope: documented platform-wide for request tracing across the platform
+onboarding:
+  self_serve: false
+  gates:
+  - stage: 1
+    name: Developer Portal onboarding
+    action: Contact the PPL team
+    contact: PPLEnquiries@placingplatformlimited.com
+  - stage: 2
+    name: LIMOSS API Common Services subscription
+    action: >-
+      Register with the LIMOSS API Gateway and request "Subscribe to PPL API". New LIMOSS SSO
+      users go through the LIMOSS Service Desk; existing users use the LIMOSS Self-Service Portal.
+      The account is then guested into the Azure AD tenant of ONE environment — Sand, PreProd or
+      Prod — and each environment requires separate guesting.
+    urls:
+    - https://limoss.london/limoss-sso-sde-and-api-gateway
+    - https://limoss.london/contact
+    - https://customer.hornbill.com/limoss/
+  - stage: 3
+    name: Application and certificate registration
+    action: >-
+      Register the application in the Common Services Azure Active Directory and register an X.509
+      certificate, per environment.
+    guide: https://admin.limoss.london/wp-content/uploads/2020/04/CS-Developers-On-Boarding-Guide-v1.1.pdf
+discovery:
+  well_known: false
+  note: >-
+    No OpenID Connect discovery document and no RFC 8414 authorization-server metadata is served
+    on any PPL or LIMOSS gateway host — /.well-known/openid-configuration and
+    /.well-known/oauth-authorization-server return 404 on api.londonmarketgroup.co.uk,
+    sand-api.londonmarketgroup.co.uk, developer.pplnextgen.com, www.pplnextgen.com and
+    placingplatformlimited.com. Discovery happens through Microsoft's own tenant endpoints once a
+    TenantId has been issued during onboarding.
+related:
+  scopes: scopes/ppl-london-market-scopes.yml
+  conventions: conventions/ppl-london-market-conventions.yml
+  well_known: well-known/ppl-london-market-well-known.yml

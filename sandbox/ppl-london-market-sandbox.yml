@@ -1,0 +1,111 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.pplnextgen.com/Get-Started/Registration-Onboarding
+also_searched:
+- https://developer.pplnextgen.com/Get-Started/Authentication-Information
+- https://developer.pplnextgen.com/Get-Started/RoadMap
+- openapi/ (servers[] in all five OpenAPI 3.0.1 documents)
+
+summary: >-
+  PPL runs three fully separated environments and the sandbox is real — it is the ONLY host any of
+  the five published OpenAPI documents declares in servers[]. But it is not self-serve: there are
+  no published test credentials, no test keys, no magic test identifiers and no seeded test data.
+  Access to the sandbox requires the same three-stage market onboarding as production, including
+  its own Azure AD guesting and its own registered X.509 certificate.
+
+self_serve: false
+test_credentials_published: false
+test_data_published: false
+
+environments:
+- name: Sand
+  aliases: [JIT2, Joint Integration Testing]
+  role: sandbox / joint integration testing
+  host: https://sand-api.londonmarketgroup.co.uk
+  base_url_pattern: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/{api}
+  declared_in_spec: true
+  spec_description: 'Joint Integration testing (JIT2) environment'
+  apis:
+  - https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
+  - https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
+  - https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations
+  - https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
+  - https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events
+  anonymous_probe:
+    url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health
+    status: 200
+    date: '2026-07-25'
+    note: The /health probe answers anonymously; every business operation is gated.
+- name: PreProd
+  aliases: [SIT]
+  role: pre-production
+  host: not published on the developer portal
+  declared_in_spec: false
+- name: Prod
+  role: production
+  host: https://api.londonmarketgroup.co.uk
+  base_url_pattern: https://api.londonmarketgroup.co.uk/ppl/nextgen/{api}/v1
+  declared_in_spec: false
+  documented_at: each API's Key Details on API page
+  anonymous_probe:
+    url: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health
+    status: 200
+    date: '2026-07-25'
+
+test_vs_live_separation:
+  mechanism: separate hosts + separate Azure AD tenants + separate client certificates
+  key_prefixes: null
+  mode_switch: none — there is no live/test flag on a single credential
+  rules:
+  - Accounts must be guested into ONE environment at a time (Sand, PreProd or Prod); each environment requires separate guesting.
+  - '"A different X.509 certificate should be used for each API Gateway (Sand, PreProd and Prod)."'
+  - TenantId in the application configuration is environment specific.
+
+getting_access:
+  stage_1:
+    name: Developer Portal onboarding
+    contact: PPLEnquiries@placingplatformlimited.com
+  stage_2:
+    name: LIMOSS Common Services subscription and environment guesting
+    new_users: https://limoss.london/contact  # request "Subscribe to PPL API"
+    existing_users: https://customer.hornbill.com/limoss/  # "Subscribe to PPL API" self-service option
+    reference: https://limoss.london/limoss-sso-sde-and-api-gateway
+  stage_3:
+    name: Register the application and an X.509 certificate per environment
+    guide: https://admin.limoss.london/wp-content/uploads/2020/04/CS-Developers-On-Boarding-Guide-v1.1.pdf
+
+tooling:
+  postman_collections:
+    published: true
+    count: 5
+    anonymous_download: true
+    files:
+    - https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    - https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    - https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    - https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    - https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    note: >-
+      The collections themselves are freely downloadable; running them still requires an onboarded
+      Entra ID identity and a registered certificate.
+  test_harness:
+    status: planned
+    source: https://developer.pplnextgen.com/Get-Started/RoadMap
+    statements:
+    - Registration and Onboarding describes a third stage, "Registering to use a Test Harness", and states the portal will eventually support "testing tools (eg POSTMAN) and test source code against a sandbox environment".
+    - The roadmap lists a hosted "Intelligent Test Harness and Test Client" and a hosted "Instrumentation & Diagnostics" service as mid-term deliverables.
+  mock_server: none published
+  test_clocks: none published
+
+magic_test_values:
+  published: false
+  note: >-
+    PPL publishes no test card numbers, test UMRs, test placement identifiers, seeded broker or
+    carrier organisations, or reserved test email addresses. Nothing is invented here. Test data in
+    the Sand/JIT2 environment is agreed bilaterally as part of joint integration testing between
+    the onboarding organisation, PPL and LIMOSS.
+
+related:
+  authentication: authentication/ppl-london-market-authentication.yml
+  lifecycle: lifecycle/ppl-london-market-lifecycle.yml
+  conventions: conventions/ppl-london-market-conventions.yml

@@ -1,0 +1,72 @@
+generated: '2026-07-25'
+method: searched
+source: live HTTP probes, 2026-07-25
+result: none
+summary: >-
+  PPL serves no /.well-known/ discovery surface on any of its hosts. Every one of the 30
+  host+path combinations below returned HTTP 404, including on the LIMOSS API Gateway hosts that
+  front all five APIs. No security.txt, no OpenID Connect discovery document, no RFC 8414
+  authorization-server metadata, no RFC 9727 api-catalog and no ai-plugin manifest. Discovery of
+  the OAuth endpoints happens instead through Microsoft's own tenant endpoints once a TenantId has
+  been issued during onboarding.
+hosts:
+- host: https://api.londonmarketgroup.co.uk
+  role: production LIMOSS API Gateway (baseURL host for all five APIs)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://sand-api.londonmarketgroup.co.uk
+  role: sandbox (JIT2) gateway — the only host declared in servers[] across the five specs
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://developer.pplnextgen.com
+  role: developer portal / docs host
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://placingplatformlimited.com
+  role: corporate website
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://www.pplnextgen.com
+  role: the platform itself (login wall)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+also_probed:
+  note: Spec- and agent-discovery paths probed on the same five hosts, all 404.
+  paths:
+  - {path: /llms.txt, status: 404, hosts: all 5}
+  - {path: /openapi.json, status: 404, hosts: all 5}
+  - {path: /swagger.json, status: 404, hosts: all 5}
+  spec_location: >-
+    The real machine-readable specs are NOT served from a well-known path. They are static
+    downloads on the docs host, e.g.
+    https://developer.pplnextgen.com/static/resources/placements/Swagger_PlacementsApi_v1.0.json
+files: []
+security_txt: null
+related:
+  authentication: authentication/ppl-london-market-authentication.yml
+  domain_security: security/ppl-london-market-domain-security.yml

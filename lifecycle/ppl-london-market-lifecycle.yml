@@ -1,0 +1,118 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+also_searched:
+- https://developer.pplnextgen.com/Get-Started/RoadMap
+- https://developer.pplnextgen.com/Placements/Key-Details-On-API
+- https://developer.pplnextgen.com/Support
+- https://developer.pplnextgen.com/Support/Get-In-Touch
+- openapi/ (5 OpenAPI 3.0.1 documents)
+
+versioning:
+  scheme: uri-path major version, Major.Minor overall
+  current: v1
+  docs: https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+  policy: >-
+    "Endpoints must be versioned using a Major.Minor scheme, E.g. 4.5." The major version is
+    carried in the URI path; minor versions are handled transparently by the API Gateway —
+    "consumers must automatically be routed by the API gateway to the latest minor version that
+    exists for the major version". Minor versions must maintain backward compatibility; major
+    versions may break it.
+  in_spec: info.version is "1" in all five documents; every production path is /v1.
+  runtime_probe:
+    endpoint: /version
+    auth: required
+    returns: [apiVersionNumber, implementationVersion]
+    present_in: all five APIs
+
+release_status:
+  portal_stage: BETA
+  portal_statement: >-
+    The developer portal carries a BETA classification indicating the site "remains under
+    development"; the portal describes itself as "Currently in BETA release and testing by Market
+    participants."
+  key_details_statement: >-
+    The per-API Key Details pages state "Production Releases: None", with no candidate release and
+    no development snapshots listed, as observed 2026-07-25.
+  artefact_release_label: >-
+    The five downloadable Postman collections are labelled "[Release 3]"; the OpenAPI files are
+    labelled v1.0 (Swagger_PlacementsApi_v1.0.json and siblings).
+  spec_stability: >-
+    "The formal API specifications are fixed and under formal version control, whilst the tools
+    and supporting information will be enhanced." (RoadMap page)
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    PPL publishes no deprecation or sunset policy, and neither the Sunset nor the Deprecation
+    response header (RFC 8594) is mentioned in the Base API Standard or declared in any of the
+    five OpenAPI documents. The only lifecycle commitment made is the Major.Minor compatibility
+    rule above.
+
+deprecated_operations: []
+deprecated_operations_note: >-
+  Zero operations across the 67 published operations carry deprecated: true.
+
+status_page:
+  url: null
+  published: false
+  probes:
+  - {url: 'https://status.pplnextgen.com', status: '000 (DNS does not resolve)'}
+  - {url: 'https://status.placingplatformlimited.com', status: '000 (DNS does not resolve)'}
+  - {url: 'https://placingplatformlimited.com/status', status: 404}
+  note: >-
+    No public status page exists. The closest published substitutes are the unauthenticated
+    /health probe on each API (verified 200 on both the production and sandbox gateways on
+    2026-07-25) and the announcements published on the developer portal homepage and on each
+    API's Key Details page.
+  health_endpoints:
+  - https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health
+  - https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health
+
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No SLA is published on the developer portal. The Support / Get In Touch page directs SLA and
+    onboarding questions to LIMOSS (https://limoss.london/contact), which operates the API Gateway
+    under the market's LIMOSS Common Services arrangements. The portal itself states its "support
+    structure is still being developed" while in beta.
+
+changelog:
+  url: null
+  published: false
+  note: >-
+    No dated changelog or release-notes feed is published. Updates are announced ad hoc on the
+    portal homepage and on the individual API Key Details pages. Because there is no dated,
+    structured change record to capture, no changelog/ artifact was written this round.
+
+roadmap:
+  url: https://developer.pplnextgen.com/Get-Started/RoadMap
+  dated: false
+  short_term:
+  - Add code snippets alongside the Swagger details, with additional Tx/Rx samples.
+  - Add further portal guidance and explainer videos on specific aspects of the API.
+  - Commence a security simplification programme to make authentication quicker to implement.
+  - Publish the initial release of the Project Management guidance pack.
+  mid_term:
+  - Deploy a hosted Intelligent Test Harness and Test Client.
+  - Introduce a hosted Instrumentation & Diagnostics service.
+  - Streamline and integrate onboarding into the SIT/PreProd environments.
+  - Continue the security simplification project.
+
+support:
+  portal: https://developer.pplnextgen.com/Support
+  contact_page: https://developer.pplnextgen.com/Support/Get-In-Touch
+  api_adoption_contact: PPLEnquiries@placingplatformlimited.com
+  gateway_and_sla_contact: https://limoss.london/contact
+  feedback: developer portal Suggestion form
+  hours: not published
+
+related:
+  conventions: conventions/ppl-london-market-conventions.yml
+  sandbox: sandbox/ppl-london-market-sandbox.yml
+  authentication: authentication/ppl-london-market-authentication.yml

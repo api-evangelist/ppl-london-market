@@ -1,0 +1,366 @@
+generated: '2026-07-25'
+method: derived
+status: candidate
+source: openapi/ (5 OpenAPI 3.0.1 documents)
+search_note: >-
+  No official or third-party MCP server for PPL was found. Searched the PPL Next Gen
+  developer portal, placingplatformlimited.com, npm (@modelcontextprotocol and PPL/London
+  Market Group terms), PyPI and GitHub — PPL operates no GitHub organisation. This is a
+  DERIVED candidate tool surface, one tool per OpenAPI operation, not a published server.
+access_note: >-
+  Any real MCP server for PPL would inherit the platform's market gating: an Azure AD
+  (Microsoft Entra ID) bearer token carrying the user_impersonation scope, a per-environment
+  X.509 client certificate, and the X-Auth-Team / X-Auth-Impersonated-User headers on every
+  call. There is no API key and no anonymous access.
+server:
+  name: ppl-nextgen
+  transport: http
+  url: null
+  auth: oauth2 bearer (Microsoft Entra ID) + mutual TLS (X.509 client certificate)
+tools:
+- name: placements_placement_get_all
+  description: "Returns a list of Placement records and any Programme structures, based upon various query parameters. This end point will also provide minimal information about any Contracts within the Placement structure. Pagination f"
+  category: placement
+  method: GET
+  path: /placements
+  source_operation: openapi/ppl-london-market-placements.json#Placement_GetAll_v1
+- name: placements_placement_post
+  description: "Creates a Placement record. This is the starting point in order for Contracts and Programmes to be added into the platform."
+  category: placement
+  method: POST
+  path: /placements
+  source_operation: openapi/ppl-london-market-placements.json#Placement_Post_v1
+- name: placements_placement_get_by_id
+  description: "Returns the Placement structure for a specified Placement record. This will contains information about the Placement, its Programmes and summarised information about Contract records within the Placement structure."
+  category: placement
+  method: GET
+  path: /placements/{placementId}
+  source_operation: openapi/ppl-london-market-placements.json#Placement_GetById_v1
+- name: placements_placement_put
+  description: "Updates a Placement record, where the record is in a state that enables its update."
+  category: placement
+  method: PUT
+  path: /placements/{placementId}
+  source_operation: openapi/ppl-london-market-placements.json#Placement_Put_v1
+- name: placements_placement_delete
+  description: "Deletes a Placement record, where the record is in a state that enables its deletion."
+  category: placement
+  method: DELETE
+  path: /placements/{placementId}
+  source_operation: openapi/ppl-london-market-placements.json#Placement_Delete_v1
+- name: placements_programme_post
+  description: "Creates a Programme record under the Placement structure. This enables the grouping of Contract records that address a common insurance purpose. Contracts can be added at the time of creation."
+  category: placement
+  method: POST
+  path: /placements/{placementId}/programmes
+  source_operation: openapi/ppl-london-market-placements.json#Programme_Post_v1
+- name: placements_programme_get_by_id
+  description: "Returns the Programme structure for a specified Programme record. This will return information about the Programme and summarised information about Contract records within the Programme structure."
+  category: placement
+  method: GET
+  path: /placements/{placementId}/programmes/{programmeId}
+  source_operation: openapi/ppl-london-market-placements.json#Programme_GetById_v1
+- name: placements_programme_put
+  description: "Updates a Programme record. Contracts can be added into the Programme structure."
+  category: placement
+  method: PUT
+  path: /placements/{placementId}/programmes/{programmeId}
+  source_operation: openapi/ppl-london-market-placements.json#Programme_Put_v1
+- name: placements_programme_delete
+  description: "Deletes a Programme record, where the record is in a state that enables its deletion. Any Contract records that exist in this Programme will be moved into the default Programme."
+  category: placement
+  method: DELETE
+  path: /placements/{placementId}/programmes/{programmeId}
+  source_operation: openapi/ppl-london-market-placements.json#Programme_Delete_v1
+- name: placements_contract_get_all
+  description: "Returns a list of Contract records, based upon various query parameters. Pagination functionality is supported on this operation."
+  category: placement
+  method: GET
+  path: /contracts
+  source_operation: openapi/ppl-london-market-placements.json#Contract_GetAll_v1
+- name: placements_contract_post
+  description: "Creates a Contract record under the Placement structure. This will also create the &quot;default&quot; Section of information, which is necessary for adding Underwriters and Facility markets for underwriting purposes."
+  category: placement
+  method: POST
+  path: /contracts
+  source_operation: openapi/ppl-london-market-placements.json#Contract_Post_v1
+- name: placements_contract_get_by_id
+  description: "Returns a single Contract record. This record will contain core Contract information, that includes data attributes that summarise information about the risk to be insured, as well as a summarised list of any Contract Se"
+  category: placement
+  method: GET
+  path: /contracts/{contractId}
+  source_operation: openapi/ppl-london-market-placements.json#Contract_GetById_v1
+- name: placements_contract_put
+  description: "Updates the Contract record. This will also update the &quot;default&quot; Section of information."
+  category: placement
+  method: PUT
+  path: /contracts/{contractId}
+  source_operation: openapi/ppl-london-market-placements.json#Contract_Put_v1
+- name: placements_contract_delete
+  description: "Deletes a Contract record, where the record is in a state that enables its deletion."
+  category: placement
+  method: DELETE
+  path: /contracts/{contractId}
+  source_operation: openapi/ppl-london-market-placements.json#Contract_Delete_v1
+- name: placements_section_get_all
+  description: "Returns a list of Section records, within a single Contract record. This returned list is a subset of all Section record fields, based upon various query parameters."
+  category: placement
+  method: GET
+  path: /contracts/{contractId}/sections
+  source_operation: openapi/ppl-london-market-placements.json#Section_GetAll_v1
+- name: placements_section_post
+  description: "Creates a Section record under the Contract, representing a specific partition of the overall risk and / or coverage to be insured."
+  category: placement
+  method: POST
+  path: /contracts/{contractId}/sections
+  source_operation: openapi/ppl-london-market-placements.json#Section_Post_v1
+- name: placements_section_get_by_id
+  description: "Returns a single Section record. This record will contain all the Section-related structured data."
+  category: placement
+  method: GET
+  path: /contracts/{contractId}/sections/{sectionId}
+  source_operation: openapi/ppl-london-market-placements.json#Section_GetById_v1
+- name: placements_section_put
+  description: "Updates a Section record, where the record is in a state that enables its update."
+  category: placement
+  method: PUT
+  path: /contracts/{contractId}/sections/{sectionId}
+  source_operation: openapi/ppl-london-market-placements.json#Section_Put_v1
+- name: placements_section_delete
+  description: "Deletes a Section record, where the record is in a state that enables its deletion."
+  category: placement
+  method: DELETE
+  path: /contracts/{contractId}/sections/{sectionId}
+  source_operation: openapi/ppl-london-market-placements.json#Section_Delete_v1
+- name: placements_participation_get_all
+  description: "Returns a list of Participation records, within a single Section. This returned list is based upon various query parameters. Pagination functionality is supported on this operation."
+  category: placement
+  method: GET
+  path: /contracts/{contractId}/sections/{sectionId}/participations
+  source_operation: openapi/ppl-london-market-placements.json#Participation_GetAll_v1
+- name: placements_participation_post
+  description: "Creates Participation records representing either a single Open Market Underwriter and the Carrier Stamps they are permitted to use, or a multiple of Participation records representing each Underwriter from a panel of un"
+  category: placement
+  method: POST
+  path: /contracts/{contractId}/sections/{sectionId}/participations
+  source_operation: openapi/ppl-london-market-placements.json#Participation_Post_v1
+- name: placements_participation_get_by_id
+  description: "Returns a single Participation record. This record will contain the underwriter attributes for underwriting a risk, as well as any facility panel information, where the Underwriter&#39;s involvement is made through a Mas"
+  category: placement
+  method: GET
+  path: /contracts/{contractId}/sections/{sectionId}/participations/{participationId}
+  source_operation: openapi/ppl-london-market-placements.json#Participation_GetById_v1
+- name: placements_participation_put
+  description: "Updates a Participation record, where the record is in a state that enables its update. Where an Underwriter update involves an update upon a Facility Panel, all involved Participations of said Facility Panel will be upd"
+  category: placement
+  method: PUT
+  path: /contracts/{contractId}/sections/{sectionId}/participations/{participationId}
+  source_operation: openapi/ppl-london-market-placements.json#Participation_Put_v1
+- name: placements_participation_delete
+  description: "Deletes a Participation record, where the record is in a state that enables its deletion."
+  category: placement
+  method: DELETE
+  path: /contracts/{contractId}/sections/{sectionId}/participations/{participationId}
+  source_operation: openapi/ppl-london-market-placements.json#Participation_Delete_v1
+- name: placements_negotiation_get_all
+  description: "Returns a list of all Negotiation records based upon various query parameters. Pagination functionality is supported on this operation."
+  category: negotiation
+  method: GET
+  path: /contracts/{contractId}/negotiations
+  source_operation: openapi/ppl-london-market-placements.json#Negotiation_GetAll_v1
+- name: placements_negotiation_post
+  description: "Creates a single Negotiation record in response to an Underwriter User&#39;s response. Broker Users will be able to accept or reject, confirm or negotiate on various attributes of their involvement, i.e. acceptance of co"
+  category: negotiation
+  method: POST
+  path: /contracts/{contractId}/negotiations
+  source_operation: openapi/ppl-london-market-placements.json#Negotiation_Post_v1
+- name: placements_negotiation_get_by_id
+  description: "Returns a single Negotiation record. This record will contain attributes pertaining to the single negotiation position between a Broker User and an Underwriter User, based upon its negotiation status within the insurance"
+  category: negotiation
+  method: GET
+  path: /contracts/{contractId}/negotiations/{negotiationId}
+  source_operation: openapi/ppl-london-market-placements.json#Negotiation_GetById_v1
+- name: placements_negotiation_put
+  description: "Updates a Negotiation record, where the record is in a state that enables its update. For example, where Negotiations are in a saved and unsent state."
+  category: negotiation
+  method: PUT
+  path: /contracts/{contractId}/negotiations/{negotiationId}
+  source_operation: openapi/ppl-london-market-placements.json#Negotiation_Put_v1
+- name: placements_negotiation_send
+  description: "Initiates the operation to send the latest negotiation response back to an Underwriter. The outcome of this will either (1) agree to the change of terms; (2) negotiate the Underwriter&#39;s latest offer; or (3) withdraw "
+  category: negotiation
+  method: POST
+  path: /contracts/{contractId}/negotiations/{negotiationId}/send
+  source_operation: openapi/ppl-london-market-placements.json#Negotiation_Send_v1
+- name: placements_contract_assign_roles
+  description: "Initiates the asynchronous operation to assign the contractual roles to Participations and their Stamps on the Contract. Where a specific Slip Leader has been identified, the process will take this into consideration dur"
+  category: placement
+  method: POST
+  path: /contracts/{contractId}/assignRoles
+  source_operation: openapi/ppl-london-market-placements.json#Contract_AssignRoles_v1
+- name: submissions_negotiation_get_all
+  description: "Returns a list of all Negotiation records based upon various query parameters. Pagination functionality is supported on this operation."
+  category: negotiation
+  method: GET
+  path: /submissions/{submissionId}/negotiations
+  source_operation: openapi/ppl-london-market-submissions.json#Negotiation_GetAll_v1
+- name: submissions_negotiation_post
+  description: "Creates a single Negotiation record in response to a Broker User&#39;s request for consideration. Underwriter Users will be able to reject, confirm or negotiate on various attributes of their involvement, i.e. acceptance"
+  category: negotiation
+  method: POST
+  path: /submissions/{submissionId}/negotiations
+  source_operation: openapi/ppl-london-market-submissions.json#Negotiation_Post_v1
+- name: submissions_negotiation_get_by_id
+  description: "Returns a single Negotiation record. This record will contain attributes pertaining to the single negotiation position between an Underwriter User and an Broker User, based upon its negotiation status within the insuranc"
+  category: negotiation
+  method: GET
+  path: /submissions/{submissionId}/negotiations/{negotiationId}
+  source_operation: openapi/ppl-london-market-submissions.json#Negotiation_GetById_v1
+- name: submissions_negotiation_put
+  description: "Updates a Negotiation record, where the record is in a state that enables its update. For example, where Negotiations are in a saved and unsent state."
+  category: negotiation
+  method: PUT
+  path: /submissions/{submissionId}/negotiations/{negotiationId}
+  source_operation: openapi/ppl-london-market-submissions.json#Negotiation_Put_v1
+- name: submissions_negotiation_reassign
+  description: "Reassigns a Negotiation record to another Underwriter User. The destined Underwriter User does not have to be a member of the same Carrier Team owning the original Submission, but must exist within the same Company hiera"
+  category: negotiation
+  method: PUT
+  path: /submissions/{submissionId}/negotiations/{negotiationId}/reaassign
+  source_operation: openapi/ppl-london-market-submissions.json#Negotiation_Reassign_v1
+- name: submissions_submission_get_all
+  description: "Returns a list of all Submission records based upon various query parameters. Pagination functionality is supported on this operation."
+  category: submission
+  method: GET
+  path: /submissions
+  source_operation: openapi/ppl-london-market-submissions.json#Submission_GetAll_v1
+- name: submissions_submission_get_by_id
+  description: "Returns a single Submission record. This record includes structured data pertaining to a single Contract offering (and any subsequent Sections, if applicable) as well as references to download (1) the Market Reform Contr"
+  category: submission
+  method: GET
+  path: /submissions/{submissionId}
+  source_operation: openapi/ppl-london-market-submissions.json#Submission_GetById_v1
+- name: submissions_submission_send
+  description: "Initiates the operation to send the latest Underwriter responses as part of a response to a Submission back to the Broker. The outcome of each Negotiation will either (1) agree unconditionally to the terms; (2) condition"
+  category: submission
+  method: POST
+  path: /submissions/{submissionId}/send
+  source_operation: openapi/ppl-london-market-submissions.json#Submission_Send_v1
+- name: organisations_broker_organisations
+  description: "This end point returns a list of both Broker Teams and Team Members for which the requestor is a member of. This is required in order to support the creation and management of Placements, Programmes and Contract records "
+  category: reference-data
+  method: GET
+  path: /brokerOrganisations
+  source_operation: openapi/ppl-london-market-organisations.json#brokerOrganisations_v1
+- name: organisations_carrier_organisations
+  description: "This end point returns a list of both Carrier Teams and Team Members for which the requestor is a member of. This is required in order to support the management of Submissions and Negotiation records in the platform, as "
+  category: reference-data
+  method: GET
+  path: /carrierOrganisations
+  source_operation: openapi/ppl-london-market-organisations.json#carrierOrganisations_v1
+- name: organisations_broker_markets_facilities
+  description: "Returns a list of Master Facility markets on the platform that the Broker Team has been authorised to utilise on a Contract and /or Section."
+  category: reference-data
+  method: GET
+  path: /marketFacilities
+  source_operation: openapi/ppl-london-market-organisations.json#brokerMarkets_Facilities_v1
+- name: organisations_broker_markets_underwriters
+  description: "Returns a list of Carrier Company firms and its Underwriters that a Broker Team is authorised to engage with for insurance placement purposes."
+  category: reference-data
+  method: GET
+  path: /marketUnderwriters
+  source_operation: openapi/ppl-london-market-organisations.json#brokerMarkets_Underwriters_v1
+- name: organisations_broker_markets_stamps
+  description: "Returns a list of Carrier Stamps that (i) a specified Underwriter has the authority to underwrite risks with; and (ii) that a Broker Team is authorised to engage with."
+  category: reference-data
+  method: GET
+  path: /marketUnderwriters/{underwriterEmail}/stamps
+  source_operation: openapi/ppl-london-market-organisations.json#brokerMarkets_Stamps_v1
+- name: documents_document_get_all
+  description: "Returns a list of all Document records associated within a specified Placement structure, based upon various query parameters. Pagination functionality is supported on this operation."
+  category: document
+  method: GET
+  path: /documents
+  source_operation: openapi/ppl-london-market-documents.json#Document_GetAll_v1
+- name: documents_document_post
+  description: "Creates a Document record, representing either the Market Reform Contract (MRC) or another type of supporting document. The request contains the document attributes as well as the electronic file which will be submitted "
+  category: document
+  method: POST
+  path: /documents
+  source_operation: openapi/ppl-london-market-documents.json#Document_Post_v1
+- name: documents_document_get_by_id
+  description: "Returns a single Document record. This record will contain the document attributes of the document, but does not provide the electronic file."
+  category: document
+  method: GET
+  path: /documents/versions/{documentVersionId}
+  source_operation: openapi/ppl-london-market-documents.json#Document_GetById_v1
+- name: documents_document_put
+  description: "Updates the data attributes of a Document record. This operation will not replace the electronic file."
+  category: document
+  method: PUT
+  path: /documents/versions/{documentVersionId}
+  source_operation: openapi/ppl-london-market-documents.json#Document_Put_v1
+- name: documents_document_delete
+  description: "Deletes a Document record, where the record is in a state that enables its deletion."
+  category: document
+  method: DELETE
+  path: /documents/versions/{documentVersionId}
+  source_operation: openapi/ppl-london-market-documents.json#Document_Delete_v1
+- name: documents_document_get_content
+  description: "Returns the electronic file that is represented by the Document record. This is the subsequent end point that is called following an asynchronous response that the electronic file is ready to be downloaded."
+  category: document
+  method: GET
+  path: /documents/versions/{documentVersionId}/content
+  source_operation: openapi/ppl-london-market-documents.json#Document_GetContent_v1
+- name: documents_document_post_download
+  description: "Initiates the asynchronous operation to download the electronic file of this document."
+  category: document
+  method: POST
+  path: /documents/versions/{documentVersionId}/download
+  source_operation: openapi/ppl-london-market-documents.json#Document_PostDownload_v1
+- name: documents_document_get_security_content
+  description: "Returns the electronic file that represents the Market Reform Contract with its underwriting security page(s) and settlement information. This is the subsequent end point that is called following an asynchronous response"
+  category: document
+  method: GET
+  path: /documents/versions/{documentVersionId}/security/content
+  source_operation: openapi/ppl-london-market-documents.json#Document_GetSecurityContent_v1
+- name: documents_document_post_security_download
+  description: "Initiates the asynchronous operation to download the Market Reform Contract with its underwriting security page(s) and settlement information."
+  category: document
+  method: POST
+  path: /documents/versions/{documentVersionId}/security/download
+  source_operation: openapi/ppl-london-market-documents.json#Document_PostSecurityDownload_v1
+- name: events_notification_get_all
+  description: "Returns a list of all Notification records, based upon various query parameters. Pagination functionality is supported on this operation."
+  category: events
+  method: GET
+  path: /notifications
+  source_operation: openapi/ppl-london-market-events.json#Notification_GetAll_v1
+- name: events_notification_get_by_id
+  description: "Returns a single Notification record. This record will contain attributes pertaining to the type of notification and any type of action that is required. The context information is the subject of the notification."
+  category: events
+  method: GET
+  path: /notifications/{notificationId}
+  source_operation: openapi/ppl-london-market-events.json#Notification_GetById_v1
+- name: events_notification_mark_all_as_read
+  description: "Initiates the operation to update all non-technical Notification records as read from a defined date."
+  category: events
+  method: POST
+  path: /notifications/markAllAsRead
+  source_operation: openapi/ppl-london-market-events.json#Notification_MarkAllAsRead_v1
+- name: events_transaction_get_all
+  description: "Returns a list of all Transaction records, based upon various query parameters. Pagination functionality is supported on this operation."
+  category: events
+  method: GET
+  path: /transactions
+  source_operation: openapi/ppl-london-market-events.json#Transaction_GetAll_v1
+- name: events_transaction_get_by_id
+  description: "Returns a single Transaction record. This record will contain attributes pertaining to the category and type of transaction. The content is determined upon the type of the transaction."
+  category: events
+  method: GET
+  path: /transactions/{transactionId}
+  source_operation: openapi/ppl-london-market-events.json#Transaction_GetById_v1
+coverage:
+  operations_total: 67
+  tools_derived: 57
+  excluded: health and version probes (2 per API, 10 total)
