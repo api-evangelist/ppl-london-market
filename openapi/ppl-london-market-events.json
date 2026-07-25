@@ -1,0 +1,2208 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "event",
+    "description": "This API collection provides the capability to retrieve informative and actionable information on an interested party&#39;s involvement within the differing activities of the insurance placement process. This also includes the business transactional log information for any Contract-related engagement between a Broker and an Underwriter that is transacted within the platform.\n\nProvides technical information relating to asynchronous processes and business notifications from the platform that are either informational or require some form of action to be taken by the recipient.",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events",
+      "description": "Joint Integration testing (JIT2) environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "health"
+    },
+    {
+      "name": "version"
+    },
+    {
+      "name": "notification"
+    },
+    {
+      "name": "transaction"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "description": "Checks the health of this Notification Resource API.",
+        "operationId": "Health",
+        "responses": {
+          "200": {
+            "description": "UP if ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "version"
+        ],
+        "description": "Checks the version of this Notification Resource API.",
+        "operationId": "Version",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/version"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "tags": [
+          "notification"
+        ],
+        "description": "Returns a list of all Notification records, based upon various query parameters. Pagination functionality is supported on this operation.",
+        "operationId": "Notification_GetAll_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "createdDate",
+            "in": "query",
+            "description": "The date and timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "The code that represents the category of the notification.\nSearch using multiple exact match method, e.g. category=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The code that represents the type of notification.\nSearch using multiple exact match method, e.g. type=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "senderEmail",
+            "in": "query",
+            "description": "The email address of the Sender.\nSearch using multiple exact match method, e.g. senderEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "senderFirstName",
+            "in": "query",
+            "description": "The first name of the Sender.\nSearch using contains method, e.g. senderFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,40}\\)$"
+            }
+          },
+          {
+            "name": "senderLastName",
+            "in": "query",
+            "description": "The last name of the Sender.\nSearch using contains method, e.g. senderLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,40}\\)$"
+            }
+          },
+          {
+            "name": "companyName",
+            "in": "query",
+            "description": "Name of the company the Sender belongs to.\nSearch using contains method, e.g. companyName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "recipientEmail",
+            "in": "query",
+            "description": "The email address of the Recipient.\nSearch using multiple exact match method, e.g. recipientEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "recipientFirstName",
+            "in": "query",
+            "description": "The first name of the Recipient.\nSearch using contains method, e.g. recipientFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,40}\\)$"
+            }
+          },
+          {
+            "name": "recipientLastName",
+            "in": "query",
+            "description": "The last name of the Recipient.\nSearch using contains method, e.g. recipientLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,40}\\)$"
+            }
+          },
+          {
+            "name": "recipientTeamId",
+            "in": "query",
+            "description": "The Team ID of the team the Recipient belongs to. A system-generated unique identifier for a Team, with a format and structure defined by the technology used. \nSearch using multiple exact match method, e.g. recipientTeamId=team1,team2,team3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "recipientTeamName",
+            "in": "query",
+            "description": "The name of the Team the Recipient belongs to.\nSearch using contains method, e.g. recipientTeamName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "isTechnical",
+            "in": "query",
+            "description": "Indicates whether the Notification is related to a technical event  (true) or a business event (false).\nSearch using single exact match method, e.g. isTechnical=true/false.",
+            "schema": {
+              "type": "string",
+              "pattern": "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$"
+            }
+          },
+          {
+            "name": "processStatus",
+            "in": "query",
+            "description": "The code that represents the status of a technical, asynchronous event.\nSearch using multiple exact match method, e.g. processStatus=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "expiryDate",
+            "in": "query",
+            "description": "The date and timestamp by which the Subjectivity needs to be met or the deadline date for the Report.\nSearch using range method, e.g. expiryDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "clientName",
+            "in": "query",
+            "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.\nSearch using contains method, e.g. clientName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[+-]?\\w+$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "example": 200
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_notifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/{notificationId}": {
+      "get": {
+        "tags": [
+          "notification"
+        ],
+        "description": "Returns a single Notification record. This record will contain attributes pertaining to the type of notification and any type of action that is required. The context information is the subject of the notification.",
+        "operationId": "Notification_GetById_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "notificationId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_notification_record"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/markAllAsRead": {
+      "post": {
+        "tags": [
+          "notification"
+        ],
+        "description": "Initiates the operation to update all non-technical Notification records as read from a defined date.",
+        "operationId": "Notification_MarkAllAsRead_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Payload for the Mark All As Read endpoint.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/notification_markallasread"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_markallasread"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "notifications"
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "description": "Returns a list of all Transaction records, based upon various query parameters. Pagination functionality is supported on this operation.",
+        "operationId": "Transaction_GetAll_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "placementId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. placementId=guid.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "createdDate",
+            "in": "query",
+            "description": "The date and timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "programmeId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. programmeId=guid.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "contractId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. contractId=guid.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "sectionId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. sectionId=guid.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "transactionType",
+            "in": "query",
+            "description": "The code that represents the transaction type.\nSearch using multiple exact match method, e.g. transactionType=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "categoryType",
+            "in": "query",
+            "description": "The code that represents the transaction category type.\nSearch using multiple exact match method, e.g. categoryType=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "contractVersion",
+            "in": "query",
+            "description": "Holds the version of the contract. That means this field will only be filled for transaction logs referring to a contract.\nSearch using multiple exact match method, e.g. contractVersion=ver1,ver2,ver3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "authorEmail",
+            "in": "query",
+            "description": "The email address of the Author.\nSearch using multiple exact match method, e.g. authorEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "authorOnBehalfEmail",
+            "in": "query",
+            "description": "The email address of the Author On Behalf.\nSearch using multiple exact match method, e.g. authorOnBehalfEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "recipientEmail",
+            "in": "query",
+            "description": "The email address of the Recipient.\nSearch using multiple exact match method, e.g. recipientEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[+-]?\\w+$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "example": 200
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_transactions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{transactionId}": {
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "description": "Returns a single Transaction record. This record will contain attributes pertaining to the category and type of transaction. The content is determined upon the type of the transaction.",
+        "operationId": "Transaction_GetById_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "transactionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_transaction_getbyid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "health": {
+        "type": "object",
+        "properties": {
+          "health": {
+            "type": "string",
+            "description": "health value",
+            "default": ""
+          }
+        },
+        "description": "Health endpoint payload"
+      },
+      "version": {
+        "type": "object",
+        "properties": {
+          "apiVersionNumber": {
+            "type": "string",
+            "description": "API Version Number",
+            "default": ""
+          },
+          "implementationVersion": {
+            "type": "string",
+            "description": "Implementation Version",
+            "default": ""
+          }
+        },
+        "description": "Version endpoint payload"
+      },
+      "context_notification": {
+        "required": [
+          "context_id",
+          "context_type"
+        ],
+        "type": "object",
+        "properties": {
+          "context_type": {
+            "type": "string",
+            "description": "The code that represents where within the hierarchical structure of the platform the subject of this record belongs.",
+            "default": ""
+          },
+          "context_id": {
+            "type": "string",
+            "description": "The unique identifier of the subject to which the Context Type relates to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "Contextual information about where the subject of this Notification is within the platform."
+      },
+      "metadata": {
+        "required": [
+          "created_by",
+          "created_channel",
+          "created_date",
+          "modified_by",
+          "modified_channel",
+          "modified_date"
+        ],
+        "type": "object",
+        "properties": {
+          "created_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was created.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "created_channel": {
+            "type": "string",
+            "description": "The mechanism used to create the entity, e.g. OutSystems, API",
+            "default": ""
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/metadata_user"
+          },
+          "modified_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was modified.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "modified_channel": {
+            "type": "string",
+            "description": "The mechanism used to modify the entity, e.g. OutSystems, API",
+            "default": ""
+          },
+          "modified_by": {
+            "$ref": "#/components/schemas/metadata_user"
+          }
+        },
+        "description": "A collection of data items to support the creation and update of record entities."
+      },
+      "metadata_user": {
+        "required": [
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "description": "The User information of the Metadata User."
+      },
+      "notification_markallasread": {
+        "required": [
+          "from_date"
+        ],
+        "type": "object",
+        "properties": {
+          "from_date": {
+            "type": "string",
+            "description": "The date and timestamp from which any Notification records with a Created Date on or after this date, will be marked as read.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payload for notifications mark all as read endpoint."
+      },
+      "recipient_notifications": {
+        "required": [
+          "branch_name",
+          "company_name",
+          "first_name",
+          "last_name",
+          "organisation_name",
+          "recipient_email",
+          "team_id",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "recipient_email": {
+            "type": "string",
+            "description": "The email address of the Recipient.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the Recipient.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the Recipient.",
+            "default": ""
+          },
+          "team_id": {
+            "type": "string",
+            "description": "The Team ID of the team the Recipient belongs to. A system-generated unique identifier for a Team, with a format and structure defined by the technology used. ",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Team the Recipient belongs to.",
+            "default": ""
+          },
+          "organisation_name": {
+            "type": "string",
+            "description": "Name of the Organisation.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "The name of the Company, which is also referred to as the trading entity of the Organisation.",
+            "default": ""
+          },
+          "branch_name": {
+            "type": "string",
+            "description": "Name of the branch the user belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Recipient information of the individual the Notification record is intended for."
+      },
+      "references": {
+        "required": [
+          "client_name",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "placement_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "programme_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "participation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the placement, programme, contract or section associated with the notification. This works for both firm orders and endorsements.",
+            "default": ""
+          },
+          "client_name": {
+            "type": "string",
+            "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "Notification references structure."
+      },
+      "response_markallasread": {
+        "required": [
+          "from_date",
+          "items_marked_as_read_count"
+        ],
+        "type": "object",
+        "properties": {
+          "from_date": {
+            "type": "string",
+            "description": "The date and timestamp from which any Notification records with a Created Date on or after this date, will be marked as read.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "items_marked_as_read_count": {
+            "type": "integer",
+            "description": "The number of Notification records that have been marked as read as part of the synchronous operation.",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response for notifications mark all as read endpoint."
+      },
+      "response_notification_record": {
+        "required": [
+          "category",
+          "context",
+          "is_facility",
+          "is_technical",
+          "metadata",
+          "notification_id",
+          "recipient",
+          "sender",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "category": {
+            "type": "string",
+            "description": "The code that represents the category of the notification.",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "description": "The code that represents the type of notification.",
+            "default": ""
+          },
+          "sender": {
+            "$ref": "#/components/schemas/sender_notifications"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/recipient_notifications"
+          },
+          "is_read": {
+            "type": "boolean",
+            "description": "Indicates whether the Notification has been read by the Recipient (true) or not (false).",
+            "example": false
+          },
+          "context": {
+            "$ref": "#/components/schemas/context_notification"
+          },
+          "message": {
+            "type": "string",
+            "description": "The pre-defined message in relation to the Notification record.",
+            "default": ""
+          },
+          "is_facility": {
+            "type": "boolean",
+            "description": "Indicates whether the Notification is in relation to a Master Facility (true) or not (false).",
+            "example": false
+          },
+          "is_technical": {
+            "type": "boolean",
+            "description": "Indicates whether the Notification is related to a technical event  (true) or a business event (false).",
+            "example": false
+          },
+          "process_status": {
+            "type": "string",
+            "description": "The code that represents the status of a technical, asynchronous event.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "A description of the Subjectivity and any associated terms or the Report Name.",
+            "default": ""
+          },
+          "expiry_date": {
+            "type": "string",
+            "description": "The date and timestamp by which the Subjectivity needs to be met or the deadline date for the Report.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "references": {
+            "$ref": "#/components/schemas/references"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Notification Information record."
+      },
+      "response_notifications": {
+        "type": "object",
+        "properties": {
+          "notifications": {
+            "type": "array",
+            "description": "List of notifications retrieved",
+            "items": {
+              "$ref": "#/components/schemas/response_notification_record"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "sender_notifications": {
+        "required": [
+          "company_name",
+          "first_name",
+          "last_name",
+          "organisation_name",
+          "sender_email"
+        ],
+        "type": "object",
+        "properties": {
+          "sender_email": {
+            "type": "string",
+            "description": "The email address of the Sender.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the Sender.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the Sender.",
+            "default": ""
+          },
+          "organisation_name": {
+            "type": "string",
+            "description": "Name of the organisation the Sender belongs to.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the company the Sender belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Sender information of the individual responsible for the Notification record."
+      },
+      "attribute_transaction": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The code that represents the generic attribute to which a code value has been provided for.",
+            "default": ""
+          },
+          "value": {
+            "type": "string",
+            "description": "The value relating to the key attribute.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the Recipient of the Transaction."
+      },
+      "broker_user": {
+        "required": [
+          "first_name",
+          "last_name",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the responsible Broker User."
+      },
+      "comment_transaction": {
+        "required": [
+          "date",
+          "message",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp when the Comment was provided.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "message": {
+            "type": "string",
+            "description": "The message written on this comment.",
+            "default": ""
+          },
+          "user": {
+            "$ref": "#/components/schemas/broker_user"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Array of comments on the subjectivities negotiation."
+      },
+      "context_transaction": {
+        "required": [
+          "context_id",
+          "description",
+          "placement_id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "context_id": {
+            "type": "string",
+            "description": "The unique identifier within the hierarchical structure of a Placement where this Transaction is generated.",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "description": "Identifies where within the hierarchical structure of a Placement this Transaction is generated.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the element at the moment of the transaction log.",
+            "default": ""
+          },
+          "placement_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "programme_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "contract_version": {
+            "type": "integer",
+            "description": "Holds the version of the contract. That means this field will only be filled for transaction logs referring to a contract.",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "additionalProperties": false,
+        "description": "Contextual information about where this Transaction is generated."
+      },
+      "document_transaction": {
+        "required": [
+          "description",
+          "document_version_id",
+          "filename",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "document_version_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Document, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "filename": {
+            "type": "string",
+            "description": "The file name of the Document, including its file extension.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description about the Document and / or its contents.",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "description": "A code that represents the type of Document.",
+            "default": ""
+          },
+          "category": {
+            "type": "string",
+            "description": "A code that represents the category of the Document.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "Document reference"
+      },
+      "endorsement_transaction": {
+        "required": [
+          "agreement_party",
+          "effective_from",
+          "effective_to",
+          "endorsement_id",
+          "name",
+          "notification_followers",
+          "reference",
+          "role",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "endorsement_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for an Endorsement, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "reference": {
+            "type": "string",
+            "description": "A reference of the Endorsement supplied by the Broker.",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "description": "The code that represents the type of Endorsement.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the Endorsement supplied by the Broker.",
+            "default": ""
+          },
+          "role": {
+            "type": "string",
+            "description": "The code that represents the Role of the Participant in the Endorsement.",
+            "default": ""
+          },
+          "agreement_party": {
+            "type": "string",
+            "description": "The code that represents the Endorsement agreement party requirements.",
+            "default": ""
+          },
+          "notification_followers": {
+            "type": "boolean",
+            "description": "Indicates whether the Endorsement requires followers to be notified (true) or not (false) when the Endorsement has been agreed.",
+            "example": false
+          },
+          "effective_from": {
+            "type": "string",
+            "description": "The date on which the Endorsement comes into force for the change in cover.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "effective_to": {
+            "type": "string",
+            "description": "The date after which the Endorsement ceases the change in cover.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "message": {
+            "$ref": "#/components/schemas/message_endorsement_transaction"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A list of Endorsements relating to a single transaction."
+      },
+      "line_condition_transaction": {
+        "required": [
+          "description",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A description of the line condition.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "code": {
+            "type": "string",
+            "description": "The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement."
+      },
+      "message_endorsement_transaction": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "description": "A comment from the Sender.",
+            "default": ""
+          },
+          "personal_message": {
+            "type": "string",
+            "description": "A personal message for the underwriter in relation to their Participation.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The message written on this Endorsement."
+      },
+      "message_transaction": {
+        "type": "object",
+        "properties": {
+          "ad_hoc_message": {
+            "type": "string",
+            "description": "An ad-hoc message exchange from the Sender to the Recipient.",
+            "default": ""
+          },
+          "personal_message": {
+            "type": "string",
+            "description": "A personal message for the underwriter in relation to their Participation.",
+            "default": ""
+          },
+          "general_message": {
+            "type": "string",
+            "description": "A general message sent to all participating underwriters included in this Submission Pack.",
+            "default": ""
+          },
+          "comment": {
+            "type": "string",
+            "description": "A comment from the Sender.",
+            "default": ""
+          },
+          "status_reason": {
+            "type": "string",
+            "description": "The code that represents the reason for the Negotiation status",
+            "default": ""
+          },
+          "automatic_response": {
+            "type": "string",
+            "description": "Message to be shown in the transaction log due to the corrections",
+            "default": ""
+          },
+          "quote_narrative": {
+            "type": "string",
+            "description": "Quote narrative from the UW response.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "Message relating to the transaction."
+      },
+      "metadata_transaction": {
+        "required": [
+          "created_by",
+          "created_date"
+        ],
+        "type": "object",
+        "properties": {
+          "created_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was created.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "created_channel": {
+            "type": "string",
+            "description": "The mechanism used to create the entity, e.g. OutSystems, API",
+            "default": ""
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/metadata_user"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to support the creation and update of record entities."
+      },
+      "recipient_transaction": {
+        "required": [
+          "company_name",
+          "first_name",
+          "last_name",
+          "recipient_email",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "recipient_email": {
+            "type": "string",
+            "description": "The email address of the Recipient.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the Recipient.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the Recipient.",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Team the Recipient belongs to.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "The name of the Company, which is also referred to as the trading entity of the Organisation.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the Recipient of the Transaction."
+      },
+      "reference_transaction": {
+        "required": [
+          "reference"
+        ],
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "The reference allocated by the underwriter against the Stamp.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of any processing instructions supplied with the line Reference.",
+            "default": ""
+          },
+          "risk_codes": {
+            "type": "array",
+            "description": "The regulatory code(s) that are applicable to the Reference.",
+            "items": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references."
+      },
+      "response_transaction_getall": {
+        "required": [
+          "context",
+          "metadata",
+          "recipient",
+          "sender",
+          "transaction_id"
+        ],
+        "type": "object",
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata_transaction"
+          },
+          "type": {
+            "type": "string",
+            "description": "The code that represents the transaction type.",
+            "default": ""
+          },
+          "category": {
+            "type": "string",
+            "description": "The code that represents the transaction category type.",
+            "default": ""
+          },
+          "context": {
+            "$ref": "#/components/schemas/context_transaction"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/sender_transaction"
+          },
+          "sent_on_behalf_of_user": {
+            "$ref": "#/components/schemas/sender_onbehalf_transaction"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/recipient_transaction"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Transaction Information record."
+      },
+      "response_transaction_getbyid": {
+        "required": [
+          "context",
+          "metadata",
+          "recipient",
+          "sender",
+          "transaction_id"
+        ],
+        "type": "object",
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata_transaction"
+          },
+          "type": {
+            "type": "string",
+            "description": "The code that represents the transaction type.",
+            "default": ""
+          },
+          "category": {
+            "type": "string",
+            "description": "The code that represents the transaction category type.",
+            "default": ""
+          },
+          "context": {
+            "$ref": "#/components/schemas/context_transaction"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/sender_transaction"
+          },
+          "sent_on_behalf_of_user": {
+            "$ref": "#/components/schemas/sender_onbehalf_transaction"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/recipient_transaction"
+          },
+          "attributes": {
+            "type": "array",
+            "description": "A collection of transactional data items to support the transaction type.",
+            "items": {
+              "$ref": "#/components/schemas/attribute_transaction"
+            }
+          },
+          "documents": {
+            "type": "array",
+            "description": "A list of Document references.",
+            "items": {
+              "$ref": "#/components/schemas/document_transaction"
+            }
+          },
+          "message": {
+            "$ref": "#/components/schemas/message_transaction"
+          },
+          "stamps": {
+            "type": "array",
+            "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.",
+            "items": {
+              "$ref": "#/components/schemas/stamp_transaction"
+            }
+          },
+          "subjectivities": {
+            "type": "array",
+            "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.",
+            "items": {
+              "$ref": "#/components/schemas/subjectivity_transaction"
+            }
+          },
+          "endorsements": {
+            "type": "array",
+            "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.",
+            "items": {
+              "$ref": "#/components/schemas/endorsement_transaction"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Transaction Information record."
+      },
+      "response_transactions": {
+        "required": [
+          "count",
+          "page_number",
+          "total_results",
+          "transactions"
+        ],
+        "type": "object",
+        "properties": {
+          "transactions": {
+            "type": "array",
+            "description": "List of transactions retrieved",
+            "items": {
+              "$ref": "#/components/schemas/response_transaction_getall"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int64",
+            "example": 1234567891234567
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "risk_classification_transaction": {
+        "required": [
+          "code",
+          "percentage"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The regulatory code.",
+            "default": ""
+          },
+          "percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage, applicable to the Stamp.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "The regulatory code(s) that are applicable to the Stamp."
+      },
+      "satisfaction_attempt_transaction": {
+        "required": [
+          "attempt_number",
+          "date",
+          "status",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the Satisfaction Attempt.",
+            "default": ""
+          },
+          "date": {
+            "type": "string",
+            "description": "Date of the satisfaction attempt.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "message": {
+            "type": "string",
+            "description": "The message sent with the Satisfaction Attempt.",
+            "default": ""
+          },
+          "user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "documents": {
+            "type": "array",
+            "description": "A list of Document references supplied as part of a Satisfaction Attempt.",
+            "items": {
+              "$ref": "#/components/schemas/document_transaction"
+            }
+          },
+          "attempt_number": {
+            "type": "integer",
+            "description": "A enumerator of the Satisfaction Attempt number.",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to support Subjectivity Management information."
+      },
+      "sender_onbehalf_transaction": {
+        "required": [
+          "company_name",
+          "first_name",
+          "last_name",
+          "sender_email",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "sender_email": {
+            "type": "string",
+            "description": "The email address of the Sender.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the Sender.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the Sender.",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Team, as defined by the organisation.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the Sender that should have been responsible for the Transaction."
+      },
+      "sender_transaction": {
+        "required": [
+          "company_name",
+          "first_name",
+          "last_name",
+          "sender_email",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "sender_email": {
+            "type": "string",
+            "description": "The email address of the Sender.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the Sender.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the Sender.",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Team, as defined by the organisation.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the Author responsible for the Transaction."
+      },
+      "stamp_transaction": {
+        "required": [
+          "name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The legal name of the stamp, as provided by the Carrier organisation.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "written_line": {
+            "type": "string",
+            "description": "The written underwriting value, as a percentage or a currency code and amount.",
+            "default": ""
+          },
+          "signed_line": {
+            "type": "number",
+            "description": "The signed underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "references": {
+            "type": "array",
+            "description": "The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.",
+            "items": {
+              "$ref": "#/components/schemas/reference_transaction"
+            }
+          },
+          "risk_classification": {
+            "type": "array",
+            "description": "The regulatory code(s) that are applicable to the Stamp.",
+            "items": {
+              "$ref": "#/components/schemas/risk_classification_transaction"
+            }
+          },
+          "line_conditions": {
+            "type": "array",
+            "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement.",
+            "items": {
+              "$ref": "#/components/schemas/line_condition_transaction"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting."
+      },
+      "subjectivity_transaction": {
+        "required": [
+          "description",
+          "off_cover",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A description of the subjectivity and any associated terms.",
+            "default": ""
+          },
+          "confirmation_required_by_date": {
+            "type": "string",
+            "description": "The date and timestamp by which the Subjectivity needs to be met.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "off_cover": {
+            "type": "boolean",
+            "description": "Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).",
+            "example": false
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the Subjectivity.",
+            "default": ""
+          },
+          "satisfaction_attempts": {
+            "type": "array",
+            "description": "A collection of data items to support Subjectivity Management information.",
+            "items": {
+              "$ref": "#/components/schemas/satisfaction_attempt_transaction"
+            }
+          },
+          "comments": {
+            "type": "array",
+            "description": "Array of comments on the subjectivities negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/comment_transaction"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy."
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "The error message."
+          },
+          "argument": {
+            "type": "string",
+            "nullable": true,
+            "description": "The syntax argument used to validate the field against (if on syntax validation)."
+          },
+          "field": {
+            "type": "string",
+            "nullable": true,
+            "description": "The field where the error occurred (if field specific)."
+          },
+          "code": {
+            "type": "string",
+            "description": "The error code."
+          }
+        }
+      },
+      "error_document": {
+        "type": "object",
+        "description": "The error document.",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A collection of errors. The list may be empty.",
+            "items": {
+              "$ref": "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

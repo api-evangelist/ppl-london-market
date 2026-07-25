@@ -1,0 +1,227 @@
+aid: ppl-london-market
+url: https://raw.githubusercontent.com/api-evangelist/ppl-london-market/refs/heads/main/apis.yml
+name: PPL
+kind: company
+description: >-
+  PPL (Placing Platform Limited) is the London Market's not-for-profit
+  electronic placing platform, incorporated in England and Wales in 2013 and trading
+  since the first risk was bound on the platform in July 2016. Owned collectively by
+  the market it serves, PPL lets brokers and carriers quote, negotiate, bind and renew
+  open-market (re)insurance risks electronically across almost all classes of business
+  written in London, and is used by roughly 200 carriers and 200 broking firms. It is
+  market infrastructure rather than a carrier or a broker - it writes no insurance and
+  carries no risk - and it is one of the accredited placing platforms underpinning
+  Lloyd's Blueprint Two, generating the Core Data Record for bound business. Its API
+  posture is unusual for insurance and genuinely good: the PPL Next Gen API Developer
+  Portal at developer.pplnextgen.com is publicly readable and publishes a real API
+  catalogue of five REST collections - Organisations, Placements, Submissions,
+  Documents and Events - each with a downloadable OpenAPI 3.0 document and a Postman
+  collection, built on REST standards and the ACORD GRLC (Global Reinsurance and Large
+  Commercial) data model. Actually calling the APIs is market-gated rather than
+  self-serve: consumers must be onboarded by PPL, subscribe to LIMOSS API Common
+  Services, be guested into the Microsoft Entra ID (Azure AD) tenant of the LIMOSS API
+  Gateway, and register an X.509 certificate per environment. The surface covers quote
+  and bind (submission negotiation, contract negotiation, participations, firm order)
+  and contract issuance via the Market Reform Contract document set; there is no claims
+  or FNOL API, and no webhook or event-push surface - the Events API is pull-based.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Insurance
+- United Kingdom
+- London Market
+- Lloyd's of London
+- Reinsurance
+- Commercial Insurance
+- Broker
+- Underwriting
+- Placement
+- Market Infrastructure
+- ACORD
+- Electronic Placing
+created: '2026-07-25'
+modified: '2026-07-25'
+specificationVersion: '0.19'
+apis:
+- aid: ppl-london-market:ppl-placements-api
+  name: PPL Placements API
+  description: >-
+    Manages the Placement structure in PPL Next Gen - Placements, Programmes,
+    Contracts and the Sections within a Contract - together with carrier and underwriter
+    participations, role assignment, and the broker-side negotiation of terms. This is
+    the bind-side surface of the platform. OpenAPI 3.0.1, 16 paths and 32 operations.
+  humanURL: https://developer.pplnextgen.com/placements
+  baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
+  tags:
+  - Placement
+  - Contract
+  - Negotiation
+  - Participation
+  - Bind
+  properties:
+  - type: OpenAPI
+    url: openapi/ppl-london-market-placements.json
+  - type: Documentation
+    url: https://developer.pplnextgen.com/placements
+  - type: APIReference
+    url: https://developer.pplnextgen.com/Placements/Technical-Model
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Placements/Key-Details-On-API
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Placements/Information-Model
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Placements/Business-Process-Model
+  - type: PostmanCollection
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+- aid: ppl-london-market:ppl-submissions-api
+  name: PPL Submissions API
+  description: >-
+    Enables underwriters to retrieve Submission requests supplied by a broker
+    and to manage their negotiation of terms of cover, including reassignment of a
+    negotiation and sending a response back to the broker. This is the quote-side
+    surface of the platform. OpenAPI 3.0.1, 8 paths and 10 operations.
+  humanURL: https://developer.pplnextgen.com/submissions
+  baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/submissions/v1
+  tags:
+  - Submission
+  - Negotiation
+  - Quote
+  - Underwriting
+  properties:
+  - type: OpenAPI
+    url: openapi/ppl-london-market-submissions.json
+  - type: Documentation
+    url: https://developer.pplnextgen.com/submissions
+  - type: APIReference
+    url: https://developer.pplnextgen.com/Submissions/Technical-Model
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Submissions/Key-Details-On-API
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Submissions/Information-Model
+  - type: PostmanCollection
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+- aid: ppl-london-market:ppl-organisations-api
+  name: PPL Organisations API
+  description: >-
+    Retrieves the organisation reference data held in the platform that is a
+    prerequisite for interacting with Placement and Firm Order resources - broker and
+    carrier organisations, their team structures, members and roles, market facilities,
+    market underwriters and underwriter stamps. OpenAPI 3.0.1, 7 paths and 7 operations.
+  humanURL: https://developer.pplnextgen.com/organisations
+  baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/organisations/v1
+  tags:
+  - Organisation
+  - Reference Data
+  - Broker
+  - Carrier
+  - Stamps
+  properties:
+  - type: OpenAPI
+    url: openapi/ppl-london-market-organisations.json
+  - type: Documentation
+    url: https://developer.pplnextgen.com/organisations
+  - type: APIReference
+    url: https://developer.pplnextgen.com/Organisations/Technical-Model
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Organisations/Key-Details-On-API
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Organisations/Information-Model
+  - type: PostmanCollection
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+- aid: ppl-london-market:ppl-documents-api
+  name: PPL Documents API
+  description: >-
+    Manages document files and document metadata across the Placement
+    hierarchy, including the Market Reform Contract (MRC) itself and its supporting
+    documents, with versioning, content retrieval, download and a separate secured
+    content and download path. This is the contract-issuance surface. OpenAPI 3.0.1,
+    8 paths and 11 operations.
+  humanURL: https://developer.pplnextgen.com/documents
+  baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/documents/v1
+  tags:
+  - Documents
+  - Market Reform Contract
+  - Versioning
+  - Issuance
+  properties:
+  - type: OpenAPI
+    url: openapi/ppl-london-market-documents.json
+  - type: Documentation
+    url: https://developer.pplnextgen.com/documents
+  - type: APIReference
+    url: https://developer.pplnextgen.com/Documents/Technical-Model
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Documents/Key-Details-On-API
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Documents/Information-Model
+  - type: PostmanCollection
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+- aid: ppl-london-market:ppl-events-api
+  name: PPL Events API
+  description: >-
+    Retrieves informative and actionable notifications about an interested
+    party's involvement in the placement process, plus the business transaction log for
+    contract-related engagements. Pull-based only - notifications and transactions are
+    polled over REST; PPL publishes no webhook, callback or AsyncAPI event-push surface.
+    OpenAPI 3.0.1, 7 paths and 7 operations.
+  humanURL: https://developer.pplnextgen.com/events
+  baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/events/v1
+  tags:
+  - Events
+  - Notifications
+  - Transactions
+  - Audit
+  properties:
+  - type: OpenAPI
+    url: openapi/ppl-london-market-events.json
+  - type: Documentation
+    url: https://developer.pplnextgen.com/events
+  - type: APIReference
+    url: https://developer.pplnextgen.com/Events/Technical-Model
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Events/Key-Details-On-API
+  - type: Documentation
+    url: https://developer.pplnextgen.com/Events/Information-Model
+  - type: PostmanCollection
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+common:
+- type: Website
+  url: https://placingplatformlimited.com/
+- type: DeveloperPortal
+  url: https://developer.pplnextgen.com/
+- type: Documentation
+  url: https://developer.pplnextgen.com/Get-Started
+- type: APIReference
+  url: https://developer.pplnextgen.com/Explore-Innovate
+- type: Authentication
+  url: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+- type: SignUp
+  url: https://developer.pplnextgen.com/Get-Started/Registration-Onboarding
+- type: Documentation
+  url: https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+- type: Documentation
+  url: https://developer.pplnextgen.com/Get-Started/Reference-Architecture
+- type: Roadmap
+  url: https://developer.pplnextgen.com/Get-Started/RoadMap
+- type: Support
+  url: https://developer.pplnextgen.com/Support
+- type: Documentation
+  url: https://placingplatformlimited.com/api-integrations/
+- type: Documentation
+  url: https://placingplatformlimited.com/the-core-placing-platform/
+- type: Login
+  url: https://www.pplnextgen.com/PPL_Authentication/
+- type: Blog
+  url: https://placingplatformlimited.com/blog/
+- type: BlogRSS
+  url: https://placingplatformlimited.com/feed/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/ppl-placing-platform-limited/
+- type: TermsOfService
+  url: https://developer.pplnextgen.com/Terms-And-Conditions
+- type: PrivacyPolicy
+  url: https://placingplatformlimited.com/privacy-notice/
+- type: Contact
+  url: https://placingplatformlimited.com/contacts/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

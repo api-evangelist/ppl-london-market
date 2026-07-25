@@ -1,0 +1,1788 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "organisation",
+    "description": "This API collection provides the capability to retrieve Organisation information held in the platform that is a prerequisite for interacting with Placement and Firm Order resources. \n\nThis includes broker and carrier organisation information, including team structures, members and their roles, as well as market information that broker organisations are authorised to engage with for insurance placement activities with specified carriers and underwriters.",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations",
+      "description": "Joint Integration testing (JIT2) environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "health"
+    },
+	{
+      "name": "version"
+    },
+    {
+      "name": "organisation"
+    }
+  ],
+  "paths": {
+    "/brokerOrganisations": {
+      "get": {
+        "tags": [
+          "organisation"
+        ],
+        "description": "This end point returns a list of both Broker Teams and Team Members for which the requestor is a member of. This is required in order to support the creation and management of Placements, Programmes and Contract records in the platform, as well as any reassignments of Placements, Programmes and Contracts.",
+        "operationId": "brokerOrganisations_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Impersonator User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Company, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. companyId=guid.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/organisation_broker"
+                }
+              }
+            }
+          },
+		  "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/carrierOrganisations": {
+      "get": {
+        "tags": [
+          "organisation"
+        ],
+        "description": "This end point returns a list of both Carrier Teams and Team Members for which the requestor is a member of. This is required in order to support the management of Submissions and Negotiation records in the platform, as well as any reassignments of Submissions and Negotiations.",
+        "operationId": "carrierOrganisations_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Impersonator User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Company, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. companyId=guid.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/organisation_carrier"
+                }
+              }
+            }
+          },
+		  "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marketFacilities": {
+      "get": {
+        "tags": [
+          "organisation"
+        ],
+        "description": "Returns a list of Master Facility markets on the platform that the Broker Team has been authorised to utilise on a Contract and /or Section. ",
+        "operationId": "brokerMarkets_Facilities_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+			  "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "The text supplied as part of a &quot;contains-based&quot; searchable attribute upon an operation. This field is used for both for open market searching (based upon Carrier and/or Underwriter Name) and facility contract searching (based upon the Contract UMR or Contract Description).",
+            "schema": {
+              "type": "string",
+              "pattern": "^.{1,256}$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+			  "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+			  "minimum": 1,
+			  "maximum": 200
+            },
+            "example": 200
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_facilities"
+                }
+              }
+            }
+          },
+		  "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marketUnderwriters": {
+      "get": {
+        "tags": [
+          "organisation"
+        ],
+        "description": "Returns a list of Carrier Company firms and its Underwriters that a Broker Team is authorised to engage with for insurance placement purposes.",
+        "operationId": "brokerMarkets_Underwriters_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+			  "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "placementId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. placementId=placement1.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "offPlatform",
+            "in": "query",
+            "description": "Indicates where an Underwriter is off platform (true) or not (false).\nSearch using single exact match method, e.g. offPlatform=true/false.",
+            "schema": {
+              "type": "string",
+			  "pattern": "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "The text supplied as part of a &quot;contains-based&quot; searchable attribute upon an operation. This field is used for both for open market searching (based upon Carrier and/or Underwriter Name) and facility contract searching (based upon the Contract UMR or Contract Description).",
+            "schema": {
+              "type": "string",
+              "pattern": "^.{1,320}$"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[+-]?\\w+$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+			  "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+			  "minimum": 1,
+			  "maximum": 200
+            },
+            "example": 200
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_underwriters"
+                }
+              }
+            }
+          },
+		  "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marketUnderwriters/{underwriterEmail}/stamps": {
+      "get": {
+        "tags": [
+          "organisation"
+        ],
+        "description": "Returns a list of Carrier Stamps that (i) a specified Underwriter has the authority to underwrite risks with; and (ii) that a Broker Team is authorised to engage with.",
+        "operationId": "brokerMarkets_Stamps_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+			  "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "underwriterEmail",
+            "in": "path",
+            "description": "The email address of the Underwriter.",
+            "required": true,
+            "schema": {
+              "type": "string",
+			  "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+			  "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+			  "minimum": 1,
+			  "maximum": 200
+            },
+            "example": 200
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_underwriter_stamps"
+                }
+              }
+            }
+          },
+		  "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "description": "Checks the health of this Organisation Resource API.",
+        "operationId": "Health",
+        "responses": {
+          "200": {
+            "description": "UP if ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "version"
+        ],
+        "description": "Checks the version of this Organisation Resource API.",
+        "operationId": "Version",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/version"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "address": {
+        "required": [
+          "city",
+          "country",
+          "line_1",
+          "post_code"
+        ],
+        "type": "object",
+        "properties": {
+          "line_1": {
+            "type": "string",
+            "description": "The first line of an address.",
+            "default": ""
+          },
+          "line_2": {
+            "type": "string",
+            "description": "The second line of an address.",
+            "default": ""
+          },
+          "city": {
+            "type": "string",
+            "description": "The city of an address.",
+            "default": ""
+          },
+          "region": {
+            "type": "string",
+            "description": "The region, also known as the country subdivision, of an address.",
+            "default": ""
+          },
+          "post_code": {
+            "type": "string",
+            "description": "The postal code of an address.",
+            "default": ""
+          },
+          "country": {
+            "type": "string",
+            "description": "The ISO3166 alpha-2 code that represents the country as part of an address.",
+            "default": ""
+          }
+        },
+        "description": "The primary address where the node is situated."
+      },
+      "branch_broker": {
+        "required": [
+          "address",
+          "name",
+          "teams"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the Branch.",
+            "default": ""
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "teams": {
+            "type": "array",
+            "description": "A list of Teams that are owned within a Branch.",
+            "items": {
+              "$ref": "#/components/schemas/team_broker"
+            }
+          }
+        },
+        "description": "Branch structure (broker focused)."
+      },
+      "branch_carrier": {
+        "required": [
+          "address",
+          "name",
+          "teams"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the Branch.",
+            "default": ""
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "teams": {
+            "type": "array",
+            "description": "A list of Teams that are owned within a Branch.",
+            "items": {
+              "$ref": "#/components/schemas/team_carrier"
+            }
+          }
+        },
+        "description": "Branch structure (carrier focused)."
+      },
+      "company_broker": {
+        "required": [
+          "address",
+          "branches",
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Company, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the Company, which is also referred to as the trading entity of the Organisation.",
+            "default": ""
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "branches": {
+            "type": "array",
+            "description": "A list of Branches that are part of the Company hierarchy.",
+            "items": {
+              "$ref": "#/components/schemas/branch_broker"
+            }
+          }
+        },
+        "description": "Company structure (broker focused)."
+      },
+      "company_carrier": {
+        "required": [
+          "address",
+          "branches",
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Company, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "duns_number": {
+            "type": "string",
+            "description": "The code that describes the identification of the given code set.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the Company, which is also referred to as the trading entity of the Organisation.",
+            "default": ""
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "stamps": {
+            "type": "array",
+            "description": "List of Stamp References this Company has access to.",
+            "items": {
+              "$ref": "#/components/schemas/stamps_carrier_ref"
+            }
+          },
+          "branches": {
+            "type": "array",
+            "description": "A list of Branches that are part of the Company hierarchy.",
+            "items": {
+              "$ref": "#/components/schemas/branch_carrier"
+            }
+          }
+        },
+        "description": "Company structure (carrier focused)."
+      },
+      "health": {
+        "type": "object",
+        "properties": {
+          "health": {
+            "type": "string",
+            "description": "health value",
+            "default": ""
+          }
+        },
+        "description": "Health endpoint payload"
+      },
+      "line_conditions": {
+        "required": [
+          "active",
+          "description",
+          "global",
+          "line_condition_id"
+        ],
+        "type": "object",
+        "properties": {
+          "line_condition_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the line condition.",
+            "default": ""
+          },
+          "global": {
+            "type": "boolean",
+            "description": "Flag indicating that the line condition has been added by PPL admin and is applicable to all stamps within the platform.",
+            "example": false
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Indicates where a Line Condition is currently active (true) or not (false).",
+            "example": false
+          },
+          "stamps": {
+            "type": "array",
+            "description": "List of Stamp References where the following Line Condition can be applied.",
+            "items": {
+              "$ref": "#/components/schemas/stamps_carrier_ref"
+            }
+          }
+        },
+        "description": "List of Line Conditions the Carrier Organisation has access to."
+      },
+      "member_broker": {
+        "required": [
+          "active_member",
+          "first_name",
+          "is_technical_user",
+          "last_name",
+          "role",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the Member within the Team.",
+            "default": ""
+          },
+          "active_member": {
+            "type": "boolean",
+            "description": "Indicates where a Team Member is currently active (true) or not (false).",
+            "example": false
+          },
+          "is_technical_user": {
+            "type": "boolean",
+            "description": "Indicates where a Team Member is a Technical User (true) or not (false), i.e. Service Account.",
+            "example": false
+          }
+        },
+        "description": "The User information of a Team Member."
+      },
+      "member_carrier": {
+        "required": [
+          "active_member",
+          "first_name",
+          "is_technical_user",
+          "last_name",
+          "role",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the Member within the Team.",
+            "default": ""
+          },
+          "active_member": {
+            "type": "boolean",
+            "description": "Indicates where a Team Member is currently active (true) or not (false).",
+            "example": false
+          },
+          "is_technical_user": {
+            "type": "boolean",
+            "description": "Indicates where a Team Member is a Technical User (true) or not (false), i.e. Service Account.",
+            "example": false
+          },
+          "stamps": {
+            "type": "array",
+            "description": "List of Stamp References this user has access to.",
+            "items": {
+              "$ref": "#/components/schemas/stamps_carrier_ref"
+            }
+          }
+        },
+        "description": "The User information of a Team Member."
+      },
+      "metadata_no_user": {
+        "type": "object",
+        "properties": {
+          "created_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was created.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "created_channel": {
+            "type": "string",
+            "description": "The mechanism used to create the entity, e.g. OutSystems, API",
+            "default": ""
+          },
+          "modified_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was modified.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "modified_channel": {
+            "type": "string",
+            "description": "The mechanism used to modify the entity, e.g. OutSystems, API",
+            "default": ""
+          }
+        },
+        "description": "A collection of data items to support the creation and update of record entities."
+      },
+      "organisation_broker": {
+        "required": [
+          "address",
+          "companies",
+          "metadata",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the Organisation.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata_no_user"
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "companies": {
+            "type": "array",
+            "description": "The list of Companies that are part of  the Organisation hierarchy.",
+            "items": {
+              "$ref": "#/components/schemas/company_broker"
+            }
+          }
+        },
+        "description": "Organisation structure (broker focused)."
+      },
+      "organisation_carrier": {
+        "required": [
+          "address",
+          "companies",
+          "line_conditions",
+          "metadata",
+          "name",
+          "stamps"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the Organisation.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata_no_user"
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "stamps": {
+            "type": "array",
+            "description": "List of Stamp References this Company has access to.",
+            "items": {
+              "$ref": "#/components/schemas/stamps_carrier"
+            }
+          },
+          "line_conditions": {
+            "type": "array",
+            "description": "List of Line Conditions the Carrier Organisation has access to.",
+            "items": {
+              "$ref": "#/components/schemas/line_conditions"
+            }
+          },
+          "companies": {
+            "type": "array",
+            "description": "The list of Companies that are part of  the Organisation hierarchy.",
+            "items": {
+              "$ref": "#/components/schemas/company_carrier"
+            }
+          }
+        },
+        "description": "Organisation structure (carrier focused)."
+      },
+      "stamps_carrier": {
+        "required": [
+          "active",
+          "agency_code",
+          "agency_type",
+          "name",
+          "permission_type",
+          "stamp_id",
+          "stamp_type"
+        ],
+        "type": "object",
+        "properties": {
+          "stamp_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.",
+            "default": ""
+          },
+          "agency_type": {
+            "type": "string",
+            "description": "The code that represents the agency type.",
+            "default": ""
+          },
+          "agency_code": {
+            "type": "string",
+            "description": "The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.",
+            "default": ""
+          },
+          "stamp_type": {
+            "type": "string",
+            "description": "The code that represents the stamp type.",
+            "default": ""
+          },
+          "pseudonym": {
+            "type": "string",
+            "description": "The three character code that represents the syndicate.",
+            "default": ""
+          },
+          "permission_type": {
+            "type": "string",
+            "description": "The code that represents the permitted territory type.",
+            "default": ""
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Indicates where a Stamp is currently active (true) or not (false).",
+            "example": false
+          },
+          "effective_from": {
+            "type": "string",
+            "description": "The earliest inception date on a Contract/Section which the stamp can be used for underwriting business.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          }
+        },
+        "description": "List of Stamps the Carrier Organisation has access to."
+      },
+      "stamps_carrier_ref": {
+        "required": [
+          "name",
+          "stamp_id"
+        ],
+        "type": "object",
+        "properties": {
+          "stamp_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.",
+            "default": ""
+          }
+        },
+        "description": "List of Stamps references."
+      },
+      "team_broker": {
+        "required": [
+          "broker_codes",
+          "effective_from",
+          "id",
+          "members",
+          "name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Team, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the Broker Team, as defined by the broker organisation.",
+            "default": ""
+          },
+          "broker_codes": {
+            "type": "array",
+            "description": "List of broker codes that the team has access to, based on the broker codes available at the organisation level.",
+            "items": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          "effective_from": {
+            "type": "string",
+            "description": "The date from which a Team is active.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "effective_to": {
+            "type": "string",
+            "description": "The date up until when a Team is active.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of a Team.",
+            "default": ""
+          },
+          "members": {
+            "type": "array",
+            "description": "A list of Members of a Team.",
+            "items": {
+              "$ref": "#/components/schemas/member_broker"
+            }
+          }
+        },
+        "description": "Team structure (broker focused)."
+      },
+      "team_carrier": {
+        "required": [
+          "effective_from",
+          "id",
+          "members",
+          "name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Team, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the Carrier Team, as defined by the carrier organisation.",
+            "default": ""
+          },
+          "effective_from": {
+            "type": "string",
+            "description": "The date from which a Team is active.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "effective_to": {
+            "type": "string",
+            "description": "The date up until when a Team is active.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of a Team.",
+            "default": ""
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the carrier team",
+            "default": ""
+          },
+          "members": {
+            "type": "array",
+            "description": "A list of Members of a Team.",
+            "items": {
+              "$ref": "#/components/schemas/member_carrier"
+            }
+          }
+        },
+        "description": "Team structure (carrier focused)."
+      },
+      "version": {
+        "type": "object",
+        "properties": {
+          "apiVersionNumber": {
+            "type": "string",
+            "description": "API Version Number",
+            "default": ""
+          },
+          "implementationVersion": {
+            "type": "string",
+            "description": "Implementation Version",
+            "default": ""
+          }
+        },
+        "description": "Version endpoint payload"
+      },
+      "broker_team": {
+        "required": [
+          "team_id",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "team_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Broker Team, as defined by the broker organisation.",
+            "default": ""
+          }
+        },
+        "description": "The team information of the Broker Team responsible for the node."
+      },
+      "company_underwriter": {
+        "required": [
+          "name",
+          "off_platform"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          },
+          "off_platform": {
+            "type": "boolean",
+            "description": "Indicates where an Underwriter is off platform (true) or not (false).",
+            "example": false
+          }
+        },
+        "description": "The Company Information of the Underwriter&#39;s company."
+      },
+      "facility_section": {
+        "required": [
+          "description",
+          "expiry_date",
+          "inception_date",
+          "reference",
+          "section_id"
+        ],
+        "type": "object",
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "reference": {
+            "type": "string",
+            "description": "A reference of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "inception_date": {
+            "type": "string",
+            "description": "The date on which the (re)insurance Contract or Section comes into force.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "expiry_date": {
+            "type": "string",
+            "description": "The date on which the (re)insurance Contract or Section ceases cover.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          }
+        },
+        "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability)."
+      },
+      "response_facilities": {
+        "type": "object",
+        "properties": {
+          "facilities": {
+            "type": "array",
+            "description": "List of facilities retrieved",
+            "items": {
+              "$ref": "#/components/schemas/response_facility_record"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "description": ""
+      },
+      "response_facility_record": {
+        "required": [
+          "backload_indicator",
+          "broker_team",
+          "default_section_id",
+          "description",
+          "expiry_date",
+          "facility_contract_id",
+          "inception_date",
+          "metadata",
+          "unique_market_reference",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "facility_contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata_no_user"
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team"
+          },
+          "unique_market_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Contract supplied by the Broker.",
+            "default": ""
+          },
+          "default_section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "inception_date": {
+            "type": "string",
+            "description": "The date on which the (re)insurance Contract or Section comes into force.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "expiry_date": {
+            "type": "string",
+            "description": "The date on which the (re)insurance Contract or Section ceases cover.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "backload_indicator": {
+            "type": "boolean",
+            "description": "Indicates that the Contract has been backloaded (true) or not (false) into the platform.",
+            "example": false
+          },
+          "version": {
+            "type": "integer",
+            "description": "The current version of the Contract.",
+            "format": "int32",
+            "example": 0
+          },
+          "sections": {
+            "type": "array",
+            "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).",
+            "items": {
+              "$ref": "#/components/schemas/facility_section"
+            }
+          }
+        },
+        "description": "The Facility Information record."
+      },
+      "response_stamp_record": {
+        "required": [
+          "agency_code",
+          "agency_type",
+          "effective_from",
+          "name",
+          "permission_type",
+          "scheme_codes",
+          "stamp_id",
+          "stamp_pseudonym",
+          "stamp_type"
+        ],
+        "type": "object",
+        "properties": {
+          "stamp_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata_no_user"
+          },
+          "agency_type": {
+            "type": "string",
+            "description": "The code that represents the agency type.",
+            "default": ""
+          },
+          "agency_code": {
+            "type": "string",
+            "description": "The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.",
+            "default": ""
+          },
+          "stamp_pseudonym": {
+            "type": "string",
+            "description": "The three character code that represents the syndicate.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.",
+            "default": ""
+          },
+          "stamp_type": {
+            "type": "string",
+            "description": "The code that represents the stamp type.",
+            "default": ""
+          },
+          "permission_type": {
+            "type": "string",
+            "description": "The code that represents the permitted territory type.",
+            "default": ""
+          },
+          "scheme_codes": {
+            "type": "array",
+            "description": "A mapping table between Stamp and Stamp Code Type. This captures multiple codes against a stamp in a standard way.\nA stamp can have many stamp codes, and each stamp code can have a stamp code type\n---\nLDM Ref:  Stamp (1) &lt;-&gt; Stamp Code (0-N)",
+            "items": {
+              "$ref": "#/components/schemas/stamp_code"
+            }
+          },
+          "effective_from": {
+            "type": "string",
+            "description": "The earliest inception date on a Contract/Section which the stamp can be used for underwriting business.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "effective_to": {
+            "type": "string",
+            "description": "The latest inception date on a Contract/Section which the stamp can be used for underwriting business.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "year_of_account": {
+            "type": "integer",
+            "description": "The year of account in which the stamp is active, primarily for consortium stamps.",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "description": "Stamp Information for the given Underwriter"
+      },
+      "response_underwriter_record": {
+        "required": [
+          "company",
+          "underwriter"
+        ],
+        "type": "object",
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/company_underwriter"
+          },
+          "underwriter": {
+            "$ref": "#/components/schemas/underwriter"
+          },
+          "in_underwriter_pool": {
+            "type": "boolean",
+            "description": "Indicates where an Underwriter is already in the Underwriter Pool of a given Placement or not.",
+            "example": false
+          }
+        },
+        "description": "The Underwriter Information record."
+      },
+      "response_underwriter_stamps": {
+        "required": [
+          "company",
+          "underwriter"
+        ],
+        "type": "object",
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/company_underwriter"
+          },
+          "underwriter": {
+            "$ref": "#/components/schemas/underwriter"
+          },
+          "stamps": {
+            "type": "array",
+            "description": "List of Stamps that an Underwriter has access to, and that a Broker Team is authorised to engage with.",
+            "items": {
+              "$ref": "#/components/schemas/response_stamp_record"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "description": ""
+      },
+      "response_underwriters": {
+        "type": "object",
+        "properties": {
+          "underwriters": {
+            "type": "array",
+            "description": "List of underwriters retrieved",
+            "items": {
+              "$ref": "#/components/schemas/response_underwriter_record"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "description": ""
+      },
+      "stamp_code": {
+        "required": [
+          "code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The code that represents the stamp code type.",
+            "default": ""
+          },
+          "code": {
+            "type": "string",
+            "description": "The code that is associated with the stamp.",
+            "default": ""
+          }
+        },
+        "description": "A mapping table between Stamp and Stamp Code Type. This captures multiple codes against a stamp in a standard way.\nA stamp can have many stamp codes, and each stamp code can have a stamp code type\n---\nLDM Ref:  Stamp (1) &lt;-&gt; Stamp Code (0-N)"
+      },
+      "underwriter": {
+        "required": [
+          "first_name",
+          "last_name",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the Underwriter.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the Underwriter.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the Underwriter.",
+            "default": ""
+          }
+        },
+        "description": "The User information of the Underwriter."
+      },
+	  "error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "The error message."
+          },
+          "argument": {
+            "type": "string",
+            "nullable": true,
+            "description": "The syntax argument used to validate the field against (if on syntax validation)."
+          },
+          "field": {
+            "type": "string",
+            "nullable": true,
+            "description": "The field where the error occurred (if field specific)."
+          },
+          "code": {
+            "type": "string",
+            "description": "The error code."
+          }
+        }
+      },
+      "error_document": {
+        "type": "object",
+        "description": "The error document.",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A collection of errors. The list may be empty.",
+            "items": {
+              "$ref": "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

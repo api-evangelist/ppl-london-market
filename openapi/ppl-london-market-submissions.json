@@ -1,0 +1,4989 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "submission",
+    "description": "This API collection enables Underwriters to retrieve information about Submission requests that have been supplied by a Broker as well as manage their negotiation of terms of cover.",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions",
+      "description": "Joint Integration testing (JIT2) environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "health"
+    },
+    {
+      "name": "version"
+    },
+    {
+      "name": "negotiation",
+      "description": "Enables the creation and management of the flow of negotiations from an Underwriter to a Broker. Negotiations shown will be those which (1) have been formally communicated to the Broker; and (2) &#39;saved&#39; Negotiation records (i.e. that are waiting to be sent to the Broker)."
+    },
+    {
+      "name": "submission",
+      "description": "Enables the retrieval of Submissions for Underwriters."
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "description": "Checks the health of this Submission Resource API.",
+        "operationId": "Health",
+        "responses": {
+          "200": {
+            "description": "UP if ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "version"
+        ],
+        "description": "Checks the version of this Submission Resource API.",
+        "operationId": "Version",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/version"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/{submissionId}/negotiations": {
+      "get": {
+        "tags": [
+          "negotiation"
+        ],
+        "description": "Returns a list of all Negotiation records based upon various query parameters. Pagination functionality is supported on this operation.",
+        "operationId": "Negotiation_GetAll_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A list of system-generated unique identifiers for each Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "createdDate",
+            "in": "query",
+            "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "modifiedDate",
+            "in": "query",
+            "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "contractId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. contractId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$"
+            }
+          },
+          {
+            "name": "participationId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. participationId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$"
+            }
+          },
+          {
+            "name": "brokerTeamName",
+            "in": "query",
+            "description": "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "brokerEmail",
+            "in": "query",
+            "description": "The User email of the Broker User responsible for the Contract.\nSearch using multiple exact match method, e.g. brokerEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "brokerFirstName",
+            "in": "query",
+            "description": "The First Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "brokerLastName",
+            "in": "query",
+            "description": "The Last Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "underwriterTeamId",
+            "in": "query",
+            "description": "A system-generated unique identifier for an Underwriter Team, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. underwriterTeamId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$"
+            }
+          },
+          {
+            "name": "underwriterTeamName",
+            "in": "query",
+            "description": "The name of the Underwriter Team, as defined by the Carrier organisation.\nSearch using contains method, e.g. underwriterTeamName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "underwriterEmail",
+            "in": "query",
+            "description": "The User email of the Underwriter User responsible for the Negotiation.\nSearch using multiple exact match method, e.g. underwriterEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "underwriterFirstName",
+            "in": "query",
+            "description": "The First Name of the Underwriter User responsible for the Negotiation.\nSearch using contains method, e.g. underwriterFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "underwriterLastName",
+            "in": "query",
+            "description": "The Last Name of the Underwriter User responsible for the Negotiation.\nSearch using contains method, e.g. underwriterLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "sentByEmail",
+            "in": "query",
+            "description": "The User email of the Broker or Underwriter User that sent this Negotiation.\nSearch using multiple exact match method, e.g. sentByEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "sentByFirstName",
+            "in": "query",
+            "description": "The First Name of the Broker or Underwriter User that sent this Negotiation.\nSearch using contains method, e.g. sentByFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "sentByLastName",
+            "in": "query",
+            "description": "The Last Name of the Broker or Underwriter User that sent this Negotiation.\nSearch using contains method, e.g. sentByLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The type of the Negotiation.\nSearch using multiple exact match method, e.g. type=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "subType",
+            "in": "query",
+            "description": "The subtype of the Negotiation.\nSearch using multiple exact match method, e.g. subType=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.\nSearch using multiple exact match method, e.g. status=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "isLeader",
+            "in": "query",
+            "description": "Parameter used to return Negotiations records that have a leader role (true) or not (false).\nSearch using single exact match method, e.g. isLeader=true/false.",
+            "schema": {
+              "type": "string",
+              "pattern": "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The code that represents the role or roles that the Underwriter plays through their participation.\nSearch using multiple exact match method, e.g. role=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "hasLineConditions",
+            "in": "query",
+            "description": "Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.\nSearch using single exact match method, e.g. hasLineConditions=true/false.",
+            "schema": {
+              "type": "string",
+              "pattern": "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$"
+            }
+          },
+          {
+            "name": "hasSubjectivities",
+            "in": "query",
+            "description": "Parameter used to return Negotiation records that have at least one Subjectivity (true) or no Subjectivities (false) present.\nSearch using single exact match method, e.g. hasSubjectivities=true/false.",
+            "schema": {
+              "type": "string",
+              "pattern": "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$"
+            }
+          },
+          {
+            "name": "showLatest",
+            "in": "query",
+            "description": "Identifies whether the query results will return only the latest Negotiation record (true) or all Negotiation records (false) for each Participation. Search using single exact match method, e.g. showLatest=true/false.",
+            "schema": {
+              "type": "string",
+              "pattern": "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[+-]?\\w+$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "example": 200
+          },
+          {
+            "name": "negotiationId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. negotiationId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_submission_negotiations_getall"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "negotiation"
+        ],
+        "description": "Creates a single Negotiation record in response to a Broker User&#39;s request for consideration. Underwriter Users will be able to reject, confirm or negotiate on various attributes of their involvement, i.e.  acceptance of contractual roles, carrier stamps, line conditions and subjectivities.",
+        "operationId": "Negotiation_Post_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Negotiation structure for creation.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/submission_negotiation_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/submission_negotiation_getbyid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "negotiation"
+      }
+    },
+    "/submissions/{submissionId}/negotiations/{negotiationId}": {
+      "get": {
+        "tags": [
+          "negotiation"
+        ],
+        "description": "Returns a single Negotiation record. This record will contain attributes pertaining to the single negotiation position between an Underwriter User and an Broker User, based upon its negotiation status within the insurance placement process.",
+        "operationId": "Negotiation_GetById_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "negotiationId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/submission_negotiation_getbyid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "negotiation"
+        ],
+        "description": "Updates a Negotiation record, where the record is in a state that enables its update. For example, where Negotiations are in a saved and unsent state.",
+        "operationId": "Negotiation_Put_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "X-Last-Modified",
+            "in": "header",
+            "description": "The date timestamp to be used to validate an update operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "negotiationId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Negotiation structure for updates.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/submission_negotiation_put"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/submission_negotiation_getbyid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "negotiation"
+      }
+    },
+    "/submissions/{submissionId}/negotiations/{negotiationId}/reaassign": {
+      "put": {
+        "tags": [
+          "negotiation"
+        ],
+        "description": "Reassigns a Negotiation record to another Underwriter User. The destined Underwriter User does not have to be a member of the same Carrier Team owning the original Submission, but must exist within the same Company hierarchical structure. For the destined Underwriter User, either the entire Submission record is reassigned, or a new Submission record will be created (where there are multiple requests which remain with the original Underwriter User) for underwriting purposes.",
+        "operationId": "Negotiation_Reassign_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "X-Last-Modified",
+            "in": "header",
+            "description": "The date timestamp to be used to validate an update operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "negotiationId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Negotiation structure for reassign.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/submission_negotiation_reassign"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/submission_negotiation_reassign_output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "negotiation"
+      }
+    },
+    "/submissions": {
+      "get": {
+        "tags": [
+          "submission"
+        ],
+        "description": "Returns a list of all Submission records based upon various query parameters. Pagination functionality is supported on this operation.",
+        "operationId": "Submission_GetAll_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A list of system-generated unique identifiers for each Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "createdDate",
+            "in": "query",
+            "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "modifiedDate",
+            "in": "query",
+            "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "clientName",
+            "in": "query",
+            "description": "The name by which the Broker User knows the client for the purposes of seeking insurance. \nSearch using contains method, e.g. clientName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,40}\\)$"
+            }
+          },
+          {
+            "name": "brokerTeamName",
+            "in": "query",
+            "description": "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "brokerOrganisationName",
+            "in": "query",
+            "description": "Name of the Organisation the User belongs to.\nSearch using contains method, e.g. brokerOrganisationName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "brokerCompanyName",
+            "in": "query",
+            "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. brokerCompanyName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "brokerUserEmail",
+            "in": "query",
+            "description": "The User email of the broker User.\nSearch using multiple exact match method, e.g. brokerUserEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "brokerFirstName",
+            "in": "query",
+            "description": "The first name of the Broker User.\nSearch using contains method, e.g. brokerFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "brokerLastName",
+            "in": "query",
+            "description": "The last name of the Broker User.\nSearch using contains method, e.g. brokerLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "underwriterTeamId",
+            "in": "query",
+            "description": "A system-generated unique identifier for an Underwriter Team, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. underwriterTeamId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$"
+            }
+          },
+          {
+            "name": "underwriterTeamName",
+            "in": "query",
+            "description": "The name of the Underwriter Team, as defined by the underwriter organisation.\nSearch using contains method, e.g. underwriterTeamName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "underwriterCompanyName",
+            "in": "query",
+            "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. underwriterCompanyName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "underwriterUserEmail",
+            "in": "query",
+            "description": "The User email of the underwriter User.\nSearch using multiple exact match method, e.g. underwriterUserEmail=email1,email2,email3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)*$"
+            }
+          },
+          {
+            "name": "underwriterFirstName",
+            "in": "query",
+            "description": "The first name of the Underwriter User.\nSearch using contains method, e.g. underwriterFirstName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "underwriterLastName",
+            "in": "query",
+            "description": "The last name of the Underwriter User.\nSearch using contains method, e.g. underwriterLastName=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,30}\\)$"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The type of the Submission.\nSearch using multiple exact match method, e.g. type=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "The status of the Submission.\nSearch using multiple exact match method, e.g. status=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "receivedDate",
+            "in": "query",
+            "description": "The date and timestamp when the Submission.\nSearch using range method, e.g. receivedDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\)$"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "A description of the Contract supplied by the Broker.\nSearch using contains method, e.g. description=contains(astring).",
+            "schema": {
+              "type": "string",
+              "pattern": "^contains\\(.{1,256}\\)$"
+            }
+          },
+          {
+            "name": "uniqueMarketReference",
+            "in": "query",
+            "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.\nSearch using multiple exact match method, e.g. uniqueMarketReference=umr1,umr2,umr3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(B\\d{4}[A-Z0-9]{1,12})(,B\\d{4}[A-Z0-9]{1,12})*$"
+            }
+          },
+          {
+            "name": "sectionStatus",
+            "in": "query",
+            "description": "The code that represents the Section status.\nSearch using multiple exact match method, e.g. sectionStatus=code1,code2,code3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(.*)(,.*)*$"
+            }
+          },
+          {
+            "name": "inceptionDate",
+            "in": "query",
+            "description": "The date on which the (re)insurance contract/section comes into force.\nSearch using range method, e.g. inceptionDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2},\\d{4}-\\d{2}-\\d{2}\\)$"
+            }
+          },
+          {
+            "name": "expiryDate",
+            "in": "query",
+            "description": "The date on which the (re)insurance Contract or Section ceases cover.\nSearch using range method, e.g. expiryDate=range(date1,date2).",
+            "schema": {
+              "type": "string",
+              "pattern": "^range\\(\\d{4}-\\d{2}-\\d{2},\\d{4}-\\d{2}-\\d{2}\\)$"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[+-]?\\w+$"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Number of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Size of the page to be retrieved.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "example": 200
+          },
+          {
+            "name": "submissionId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. submissionId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$"
+            }
+          },
+          {
+            "name": "contractId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. contractId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$"
+            }
+          },
+          {
+            "name": "sectionId",
+            "in": "query",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. sectionId=id1,id2,id3.",
+            "schema": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_submissions_getall"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/{submissionId}": {
+      "get": {
+        "tags": [
+          "submission"
+        ],
+        "description": "Returns a single Submission record. This record includes structured data pertaining to a single Contract offering (and any subsequent Sections, if applicable) as well as references to download (1) the Market Reform Contract (MRC) document; and (2) any associated Supporting Documents. Collectively the information presents an offer for consideration.",
+        "operationId": "Submission_GetById_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/submission_getbyid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/{submissionId}/send": {
+      "post": {
+        "tags": [
+          "submission"
+        ],
+        "description": "Initiates the operation to send the latest Underwriter responses as part of a response to a Submission back to the Broker. The outcome of each Negotiation will either (1) agree unconditionally to the terms; (2) conditionally agree upon a change of terms; or (3) decline the offer.",
+        "operationId": "Submission_Send_v1",
+        "parameters": [
+          {
+            "name": "X-Auth-Impersonated-User",
+            "in": "header",
+            "description": "The email address of the Requesting User or the Impersonated User.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+            }
+          },
+          {
+            "name": "X-Auth-Team",
+            "in": "header",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          },
+          {
+            "name": "submissionId",
+            "in": "path",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/submission_send_input"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/submission_send_output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Mandatory header parameter is missing from the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid team or user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "414": {
+            "description": "The maximum field length of the URI provided for the request has been exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_document"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "broker_team_only_name": {
+        "required": [
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Broker Team, as defined by the broker organisation.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The team information of the Broker Team responsible for the node."
+      },
+      "broker_user": {
+        "required": [
+          "first_name",
+          "last_name",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the responsible Broker User."
+      },
+      "comment_user": {
+        "required": [
+          "first_name",
+          "last_name",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the User."
+      },
+      "metadata": {
+        "required": [
+          "created_by",
+          "created_channel",
+          "created_date",
+          "modified_by",
+          "modified_channel",
+          "modified_date"
+        ],
+        "type": "object",
+        "properties": {
+          "created_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was created.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "created_channel": {
+            "type": "string",
+            "description": "The mechanism used to create the entity, e.g. OutSystems, API",
+            "default": ""
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/metadata_user"
+          },
+          "modified_date": {
+            "type": "string",
+            "description": "The date and timestamp when the entity was modified.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "modified_channel": {
+            "type": "string",
+            "description": "The mechanism used to modify the entity, e.g. OutSystems, API",
+            "default": ""
+          },
+          "modified_by": {
+            "$ref": "#/components/schemas/metadata_user"
+          }
+        },
+        "description": "A collection of data items to support the creation and update of record entities."
+      },
+      "metadata_user": {
+        "required": [
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "description": "The User information of the Metadata User."
+      },
+      "notification": {
+        "required": [
+          "category_type",
+          "notification_id",
+          "status",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "category_type": {
+            "type": "string",
+            "description": "Identifies the category type of the notification that is being processed in an asynchronous manner.",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "description": "Identifies the type of notification that is being processed in an asynchronous manner.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Notification status.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Notification information relating to the Document. "
+      },
+      "response_submission_negotiations_getall": {
+        "required": [
+          "count",
+          "negotiations",
+          "page_number",
+          "page_size",
+          "total_results"
+        ],
+        "type": "object",
+        "properties": {
+          "negotiations": {
+            "type": "array",
+            "description": "List of negotiations retrieved",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_getall"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int64",
+            "example": 1234567891234567
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "sent_by_user": {
+        "required": [
+          "first_name",
+          "last_name",
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the User."
+      },
+      "submission_negotiation_amount": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the Line Percentage Negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The specified underwriting value, as an amount."
+      },
+      "submission_negotiation_amount_postput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a differing Written Line Amount than that proposed by the Broker.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The specified underwriting value, as an amount."
+      },
+      "submission_negotiation_calculated": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "The calculated signing down information, following the Broker invoking the signing down process in the Section."
+      },
+      "submission_negotiation_comments": {
+        "required": [
+          "comment",
+          "date",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp when the comment was provided.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "comment": {
+            "type": "string",
+            "description": "The Sender comment specific for a negotiable data attribute.",
+            "default": ""
+          },
+          "user": {
+            "$ref": "#/components/schemas/comment_user"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Array of comments for Negotiation usage."
+      },
+      "submission_negotiation_contract_document": {
+        "required": [
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the Contract Document comments.",
+            "default": ""
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the Contract Document Comments negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The negotiation pertaining to the content of the Contract Document."
+      },
+      "submission_negotiation_contract_document_postput": {
+        "type": "object",
+        "properties": {
+          "proposed_contract_document_comments": {
+            "type": "boolean",
+            "description": "Identifies when the Underwriter response is subject to comments made to the Contract Document (true) or not (false).",
+            "example": false
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of comments made to the Contract Document.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The negotiation pertaining to the content of the Contract Document."
+      },
+      "submission_negotiation_facility_panel": {
+        "required": [
+          "facility_panel_id",
+          "master_facility"
+        ],
+        "type": "object",
+        "properties": {
+          "facility_panel_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "proposed": {
+            "$ref": "#/components/schemas/submission_negotiation_facility_panel_proposed"
+          },
+          "written": {
+            "$ref": "#/components/schemas/submission_negotiation_facility_panel_written"
+          },
+          "calculated": {
+            "$ref": "#/components/schemas/submission_negotiation_facility_panel_calculated"
+          },
+          "signed": {
+            "$ref": "#/components/schemas/submission_negotiation_facility_panel_signed"
+          },
+          "master_facility": {
+            "$ref": "#/components/schemas/submission_negotiation_facility_panel_master"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility."
+      },
+      "submission_negotiation_facility_panel_calculated": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "The calculated signing down information, following the Broker invoking the signing down process in the Section."
+      },
+      "submission_negotiation_facility_panel_master": {
+        "required": [
+          "facility_contract_id",
+          "section_id",
+          "section_name",
+          "unique_market_reference"
+        ],
+        "type": "object",
+        "properties": {
+          "facility_contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "unique_market_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.",
+            "default": ""
+          },
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "section_name": {
+            "type": "string",
+            "description": "A description of the Section supplied by the Broker.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_facility_panel_proposed": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "The proposed underwriting line information, that the Broker is proposing to the Underwriter."
+      },
+      "submission_negotiation_facility_panel_signed": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp when the signed line was provided.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The signed line information, that the Broker has confirmed to the Underwriter."
+      },
+      "submission_negotiation_facility_panel_written": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp when the written line was provided.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The written underwriting line information, that the Underwriter is willing to accept."
+      },
+      "submission_negotiation_getall": {
+        "required": [
+          "broker_team",
+          "broker_user",
+          "contract_id",
+          "contract_version",
+          "has_line_conditions",
+          "has_subjectivities",
+          "is_leader",
+          "metadata",
+          "negotiation_id",
+          "order_limit",
+          "order_percentage",
+          "participation_id",
+          "personal_message",
+          "responding_to_negotiation_id",
+          "section_id",
+          "sent_by_user",
+          "status",
+          "status_reason",
+          "submission_id",
+          "type",
+          "underwriter_team",
+          "underwriter_user",
+          "written_line_basis"
+        ],
+        "type": "object",
+        "properties": {
+          "negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "responding_to_negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.",
+            "default": ""
+          },
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "contract_version": {
+            "type": "integer",
+            "description": "The contract version this negotiation respects to.",
+            "format": "int32",
+            "example": 0
+          },
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "participation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team_only_name"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_no_org_no_company"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "sent_by_user": {
+            "$ref": "#/components/schemas/sent_by_user"
+          },
+          "personal_message": {
+            "type": "string",
+            "description": "A personal message from the broker in relation to the Underwriter&#39;s Participation.",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the Negotiation.",
+            "default": ""
+          },
+          "sub_type": {
+            "type": "string",
+            "description": "The subtype of the Negotiation.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.",
+            "default": ""
+          },
+          "status_reason": {
+            "type": "string",
+            "description": "The code that represents the reason for the Negotiation status",
+            "default": ""
+          },
+          "written_line_basis": {
+            "type": "string",
+            "description": "The basis on which the underwriter&#39;s written lines are applied to the Order of a Contract or Section.",
+            "default": ""
+          },
+          "signed_line_basis": {
+            "type": "string",
+            "description": "The basis on which the underwriter&#39;s signed lines are applied to the Order of a Contract or Section.",
+            "default": ""
+          },
+          "order_percentage": {
+            "type": "number",
+            "description": "The basis upon which all signed lines are applied to the Order of a Contract or Section.",
+            "example": 0.1
+          },
+          "order_limit": {
+            "type": "number",
+            "description": "The value to be used as part of the signing down process, where the Order is expressed as a monetary amount.",
+            "example": 0.1
+          },
+          "is_leader": {
+            "type": "boolean",
+            "description": "Parameter used to return Negotiations records that have a leader role (true) or not (false).",
+            "example": false
+          },
+          "roles": {
+            "type": "array",
+            "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_role"
+            }
+          },
+          "has_line_conditions": {
+            "type": "boolean",
+            "description": "Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.",
+            "example": false
+          },
+          "has_subjectivities": {
+            "type": "boolean",
+            "description": "Parameter used to return Negotiation records that have at least one Subjectivity (true) or no Subjectivities (false) present.",
+            "example": false
+          }
+        },
+        "additionalProperties": false,
+        "description": "Negotiation structure for Get All"
+      },
+      "submission_negotiation_getbyid": {
+        "required": [
+          "broker_team",
+          "broker_user",
+          "contract_id",
+          "contract_version",
+          "has_line_conditions",
+          "is_draft",
+          "last_sent_status",
+          "metadata",
+          "negotiation_id",
+          "order_limit",
+          "order_percentage",
+          "participation_id",
+          "personal_message",
+          "proposed",
+          "responding_to_negotiation_id",
+          "risk_classification_agreed",
+          "section_id",
+          "sent_by_user",
+          "sent_by_user_message",
+          "settlement_agreed",
+          "status",
+          "status_reason",
+          "submission_id",
+          "type",
+          "underwriter_team",
+          "underwriter_user",
+          "written_line_basis"
+        ],
+        "type": "object",
+        "properties": {
+          "negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "responding_to_negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.",
+            "default": ""
+          },
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "contract_version": {
+            "type": "integer",
+            "description": "The contract version this negotiation respects to.",
+            "format": "int32",
+            "example": 0
+          },
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "participation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team_only_name"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_no_org_no_company"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "sent_by_user": {
+            "$ref": "#/components/schemas/sent_by_user"
+          },
+          "personal_message": {
+            "type": "string",
+            "description": "A personal message from the broker in relation to the Underwriter&#39;s Participation.",
+            "default": ""
+          },
+          "sub_panel": {
+            "$ref": "#/components/schemas/submission_negotiation_sub_panel"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the Negotiation.",
+            "default": ""
+          },
+          "sub_type": {
+            "type": "string",
+            "description": "The subtype of the Negotiation.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.",
+            "default": ""
+          },
+          "status_reason": {
+            "type": "string",
+            "description": "The code that represents the reason for the Negotiation status",
+            "default": ""
+          },
+          "last_sent_status": {
+            "type": "string",
+            "description": "The code that represents the status of the last sent Negotiation.",
+            "default": ""
+          },
+          "written_line_basis": {
+            "type": "string",
+            "description": "The basis on which the underwriter&#39;s written lines are applied to the Order of a Contract or Section.",
+            "default": ""
+          },
+          "signed_line_basis": {
+            "type": "string",
+            "description": "The basis on which the underwriter&#39;s signed lines are applied to the Order of a Contract or Section.",
+            "default": ""
+          },
+          "order_percentage": {
+            "type": "number",
+            "description": "The basis upon which all signed lines are applied to the Order of a Contract or Section.",
+            "example": 0.1
+          },
+          "order_limit": {
+            "type": "number",
+            "description": "The value to be used as part of the signing down process, where the Order is expressed as a monetary amount.",
+            "example": 0.1
+          },
+          "sent_by_user_message": {
+            "type": "string",
+            "description": "The user message specific for a negotiable data attribute.",
+            "default": ""
+          },
+          "settlement_agreed": {
+            "type": "boolean",
+            "description": "Indicates when the Contract or Section Leader has agreed (true) the Settlement terms, or not (false).",
+            "example": false
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/submission_negotiation_settlement"
+          },
+          "year_of_account": {
+            "type": "integer",
+            "description": "The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.",
+            "format": "int32",
+            "example": 0
+          },
+          "proposed": {
+            "$ref": "#/components/schemas/submission_negotiation_proposed"
+          },
+          "written": {
+            "$ref": "#/components/schemas/submission_negotiation_written"
+          },
+          "calculated": {
+            "$ref": "#/components/schemas/submission_negotiation_calculated"
+          },
+          "signed": {
+            "$ref": "#/components/schemas/submission_negotiation_signed"
+          },
+          "roles": {
+            "type": "array",
+            "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_role_plus"
+            }
+          },
+          "has_line_conditions": {
+            "type": "boolean",
+            "description": "Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.",
+            "example": false
+          },
+          "risk_classification_agreed": {
+            "type": "boolean",
+            "description": "Indicates when the Risk Classification information has been agreed (true) by either the Lloyd&#39;s or LIC Leader of the Contract or Section, or not (false).",
+            "example": false
+          },
+          "stamps": {
+            "type": "array",
+            "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp"
+            }
+          },
+          "subjectivities": {
+            "type": "array",
+            "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_subjectivity"
+            }
+          },
+          "contract_document": {
+            "$ref": "#/components/schemas/submission_negotiation_contract_document"
+          },
+          "is_draft": {
+            "type": "boolean",
+            "description": "Identifies whether the negotiation is saved as a draft (true) or not (false). It should always be false after the negotiation is sent, and only updated to true when the negotiation or its parent Submission is formally sent to the other party.",
+            "example": false
+          },
+          "save_response": {
+            "$ref": "#/components/schemas/submission_negotiation_save_response"
+          },
+          "facility_panel": {
+            "$ref": "#/components/schemas/submission_negotiation_facility_panel"
+          },
+          "leaders": {
+            "type": "array",
+            "description": "A collection of contractual leadership information, where applicable.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_leader"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "Negotiation structure for Get by Identifier"
+      },
+      "submission_negotiation_leader": {
+        "required": [
+          "company_name",
+          "role",
+          "stamp",
+          "underwriter_leader"
+        ],
+        "type": "object",
+        "properties": {
+          "underwriter_leader": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          },
+          "role": {
+            "type": "string",
+            "description": "The code that represents the role or roles that the Underwriter plays through their participation.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "written": {
+            "$ref": "#/components/schemas/submission_negotiation_leader_written"
+          },
+          "stamp": {
+            "$ref": "#/components/schemas/submission_negotiation_leader_stamp"
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_leader_stamp": {
+        "required": [
+          "agency_code",
+          "agency_type",
+          "name",
+          "percentage_of_total_written_line",
+          "stamp_role"
+        ],
+        "type": "object",
+        "properties": {
+          "agency_type": {
+            "type": "string",
+            "description": "The code that represents the agency type.",
+            "default": ""
+          },
+          "agency_code": {
+            "type": "string",
+            "description": "The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The legal name of the stamp, as provided by the Carrier organisation.",
+            "default": ""
+          },
+          "stamp_role": {
+            "type": "string",
+            "description": "The code that represents the role or roles that the stamp plays in this Participation.",
+            "default": ""
+          },
+          "percentage_of_total_written_line": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "written_line_absolute_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as an absolute percentage of a Stamp.",
+            "example": 0.1
+          },
+          "written_line_currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "written_line_amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_leader_written": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "$ref": "#/components/schemas/submission_negotiation_leader_written_line_percent"
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "$ref": "#/components/schemas/submission_negotiation_leader_written_amount"
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_leader_written_amount": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_leader_written_line_percent": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_line_percentage": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the Line Percentage Negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The specified underwriting value, as a percentage."
+      },
+      "submission_negotiation_line_percentage_postput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a differing Written Line Percentage than that proposed by the Broker.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The specified underwriting value, as a percentage."
+      },
+      "submission_negotiation_post": {
+        "required": [
+          "responding_to_negotiation_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "responding_to_negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.",
+            "default": "",
+            "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.",
+            "default": ""
+          },
+          "sent_by_user_message": {
+            "type": "string",
+            "description": "The user message specific for a negotiable data attribute.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/submission_negotiation_settlement"
+          },
+          "year_of_account": {
+            "type": "integer",
+            "description": "The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.",
+            "format": "int32",
+            "minimum": 1900,
+            "maximum": 9999,
+            "example": 1900
+          },
+          "written": {
+            "$ref": "#/components/schemas/submission_negotiation_written_postput"
+          },
+          "roles": {
+            "type": "array",
+            "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_role_postput"
+            }
+          },
+          "stamps": {
+            "type": "array",
+            "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_post"
+            }
+          },
+          "subjectivities": {
+            "type": "array",
+            "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_subjectivity_post"
+            }
+          },
+          "contract_document": {
+            "$ref": "#/components/schemas/submission_negotiation_contract_document_postput"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Negotiation structure for creates"
+      },
+      "submission_negotiation_proposed": {
+        "type": "object",
+        "properties": {
+          "min_line_percentage": {
+            "type": "number",
+            "description": "The minimum underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "max_line_percentage": {
+            "type": "number",
+            "description": "The maximum underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "min_amount": {
+            "type": "number",
+            "description": "The minimum underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "max_amount": {
+            "type": "number",
+            "description": "The maximum underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "The proposed underwriting line information, that the Broker is proposing to the Underwriter."
+      },
+      "submission_negotiation_put": {
+        "required": [
+          "responding_to_negotiation_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "responding_to_negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.",
+            "default": "",
+            "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.",
+            "default": ""
+          },
+          "sent_by_user_message": {
+            "type": "string",
+            "description": "The user message specific for a negotiable data attribute.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/submission_negotiation_settlement"
+          },
+          "year_of_account": {
+            "type": "integer",
+            "description": "The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.",
+            "format": "int32",
+            "minimum": 1900,
+            "maximum": 9999,
+            "example": 1900
+          },
+          "written": {
+            "$ref": "#/components/schemas/submission_negotiation_written_postput"
+          },
+          "roles": {
+            "type": "array",
+            "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_role_postput"
+            }
+          },
+          "stamps": {
+            "type": "array",
+            "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_put"
+            }
+          },
+          "subjectivities": {
+            "type": "array",
+            "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_subjectivity_put"
+            }
+          },
+          "contract_document": {
+            "$ref": "#/components/schemas/submission_negotiation_contract_document_postput"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Negotiation structure for updates"
+      },
+      "submission_negotiation_reassign": {
+        "required": [
+          "underwriter_team",
+          "underwriter_user"
+        ],
+        "type": "object",
+        "properties": {
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_reassign"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user_reassign"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Negotiation input structure for reassign"
+      },
+      "submission_negotiation_reassign_output": {
+        "required": [
+          "metadata",
+          "negotiation_id",
+          "notification",
+          "submission_id",
+          "underwriter_team",
+          "underwriter_user"
+        ],
+        "type": "object",
+        "properties": {
+          "negotiation_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_no_org_no_company"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "notification": {
+            "$ref": "#/components/schemas/notification"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Negotiation structure for reassign output"
+      },
+      "submission_negotiation_role": {
+        "required": [
+          "status",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "role": {
+            "type": "string",
+            "description": "The code that represents the role or roles that the Underwriter plays through their participation.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead."
+      },
+      "submission_negotiation_role_plus": {
+        "required": [
+          "role",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "The code that represents the role or roles that the Underwriter plays through their participation.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the roles Negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead."
+      },
+      "submission_negotiation_role_postput": {
+        "required": [
+          "decline_role_indicator",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "The code that represents the role or roles that the Underwriter plays through their participation.",
+            "default": ""
+          },
+          "decline_role_indicator": {
+            "type": "boolean",
+            "description": "Identifies whether the contractual role has been declined (true) or not (false).",
+            "example": false
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of declining the contractual role proposed by the Broker.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead."
+      },
+      "submission_negotiation_save_response": {
+        "required": [
+          "date",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/comment_user"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp of the User responsible for saving the Negotiation record.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Information about the saving of the Negotiation record."
+      },
+      "submission_negotiation_settlement": {
+        "required": [
+          "adjustment_period_of_credit_days",
+          "installment_period_of_credit_days",
+          "settlement_due_date"
+        ],
+        "type": "object",
+        "properties": {
+          "settlement_due_date": {
+            "type": "string",
+            "description": "The date and timestamp by when any instalment or payment of premium on this Contract or Section is expected to be paid to insurers.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "installment_period_of_credit_days": {
+            "type": "integer",
+            "description": "The number of days of credit applied to when any instalment or payment of premium is due.",
+            "format": "int32",
+            "minimum": 1,
+            "example": 1
+          },
+          "adjustment_period_of_credit_days": {
+            "type": "integer",
+            "description": "The number of days after the date(s) specified for the provision of adjustments that insurers expect the final adjustment(s) of premium (if any) to be paid.",
+            "format": "int32",
+            "minimum": 1,
+            "example": 1
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_signed": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage.",
+            "example": 0.1
+          },
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp when the signed line was provided.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "The signed line information, that the Broker has confirmed to the Underwriter."
+      },
+      "submission_negotiation_stamp": {
+        "required": [
+          "agency_code",
+          "agency_type",
+          "name",
+          "stamp_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "stamp_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "agency_type": {
+            "type": "string",
+            "description": "The code that represents the agency type.",
+            "default": ""
+          },
+          "agency_code": {
+            "type": "string",
+            "description": "The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The legal name of the stamp, as provided by the Carrier organisation.",
+            "default": ""
+          },
+          "stamp_role": {
+            "type": "string",
+            "description": "The code that represents the role or roles that the stamp plays in this Participation.",
+            "default": ""
+          },
+          "percentage_of_total_written_line": {
+            "type": "number",
+            "description": "The specified underwriting value, as a proportion of 100 percent of the overall negotiation.",
+            "example": 0.1
+          },
+          "written_line_absolute_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as an absolute percentage of a Stamp.",
+            "example": 0.1
+          },
+          "written_line_currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "written_line_amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "signed_line_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as a percentage. The signed line information.",
+            "example": 0.1
+          },
+          "risk_classification": {
+            "type": "array",
+            "description": "A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_risk_code"
+            }
+          },
+          "line_conditions": {
+            "type": "array",
+            "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_line_condition"
+            }
+          },
+          "references": {
+            "type": "array",
+            "description": "The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_reference"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the stamps negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting."
+      },
+      "submission_negotiation_stamp_line_condition": {
+        "required": [
+          "code",
+          "description",
+          "line_condition_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "line_condition_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the line condition.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          },
+          "code": {
+            "type": "string",
+            "description": "The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.",
+            "default": ""
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the stamps&#39; line conditions negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement."
+      },
+      "submission_negotiation_stamp_line_condition_post": {
+        "required": [
+          "code",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A description of the line condition.",
+            "default": "",
+            "pattern": "^.{1,1024}$"
+          },
+          "code": {
+            "type": "string",
+            "description": "The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.",
+            "default": ""
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement."
+      },
+      "submission_negotiation_stamp_line_condition_put": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.",
+            "default": ""
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement."
+      },
+      "submission_negotiation_stamp_post": {
+        "required": [
+          "stamp_id"
+        ],
+        "type": "object",
+        "properties": {
+          "stamp_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.",
+            "default": "",
+            "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          },
+          "percentage_of_total_written_line": {
+            "type": "number",
+            "description": "The specified underwriting value, as a proportion of 100 percent of the overall negotiation.",
+            "example": 0.1
+          },
+          "written_line_absolute_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as an absolute percentage of a Stamp.",
+            "example": 0.1
+          },
+          "written_line_currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": "",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "written_line_amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "risk_classification": {
+            "type": "array",
+            "description": "A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_risk_code"
+            }
+          },
+          "line_conditions": {
+            "type": "array",
+            "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_line_condition_post"
+            }
+          },
+          "references": {
+            "type": "array",
+            "description": "The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_reference"
+            }
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a Carrier Stamp proposed by the Underwriter.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting."
+      },
+      "submission_negotiation_stamp_put": {
+        "required": [
+          "stamp_id"
+        ],
+        "type": "object",
+        "properties": {
+          "stamp_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.",
+            "default": "",
+            "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          },
+          "percentage_of_total_written_line": {
+            "type": "number",
+            "description": "The specified underwriting value, as a proportion of 100 percent of the overall negotiation.",
+            "example": 0.1
+          },
+          "written_line_absolute_percentage": {
+            "type": "number",
+            "description": "The specified underwriting value, as an absolute percentage of a Stamp.",
+            "example": 0.1
+          },
+          "written_line_currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": "",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "written_line_amount": {
+            "type": "number",
+            "description": "The specified underwriting value, as an amount.",
+            "example": 0.1
+          },
+          "risk_classification": {
+            "type": "array",
+            "description": "A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_risk_code"
+            }
+          },
+          "line_conditions": {
+            "type": "array",
+            "description": "The Line Condition information, identifying the Line Condition itself, the status of its agreement.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_line_condition_put"
+            }
+          },
+          "references": {
+            "type": "array",
+            "description": "The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_stamp_reference"
+            }
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a Carrier Stamp proposed by the Underwriter.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting."
+      },
+      "submission_negotiation_stamp_reference": {
+        "required": [
+          "description",
+          "reference"
+        ],
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "The reference allocated by the underwriter against the Stamp.",
+            "default": "",
+            "pattern": "^.{1,35}$"
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of any processing instructions supplied with the line Reference.",
+            "default": "",
+            "pattern": "^.{1,88}$"
+          },
+          "risk_codes": {
+            "type": "array",
+            "description": "The regulatory code(s) that are applicable to the Reference.",
+            "items": {
+              "type": "string",
+              "default": "",
+              "pattern": "^.{1,256}$"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "submission_negotiation_stamp_risk_code": {
+        "required": [
+          "code",
+          "percentage"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The regulatory code that represents the risk for a risk classification.",
+            "default": "",
+            "pattern": "^.{1,256}$"
+          },
+          "percentage": {
+            "type": "number",
+            "description": "The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes."
+      },
+      "submission_negotiation_sub_panel": {
+        "required": [
+          "name",
+          "sub_panel_id"
+        ],
+        "type": "object",
+        "properties": {
+          "sub_panel_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the sub panel.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The sub panel information, identifying a group of Participations with a common set of underwriting terms."
+      },
+      "submission_negotiation_subjectivity": {
+        "required": [
+          "confirmation_required",
+          "description",
+          "negotiation_status",
+          "off_cover_indicator",
+          "saved_as_accepted",
+          "saved_as_declined",
+          "status",
+          "subjectivity_id"
+        ],
+        "type": "object",
+        "properties": {
+          "subjectivity_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the subjectivity and any associated terms.",
+            "default": ""
+          },
+          "confirmation_required": {
+            "type": "boolean",
+            "description": "Indicates whether a subjectivity requires confirmation (true) or not (false).",
+            "example": false
+          },
+          "confirmation_required_by_date": {
+            "type": "string",
+            "description": "The date and timestamp by which the Subjectivity needs to be met.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "off_cover_indicator": {
+            "type": "boolean",
+            "description": "Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).",
+            "example": false
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the Subjectivity.",
+            "default": ""
+          },
+          "negotiation_status": {
+            "type": "string",
+            "description": "The code that represents the status of the Subjectivity when this is under negotiation.",
+            "default": ""
+          },
+          "withdrawn_date": {
+            "type": "string",
+            "description": "The date and timestamp on which the Subjectivity was withdrawn.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "saved_as_accepted": {
+            "type": "boolean",
+            "description": "Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).",
+            "example": false
+          },
+          "saved_as_declined": {
+            "type": "boolean",
+            "description": "Identifies when the Subjectivity under review is marked as Declined (true) or not (false).",
+            "example": false
+          },
+          "comments_history": {
+            "type": "array",
+            "description": "Array of comments on the subjectivities negotiation.",
+            "items": {
+              "$ref": "#/components/schemas/submission_negotiation_comments"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy."
+      },
+      "submission_negotiation_subjectivity_post": {
+        "required": [
+          "confirmation_required",
+          "description",
+          "off_cover_indicator"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A description of the subjectivity and any associated terms.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          },
+          "confirmation_required": {
+            "type": "boolean",
+            "description": "Indicates whether a subjectivity requires confirmation (true) or not (false).",
+            "example": false
+          },
+          "confirmation_required_by_date": {
+            "type": "string",
+            "description": "The date and timestamp by which the Subjectivity needs to be met.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "off_cover_indicator": {
+            "type": "boolean",
+            "description": "Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).",
+            "example": false
+          },
+          "saved_as_declined": {
+            "type": "boolean",
+            "description": "Identifies when the Subjectivity under review is marked as Declined (true) or not (false).",
+            "example": false
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a Subjectivity proposed by the Underwriter.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy."
+      },
+      "submission_negotiation_subjectivity_put": {
+        "required": [
+          "confirmation_required",
+          "description",
+          "off_cover_indicator",
+          "subjectivity_id"
+        ],
+        "type": "object",
+        "properties": {
+          "subjectivity_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.",
+            "default": "",
+            "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the subjectivity and any associated terms.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          },
+          "confirmation_required": {
+            "type": "boolean",
+            "description": "Indicates whether a subjectivity requires confirmation (true) or not (false).",
+            "example": false
+          },
+          "confirmation_required_by_date": {
+            "type": "string",
+            "description": "The date and timestamp by which the Subjectivity needs to be met.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "off_cover_indicator": {
+            "type": "boolean",
+            "description": "Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).",
+            "example": false
+          },
+          "saved_as_declined": {
+            "type": "boolean",
+            "description": "Identifies when the Subjectivity under review is marked as Declined (true) or not (false).",
+            "example": false
+          },
+          "comment": {
+            "type": "string",
+            "description": "Latest comment on the negotiation of a Subjectivity proposed by the Underwriter.",
+            "default": "",
+            "pattern": "^.{1,8000}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy."
+      },
+      "submission_negotiation_written": {
+        "required": [
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "$ref": "#/components/schemas/submission_negotiation_line_percentage"
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "$ref": "#/components/schemas/submission_negotiation_amount"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date and timestamp when the written line was provided.",
+            "format": "date-time",
+            "example": "2014-12-31T23:59:59.938Z"
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The written underwriting line information, that the Underwriter is willing to accept."
+      },
+      "submission_negotiation_written_postput": {
+        "type": "object",
+        "properties": {
+          "line_percentage": {
+            "$ref": "#/components/schemas/submission_negotiation_line_percentage_postput"
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": "",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/submission_negotiation_amount_postput"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The written underwriting line information, that the Underwriter is willing to accept."
+      },
+      "underwriter_team_no_org_no_company": {
+        "required": [
+          "team_id",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "team_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Underwriter Team, as defined by the carrier organisation.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Team information of the Underwriter Team responsible for the Participation."
+      },
+      "underwriter_team_reassign": {
+        "required": [
+          "team_id"
+        ],
+        "type": "object",
+        "properties": {
+          "team_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "default": "",
+            "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Team information of the Underwriter Team responsible for the Participation."
+      },
+      "underwriter_user": {
+        "required": [
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": ""
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the User.",
+            "default": ""
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the User.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the Underwriter User responsible for the Participation."
+      },
+      "underwriter_user_reassign": {
+        "required": [
+          "user_email"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "description": "The email address of the User.",
+            "default": "",
+            "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The User information of the Underwriter User responsible for the Participation."
+      },
+      "broker_team_company_no_id": {
+        "required": [
+          "company_name",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Broker Team, as defined by the broker organisation.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The team information of the Broker Team responsible for the node."
+      },
+      "broker_team_org_company_no_id": {
+        "required": [
+          "company_name",
+          "organisation_name",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Broker Team, as defined by the broker organisation.",
+            "default": ""
+          },
+          "organisation_name": {
+            "type": "string",
+            "description": "Name of the Organisation the User belongs to.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The team information of the Broker Team responsible for the node."
+      },
+      "contract_insured": {
+        "required": [
+          "name",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The legal name of the insured, reinsured or retrocedent under the terms of a contract of insurance.",
+            "default": ""
+          },
+          "role": {
+            "type": "string",
+            "description": "The type of role that a particular individual or organisation is involved in, under the terms of a contract of insurance.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "An individual or organisation, and their relationship within a contract of insurance."
+      },
+      "geographic_coverage": {
+        "required": [
+          "code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "indicates the type of the geographic coverage, either as a single country or a geographic region.",
+            "default": ""
+          },
+          "code": {
+            "type": "string",
+            "description": "The code that represents the value of the country or region based on the geographic coverage type.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A high level description of the situation, territorial limits or scope, trading warranties or location.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to represent the territory of cover for a Contract or Section."
+      },
+      "period": {
+        "type": "object",
+        "properties": {
+          "period_date": {
+            "$ref": "#/components/schemas/period_date"
+          },
+          "period_range": {
+            "$ref": "#/components/schemas/period_range"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to denote the Contract or Section period."
+      },
+      "period_date": {
+        "required": [
+          "expiry_date",
+          "inception_date"
+        ],
+        "type": "object",
+        "properties": {
+          "inception_date": {
+            "type": "string",
+            "description": "The date on which the (re)insurance Contract or Section comes into force.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "expiry_date": {
+            "type": "string",
+            "description": "The date on which the (re)insurance Contract or Section ceases cover.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "qualifier_type": {
+            "type": "string",
+            "description": "The code that represents the period qualifier type.",
+            "default": ""
+          },
+          "qualifier_description": {
+            "type": "string",
+            "description": "A description of the period qualifier, captured when there is a no alignment to the reference data code.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to denote the Contract or Section period using specific dates."
+      },
+      "period_range": {
+        "required": [
+          "duration_number",
+          "duration_unit"
+        ],
+        "type": "object",
+        "properties": {
+          "duration_number": {
+            "type": "integer",
+            "description": "An integer value representing the numeric element of a Period Range.",
+            "format": "int32",
+            "example": 0
+          },
+          "duration_unit": {
+            "type": "string",
+            "description": "The code that represents the unit of measurement element of a Period Range.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to denote the Contract or Section period, as a numeric and unit of measurement."
+      },
+      "response_submissions_getall": {
+        "required": [
+          "count",
+          "page_number",
+          "page_size",
+          "submissions",
+          "total_results"
+        ],
+        "type": "object",
+        "properties": {
+          "submissions": {
+            "type": "array",
+            "description": "List of submission retrieved",
+            "items": {
+              "$ref": "#/components/schemas/submission_getall"
+            }
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "Number of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Size of the page retrieved",
+            "format": "int32",
+            "example": 0
+          },
+          "count": {
+            "type": "integer",
+            "description": "The number of records on the current page",
+            "format": "int32",
+            "example": 0
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "Total number of results",
+            "format": "int64",
+            "example": 1234567891234567
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "section_binding_information": {
+        "type": "object",
+        "properties": {
+          "signed_line_basis": {
+            "type": "string",
+            "description": "The basis upon which all signed lines are applied to the Order of a Contract or Section.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Binding Information relevant to a Contract or Section."
+      },
+      "section_deductible": {
+        "required": [
+          "amount",
+          "basis_type",
+          "currency_code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The code that represents the type of deductible.",
+            "default": ""
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The deductible amount applicable under the terms of the insurance Contract or Section.",
+            "example": 0.1
+          },
+          "basis_type": {
+            "type": "string",
+            "description": "The code that represents the basis of the deductible.",
+            "default": ""
+          },
+          "type_description": {
+            "type": "string",
+            "description": "A bespoke description of the deductible type, where not provisioned under the existing reference data type codes.",
+            "default": ""
+          },
+          "basis_description": {
+            "type": "string",
+            "description": "A bespoke description of the deductible basis type, where not provisioned under the existing reference data basis type codes.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items that represent the deductible(s) that are applied against the payment of a claim, within a Contract or Section."
+      },
+      "section_excess": {
+        "required": [
+          "amount",
+          "basis_type",
+          "currency_code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The code that represents the type of excess.",
+            "default": ""
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The excess amount applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.",
+            "example": 0.1
+          },
+          "basis_type": {
+            "type": "string",
+            "description": "The code that represents the basis of the excess.",
+            "default": ""
+          },
+          "type_description": {
+            "type": "string",
+            "description": "A bespoke description of the excess type, where not provisioned under the existing reference data type codes.",
+            "default": ""
+          },
+          "basis_description": {
+            "type": "string",
+            "description": "A bespoke description of the excess basis type, where not provisioned under the existing reference data basis type codes.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items that represents the Excess(es) applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section."
+      },
+      "section_limit": {
+        "required": [
+          "amount",
+          "basis_type",
+          "currency_code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The code that represents the type of limit.",
+            "default": ""
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The limit amount the insurer has agreed to cover under the terms of the insurance Contract or Section.",
+            "example": 0.1
+          },
+          "basis_type": {
+            "type": "string",
+            "description": "The code that represents the basis of the limit.",
+            "default": ""
+          },
+          "type_description": {
+            "type": "string",
+            "description": "A bespoke description of the limit type, where not provisioned under the existing reference data type codes.",
+            "default": ""
+          },
+          "basis_description": {
+            "type": "string",
+            "description": "A bespoke description of the limit basis type, where not provisioned under the existing reference data basis type codes.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items that represents the Limit(s) of any liability the insurer has agreed to cover under the terms of the insurance Contract or Section."
+      },
+      "section_premium": {
+        "required": [
+          "basis_type",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The code that represents the type of premium.",
+            "default": ""
+          },
+          "currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": "The premium amount applicable under the terms of the insurance Contract or Section.",
+            "example": 0.1
+          },
+          "rate": {
+            "type": "number",
+            "description": "The premium rate applicable under the terms of the insurance Contract or Section.",
+            "example": 0.1
+          },
+          "rate_unit": {
+            "type": "string",
+            "description": "The code that represents the unit of measurement to be applied to the premium rate.",
+            "default": ""
+          },
+          "basis_type": {
+            "type": "string",
+            "description": "The code that represents the basis of the premium.",
+            "default": ""
+          },
+          "type_description": {
+            "type": "string",
+            "description": "A bespoke description of the premium type, where not provisioned under the existing reference data type codes.",
+            "default": ""
+          },
+          "basis_description": {
+            "type": "string",
+            "description": "A bespoke description of the premium basis type, where not provisioned under the existing reference data basis type codes.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items that represents the financial amount to cover the risk(s) under the terms of the insurance Contract or Section."
+      },
+      "section_risk": {
+        "required": [
+          "allocation_percentage",
+          "risk_code"
+        ],
+        "type": "object",
+        "properties": {
+          "risk_code": {
+            "type": "string",
+            "description": "The regulatory code that represents the risk for a risk classification.",
+            "default": ""
+          },
+          "allocation_percentage": {
+            "type": "number",
+            "description": "The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.",
+            "example": 0.1
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes."
+      },
+      "submission_contract_getall": {
+        "required": [
+          "broker_code",
+          "broker_contract_reference",
+          "contract_id",
+          "description",
+          "sections",
+          "unique_market_reference"
+        ],
+        "type": "object",
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Contract supplied by the Broker.",
+            "default": ""
+          },
+          "broker_code": {
+            "type": "string",
+            "description": "A 4-digit Broker code that represents a broker organisation.",
+            "default": ""
+          },
+          "broker_contract_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract.",
+            "default": ""
+          },
+          "unique_market_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.",
+            "default": ""
+          },
+          "sections": {
+            "type": "array",
+            "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).",
+            "items": {
+              "$ref": "#/components/schemas/submission_section_getall"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of insurance Contracts."
+      },
+      "submission_contract_getbyid": {
+        "required": [
+          "broker_code",
+          "broker_contract_reference",
+          "broker_team",
+          "broker_user",
+          "contract_id",
+          "contract_type",
+          "cover_type",
+          "description",
+          "insureds",
+          "sections",
+          "sequence_number",
+          "status",
+          "unique_market_reference",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team_company_no_id"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "sequence_number": {
+            "type": "integer",
+            "description": "The sequence number in which the Contracts are ordered.",
+            "format": "int32",
+            "example": 0
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Contract supplied by the Broker.",
+            "default": ""
+          },
+          "broker_code": {
+            "type": "string",
+            "description": "A 4-digit Broker code that represents a broker organisation.",
+            "default": ""
+          },
+          "broker_contract_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract.",
+            "default": ""
+          },
+          "unique_market_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.",
+            "default": ""
+          },
+          "version": {
+            "type": "integer",
+            "description": "The current version of the Contract.",
+            "format": "int32",
+            "example": 0
+          },
+          "contract_type": {
+            "type": "string",
+            "description": "The code that represents the contract type.",
+            "default": ""
+          },
+          "cover_type": {
+            "type": "string",
+            "description": "The code that represents the cover type.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Contract status.",
+            "default": ""
+          },
+          "insureds": {
+            "type": "array",
+            "description": "A collection of individuals or organisations, and their relationship within a contract of insurance.",
+            "items": {
+              "$ref": "#/components/schemas/contract_insured"
+            }
+          },
+          "sections": {
+            "type": "array",
+            "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).",
+            "items": {
+              "$ref": "#/components/schemas/submission_section_getbyid"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of insurance Contracts."
+      },
+      "submission_contract_send": {
+        "required": [
+          "broker_team",
+          "broker_user",
+          "contract_id",
+          "description",
+          "sections",
+          "status",
+          "unique_market_reference",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team_company_no_id"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Contract supplied by the Broker.",
+            "default": ""
+          },
+          "unique_market_reference": {
+            "type": "string",
+            "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.",
+            "default": ""
+          },
+          "version": {
+            "type": "integer",
+            "description": "The current version of the Contract.",
+            "format": "int32",
+            "example": 0
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Contract status.",
+            "default": ""
+          },
+          "sections": {
+            "type": "array",
+            "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).",
+            "items": {
+              "$ref": "#/components/schemas/submission_section_send"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of insurance Contracts."
+      },
+      "submission_getall": {
+        "required": [
+          "broker_team",
+          "broker_user",
+          "client_name",
+          "description",
+          "general_message",
+          "metadata",
+          "placement_type",
+          "programme",
+          "received_date",
+          "status",
+          "submission_id",
+          "submission_type",
+          "underwriter_team",
+          "underwriter_user"
+        ],
+        "type": "object",
+        "properties": {
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "placement_type": {
+            "type": "string",
+            "description": "The code that represents the Placement type.",
+            "default": ""
+          },
+          "client_name": {
+            "type": "string",
+            "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Placement supplied by the Broker.",
+            "default": ""
+          },
+          "general_message": {
+            "type": "string",
+            "description": "A general message sent to all participating underwriters included in this Submission Pack.",
+            "default": ""
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team_org_company_no_id"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_no_org"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "submission_type": {
+            "type": "string",
+            "description": "The type of the Submission.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the Submission.",
+            "default": ""
+          },
+          "received_date": {
+            "type": "string",
+            "description": "The date and timestamp when the Submission.",
+            "format": "date-time",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "programme": {
+            "$ref": "#/components/schemas/submission_programme_getall"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Submission structure for Get All"
+      },
+      "submission_getbyid": {
+        "required": [
+          "broker_team",
+          "broker_user",
+          "client_name",
+          "description",
+          "general_message",
+          "metadata",
+          "placement_type",
+          "programme",
+          "received_date",
+          "status",
+          "submission_id",
+          "submission_type",
+          "underwriter_team",
+          "underwriter_user"
+        ],
+        "type": "object",
+        "properties": {
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "placement_type": {
+            "type": "string",
+            "description": "The code that represents the Placement type.",
+            "default": ""
+          },
+          "client_name": {
+            "type": "string",
+            "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Placement supplied by the Broker.",
+            "default": ""
+          },
+          "general_message": {
+            "type": "string",
+            "description": "A general message sent to all participating underwriters included in this Submission Pack.",
+            "default": ""
+          },
+          "broker_team": {
+            "$ref": "#/components/schemas/broker_team_org_company_no_id"
+          },
+          "broker_user": {
+            "$ref": "#/components/schemas/broker_user"
+          },
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_no_org"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "submission_type": {
+            "type": "string",
+            "description": "The type of the Submission.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the Submission.",
+            "default": ""
+          },
+          "received_date": {
+            "type": "string",
+            "description": "The date and timestamp when the Submission.",
+            "format": "date-time",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "programme": {
+            "$ref": "#/components/schemas/submission_programme_getbyid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Submission structure for Get by Identifier"
+      },
+      "submission_programme_getall": {
+        "required": [
+          "contract",
+          "default",
+          "description",
+          "programme_id"
+        ],
+        "type": "object",
+        "properties": {
+          "programme_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Identifies whether this is a default Programme. A default Programme is a programme data structure where Contracts that are not within a business-related Programme are maintained.",
+            "example": false
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Programme supplied by the Broker.",
+            "default": ""
+          },
+          "contract": {
+            "$ref": "#/components/schemas/submission_contract_getall"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of Contracts for a common purpose."
+      },
+      "submission_programme_getbyid": {
+        "required": [
+          "contract",
+          "default",
+          "description",
+          "programme_id"
+        ],
+        "type": "object",
+        "properties": {
+          "programme_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Identifies whether this is a default Programme. A default Programme is a programme data structure where Contracts that are not within a business-related Programme are maintained.",
+            "example": false
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Programme supplied by the Broker.",
+            "default": ""
+          },
+          "contract": {
+            "$ref": "#/components/schemas/submission_contract_getbyid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of Contracts for a common purpose."
+      },
+      "submission_programme_send": {
+        "required": [
+          "contract",
+          "description",
+          "programme_id"
+        ],
+        "type": "object",
+        "properties": {
+          "programme_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Programme supplied by the Broker.",
+            "default": ""
+          },
+          "contract": {
+            "$ref": "#/components/schemas/submission_contract_send"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A collection of Contracts for a common purpose."
+      },
+      "submission_section_getall": {
+        "required": [
+          "description",
+          "period",
+          "reference",
+          "section_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "reference": {
+            "type": "string",
+            "description": "A reference of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Section status.",
+            "default": ""
+          },
+          "period": {
+            "$ref": "#/components/schemas/period"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability)."
+      },
+      "submission_section_getbyid": {
+        "required": [
+          "class_of_business",
+          "description",
+          "geographic_coverage",
+          "line_of_business",
+          "order_percentage",
+          "order_type",
+          "period",
+          "product_code",
+          "reference",
+          "section_id",
+          "sequence_number",
+          "stamp_permission_type",
+          "status",
+          "written_line_basis"
+        ],
+        "type": "object",
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "reference": {
+            "type": "string",
+            "description": "A reference of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "sequence_number": {
+            "type": "integer",
+            "description": "The sequence number that defines the order in which Sections are ordered.",
+            "format": "int32",
+            "example": 0
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Section status.",
+            "default": ""
+          },
+          "period": {
+            "$ref": "#/components/schemas/period"
+          },
+          "geographic_coverage": {
+            "$ref": "#/components/schemas/geographic_coverage"
+          },
+          "conveyance_description": {
+            "type": "string",
+            "description": "A description of the subject matter insured or nature of liability.",
+            "default": ""
+          },
+          "interest_description": {
+            "type": "string",
+            "description": "A description of the interest insured or nature of liability.",
+            "default": ""
+          },
+          "order_type": {
+            "type": "string",
+            "description": "The code that represents the written line type, either a percentage or an amount.",
+            "default": ""
+          },
+          "order_currency_code": {
+            "type": "string",
+            "description": "The 3-character code that represents the currency in ISO 4217 standard.",
+            "default": ""
+          },
+          "order_percentage": {
+            "type": "number",
+            "description": "The amount or percentage of the insured&#39;s risk that is covered by this Contract or Section.",
+            "example": 0.1
+          },
+          "written_line_basis": {
+            "type": "string",
+            "description": "The basis upon which all written lines are applied to the Order of a Contract or Section.",
+            "default": ""
+          },
+          "product_code": {
+            "type": "string",
+            "description": "The code that represents the insurance product under this Contract or Section.",
+            "default": ""
+          },
+          "line_of_business": {
+            "type": "string",
+            "description": "The code that represents the line of business of the insurance product under this Contract or Section.",
+            "default": ""
+          },
+          "class_of_business": {
+            "type": "string",
+            "description": "The code that represents the class of business of the insurance product under this Contract or Section.",
+            "default": ""
+          },
+          "settlement_due_date": {
+            "type": "string",
+            "description": "The date and timestamp by when any instalment or payment of premium on this Contract or Section is expected to be paid to insurers.",
+            "format": "date",
+            "example": "2014-12-31T00:00:00.000Z"
+          },
+          "installment_period_of_credit_days": {
+            "type": "integer",
+            "description": "The number of days of credit applied to when any instalment or payment of premium is due.",
+            "format": "int32",
+            "example": 0
+          },
+          "adjustment_period_of_credit_days": {
+            "type": "integer",
+            "description": "The number of days after the date(s) specified for the provision of adjustments that insurers expect the final adjustment(s) of premium (if any) to be paid.",
+            "format": "int32",
+            "example": 0
+          },
+          "stamp_permission_type": {
+            "type": "string",
+            "description": "The code that represents the permitted territory type for the Contract or Section.",
+            "default": ""
+          },
+          "year_of_account": {
+            "type": "integer",
+            "description": "The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.",
+            "format": "int32",
+            "example": 0
+          },
+          "risk_classification": {
+            "type": "array",
+            "description": "A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.",
+            "items": {
+              "$ref": "#/components/schemas/section_risk"
+            }
+          },
+          "limits": {
+            "type": "array",
+            "description": "A collection of data items that represents the Limit(s) of any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.",
+            "items": {
+              "$ref": "#/components/schemas/section_limit"
+            }
+          },
+          "excesses": {
+            "type": "array",
+            "description": "A collection of data items that represents the Excess(es) applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.",
+            "items": {
+              "$ref": "#/components/schemas/section_excess"
+            }
+          },
+          "deductibles": {
+            "type": "array",
+            "description": "A collection of data items that represent the deductible(s) that are applied against the payment of a claim, within a Contract or Section.",
+            "items": {
+              "$ref": "#/components/schemas/section_deductible"
+            }
+          },
+          "premiums": {
+            "type": "array",
+            "description": "A collection of data items that represents the financial amount to cover the risk(s) under the terms of the insurance Contract or Section.",
+            "items": {
+              "$ref": "#/components/schemas/section_premium"
+            }
+          },
+          "binding_information": {
+            "$ref": "#/components/schemas/section_binding_information"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability)."
+      },
+      "submission_section_send": {
+        "required": [
+          "section_id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "reference": {
+            "type": "string",
+            "description": "A reference of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Section supplied by the Broker.",
+            "default": ""
+          },
+          "status": {
+            "type": "string",
+            "description": "The code that represents the Section status.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability)."
+      },
+      "submission_send_input": {
+        "required": [
+          "negotiation_ids"
+        ],
+        "type": "object",
+        "properties": {
+          "negotiation_ids": {
+            "type": "array",
+            "description": "A list of system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.",
+            "items": {
+              "type": "string",
+              "default": "",
+              "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "Submission input structure for Send"
+      },
+      "submission_send_output": {
+        "required": [
+          "client_name",
+          "description",
+          "metadata",
+          "notification",
+          "programme",
+          "submission_id",
+          "submission_type",
+          "underwriter_team",
+          "underwriter_user"
+        ],
+        "type": "object",
+        "properties": {
+          "submission_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/metadata"
+          },
+          "client_name": {
+            "type": "string",
+            "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the Placement supplied by the Broker.",
+            "default": ""
+          },
+          "underwriter_team": {
+            "$ref": "#/components/schemas/underwriter_team_no_org"
+          },
+          "underwriter_user": {
+            "$ref": "#/components/schemas/underwriter_user"
+          },
+          "submission_type": {
+            "type": "string",
+            "description": "The type of the Submission.",
+            "default": ""
+          },
+          "programme": {
+            "$ref": "#/components/schemas/submission_programme_send"
+          },
+          "notification": {
+            "$ref": "#/components/schemas/notification"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Submission output structure for Send"
+      },
+      "underwriter_team_no_org": {
+        "required": [
+          "company_name",
+          "team_id",
+          "team_name"
+        ],
+        "type": "object",
+        "properties": {
+          "team_id": {
+            "type": "string",
+            "description": "A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.",
+            "default": ""
+          },
+          "team_name": {
+            "type": "string",
+            "description": "The name of the Underwriter Team, as defined by the carrier organisation.",
+            "default": ""
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Name of the Company the User belongs to.",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "description": "The Team information of the Underwriter Team responsible for the Participation."
+      },
+      "health": {
+        "type": "object",
+        "properties": {
+          "health": {
+            "type": "string",
+            "description": "health value",
+            "default": ""
+          }
+        },
+        "description": "Health endpoint payload"
+      },
+      "version": {
+        "type": "object",
+        "properties": {
+          "apiVersionNumber": {
+            "type": "string",
+            "description": "API Version Number",
+            "default": ""
+          },
+          "implementationVersion": {
+            "type": "string",
+            "description": "Implementation Version",
+            "default": ""
+          }
+        },
+        "description": "Version endpoint payload"
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "The error message."
+          },
+          "argument": {
+            "type": "string",
+            "nullable": true,
+            "description": "The syntax argument used to validate the field against (if on syntax validation)."
+          },
+          "field": {
+            "type": "string",
+            "nullable": true,
+            "description": "The field where the error occurred (if field specific)."
+          },
+          "code": {
+            "type": "string",
+            "description": "The error code."
+          }
+        }
+      },
+      "error_document": {
+        "type": "object",
+        "description": "The error document.",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A collection of errors. The list may be empty.",
+            "items": {
+              "$ref": "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-original-swagger-version": "2.0"
+}

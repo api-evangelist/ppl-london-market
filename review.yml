@@ -1,0 +1,369 @@
+aid: ppl-london-market
+name: PPL
+review:
+  question: Does PPL (Placing Platform Limited) publish a real, self-serve public API
+    surface for the London insurance market, and what is its ACORD posture?
+  answer: partial
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  homeMarket: United Kingdom
+  tier: market-infrastructure
+identityCorrection:
+  note: |
+    The brief supplied pplfirst.com as the primary domain for PPL. That domain was
+    fetched (HTTP 200) and is NOT the London Market PPL - it belongs to PPL First /
+    Public Partnerships LLC, a United States Medicaid self-directed-care financial
+    management services company. This is a homonym trap. The London Market PPL is
+    Placing Platform Limited, whose corporate site is placingplatformlimited.com
+    (HTTP 200) and whose platform and developer portal live on pplnextgen.com. All
+    findings below relate to Placing Platform Limited only.
+  wrongDomainProbed: https://pplfirst.com
+  wrongDomainStatus: 200
+  wrongDomainOwner: PPL First / Public Partnerships LLC (US Medicaid FMS)
+  correctDomain: https://placingplatformlimited.com
+  correctDomainStatus: 200
+findings:
+  summary: |
+    PPL is the London Market's not-for-profit electronic placing platform - market
+    infrastructure, not a carrier or a broker. Unusually for insurance, it publishes a
+    REAL developer portal with reference documentation, a named API catalogue, and
+    downloadable machine-readable specifications, all readable anonymously. Five REST
+    API collections are published - Organisations, Placements, Submissions, Documents
+    and Events - and each one ships a downloadable OpenAPI 3.0.1 document and a Postman
+    collection zip. All five specs were fetched and parse cleanly as OpenAPI 3.0.1.
+
+    It is NOT self-serve. Reading the docs is open; calling the APIs is market-gated.
+    Onboarding runs through three gates: (1) Developer Portal onboarding by emailing
+    PPLEnquiries@placingplatformlimited.com; (2) subscription to LIMOSS API Common
+    Services and guesting of the account identity into the LIMOSS API Gateway
+    Microsoft Entra ID (Azure AD) tenant, separately per environment (Sand, PreProd,
+    Prod); and (3) registration of an X.509 certificate per API Gateway environment.
+    The corporate site reinforces this - placingplatformlimited.com/api-integrations/
+    is a marketing page whose only call to action is a "Request access" contact form
+    for the Developer Portal, and PPL publishes no self-service signup, no free tier,
+    no API keys and no public sandbox credentials.
+
+    Classification: the developer portal is category (a), a real developer portal with
+    reference docs, but the integration surface behind it is partner-gated. Both are
+    true and both are recorded.
+  developerPortal:
+    url: https://developer.pplnextgen.com/
+    status: 200
+    classification: real self-serve-readable developer portal (docs open, gateway access market-gated)
+    isLoginWall: false
+    selfServeSignup: false
+    betaNote: Portal describes itself as "Currently in BETA release and testing by Market participants."
+    copyrightYear: '2024'
+    subpagesConfirmed:
+    - url: https://developer.pplnextgen.com/Get-Started
+      status: 200
+    - url: https://developer.pplnextgen.com/Explore-Innovate
+      status: 200
+      note: The API catalogue. Lists all five published API collections.
+    - url: https://developer.pplnextgen.com/Support
+      status: 200
+    - url: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+      status: 200
+    - url: https://developer.pplnextgen.com/Get-Started/Registration-Onboarding
+      status: 200
+    - url: https://developer.pplnextgen.com/Get-Started/Base-API-Standard
+      status: 200
+    - url: https://developer.pplnextgen.com/Get-Started/Reference-Architecture
+      status: 200
+  probesNegative:
+  - url: https://developer.placingplatformlimited.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://developers.placingplatformlimited.com
+    status: 000
+  - url: https://docs.placingplatformlimited.com
+    status: 000
+  - url: https://api.placingplatformlimited.com
+    status: 000
+  - url: https://placingplatformlimited.com/developers
+    status: 404
+  - url: https://placingplatformlimited.com/api
+    status: 404
+  - url: https://placingplatformlimited.com/partners
+    status: 404
+  - url: https://placingplatformlimited.com/integrations
+    status: 404
+  - url: https://developers.pplnextgen.com
+    status: 000
+  - url: https://docs.pplnextgen.com
+    status: 000
+  - url: https://api.pplnextgen.com
+    status: 502
+  - url: https://www.pplnextgen.com/api-docs
+    status: 404
+  - url: https://www.pplnextgen.com/swagger
+    status: 404
+  - url: https://api.londonmarketgroup.co.uk/.well-known/openid-configuration
+    status: 404
+    note: Anonymous well-known probe. No OpenID discovery document served at the gateway root.
+  - url: https://api.londonmarketgroup.co.uk/.well-known/oauth-authorization-server
+    status: 404
+  specsHarvested:
+    count: 5
+    format: OpenAPI 3.0.1 (JSON), saved verbatim
+    fetchDate: '2026-07-25'
+    specs:
+    - file: openapi/ppl-london-market-placements.json
+      sourceURL: https://developer.pplnextgen.com/static/resources/placements/Swagger_PlacementsApi_v1.0.json
+      status: 200
+      contentType: application/json
+      bytes: 373679
+      openapi: 3.0.1
+      title: placement
+      version: '1'
+      declaredServer: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
+      documentedProdEndpoint: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
+      paths: 16
+      operations: 32
+      tags: [health, version, placement, programme, contract, section, participation, negotiation]
+    - file: openapi/ppl-london-market-submissions.json
+      sourceURL: https://developer.pplnextgen.com/static/resources/submissions/Swagger_SubmissionsApi_v1.0.json
+      status: 200
+      contentType: application/json
+      bytes: 194657
+      openapi: 3.0.1
+      title: submission
+      version: '1'
+      declaredServer: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
+      documentedProdEndpoint: https://api.londonmarketgroup.co.uk/ppl/nextgen/submissions/v1
+      paths: 8
+      operations: 10
+      tags: [health, version, negotiation, submission]
+    - file: openapi/ppl-london-market-documents.json
+      sourceURL: https://developer.pplnextgen.com/static/resources/documents/Swagger_DocumentsApi_v1.0.json
+      status: 200
+      contentType: application/json
+      bytes: 72030
+      openapi: 3.0.1
+      title: document
+      version: '1'
+      declaredServer: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
+      documentedProdEndpoint: https://api.londonmarketgroup.co.uk/ppl/nextgen/documents/v1
+      paths: 8
+      operations: 11
+      tags: [health, version, document]
+    - file: openapi/ppl-london-market-events.json
+      sourceURL: https://developer.pplnextgen.com/static/resources/events/Swagger_EventsApi_v1.0.json
+      status: 200
+      contentType: application/json
+      bytes: 79627
+      openapi: 3.0.1
+      title: event
+      version: '1'
+      declaredServer: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events
+      documentedProdEndpoint: https://api.londonmarketgroup.co.uk/ppl/nextgen/events/v1
+      paths: 7
+      operations: 7
+      tags: [health, version, notification, transaction]
+    - file: openapi/ppl-london-market-organisations.json
+      sourceURL: https://developer.pplnextgen.com/static/resources/organisations/Swagger_OrganisationsApi_v1.0.json
+      status: 200
+      contentType: application/json
+      bytes: 60987
+      openapi: 3.0.1
+      title: organisation
+      version: '1'
+      declaredServer: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations
+      documentedProdEndpoint: https://api.londonmarketgroup.co.uk/ppl/nextgen/organisations/v1
+      paths: 7
+      operations: 7
+      tags: [health, version, organisation]
+    specNote: |
+      None of the five documents declares components.securitySchemes and none declares
+      a security requirement. The auth contract lives only in the portal prose, not in
+      the machine-readable artifacts - a real governance gap in an otherwise strong
+      specification set. Every spec declares only the SANDBOX server
+      (sand-api.londonmarketgroup.co.uk); the production host
+      api.londonmarketgroup.co.uk is documented on the Key Details and Technical Model
+      HTML pages but is absent from servers[].
+  acordPosture:
+    phrase: ACORD GRLC data model in the API design; ACORD ADEPT Placing gateway in production
+    evidence:
+    - source: https://placingplatformlimited.com/api-integrations/
+      status: 200
+      quote: Built using REST standards and ACORD GRLC data model
+    - source: https://placingplatformlimited.com/news/axa-xl-goes-live-with-ppl/
+      status: 200
+      date: '2025-12-02'
+      quote: |
+        PPL today announced the successful opening of a new data exchange gateway
+        between AXA XL and the London Market's most widely used electronic placing
+        platform, Placing Platform Limited (PPL), via ACORD Solutions Group's
+        cutting-edge ADEPT Placing data exchange gateway. ... ADEPT Placing is an
+        innovative feature within ADEPT (ACORD Data Exchange Platform & Translator)
+        that empowers (re)insurers to efficiently exchange data with all major placing
+        platforms through a single, easily accessible interface. This reduces the need
+        for multiple complex integrations and time-intensive data mapping, while
+        supporting alignment with ACORD Global Reinsurance & Large Commercial (GRLC)
+        Standards for superior data quality and interoperability.
+    - source: https://placingplatformlimited.com/news/api_adoption_programme/
+      status: 200
+      date: '2024-02-29'
+      quote: |
+        A further six organisations (including Miller, ACORD Solutions Group, WCL - A
+        Zywave company, and Novidea, on behalf of Gallagher and Howden) are joining the
+        next API phase of the EAP.
+    caveat: |
+      The string "ACORD" does not appear anywhere inside the five harvested OpenAPI
+      documents, and it does not appear on the developer portal's own Get-Started or
+      Technical Model pages. The ACORD GRLC alignment is asserted in PPL's marketing
+      and press material and is real in the sense that a live ADEPT Placing gateway is
+      in production with AXA XL, but it is not declared or traceable in the
+      machine-readable artifacts. No AL3, no ACORD XML, no IVANS, no NGDS reference was
+      found anywhere on PPL's properties - correctly so, since those are US personal
+      and small-commercial agency-download standards and PPL is a London subscription-
+      market open-market placing platform.
+  insuranceVerbs:
+    quote:
+      exposed: true
+      surface: Submissions API - underwriters retrieve broker submissions and manage negotiation of terms of cover (GET /submissions, GET/POST /submissions/{id}/negotiations, PUT .../negotiations/{id}, POST /submissions/{id}/send)
+      audience: partner-only (London Market carriers/underwriters)
+    bind:
+      exposed: true
+      surface: Placements API - contract negotiation, section participations and role assignment (POST /contracts, GET/POST /contracts/{id}/negotiations, POST /contracts/{id}/negotiations/{id}/send, POST /contracts/{id}/sections/{id}/participations, POST /contracts/{id}/assignRoles)
+      audience: partner-only (London Market brokers)
+    issue:
+      exposed: true
+      surface: Documents API - Market Reform Contract (MRC) and supporting document creation, versioning, content retrieval and secured download
+      audience: partner-only
+    fnol:
+      exposed: false
+      note: PPL is a placement platform. It has no claims or first-notice-of-loss surface; claims in the London Market run through separate market infrastructure (Velonetic/Blueprint Two claims services), not PPL.
+    consumerFacing: false
+    agentFacing: false
+    partnerOnly: true
+  authModel:
+    scheme: OAuth2 authorization-code with Microsoft Entra ID (Azure AD) plus on-behalf-of token exchange, service-account (headless) tokens, and mandatory X.509 client certificate registration per API Gateway environment
+    documentedAt: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+    details:
+    - APIs are fronted by the LIMOSS API Gateway; only identities added to the API Gateway Azure AD tenant can call them.
+    - Browser flow ends with an Azure AD access token; the app must then request a second on-behalf-of token carrying the user_impersonation scope (and correct audience) before the gateway will pass the call through.
+    - Service accounts use headless server-to-server tokens with a dummy email claim.
+    - Each organisation must register an X.509 certificate separately in each of the three environments (Sand, PreProd, Prod).
+    - Sample configuration published in the portal is ASP.NET Core / MSAL-era (Instance https://login.microsoftonline.com/, TenantId, ClientId, ClientSecret, Resource, CallbackPath /signin-oidc).
+    apiKeys: false
+    mTLS: true
+    wellKnownDiscovery: false
+  webhooks:
+    present: false
+    asyncapi: false
+    note: |
+      No webhook catalogue, no callbacks in any of the five OpenAPI documents, and no
+      AsyncAPI artifact. The Events API is strictly pull - GET /notifications, GET
+      /notifications/{id}, POST /notifications/markAllAsRead, GET /transactions, GET
+      /transactions/{id}. For a platform whose entire value is real-time multi-party
+      negotiation, the absence of event push is the single most notable design gap.
+  postman:
+    present: true
+    publicWorkspace: false
+    note: |
+      Five downloadable Postman collection zips, one per API, hosted on the developer
+      portal under /static/resources/<api>/ and named "NextGen Market <X> API
+      [Release 3].postman_collection.zip". Confirmed retrievable anonymously (HTTP 200,
+      application/x-zip-compressed). There is no public Postman workspace on
+      postman.com.
+  graphql:
+    present: false
+  grpc:
+    present: false
+  transports:
+  - protocol: REST
+    scheme: https
+    baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/
+    documented: true
+    note: Production API Gateway host, documented on each API's Key Details page.
+  - protocol: REST
+    scheme: https
+    baseURL: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/
+    documented: true
+    note: Sandbox host, the only server declared in servers[] across all five OpenAPI documents.
+  - protocol: WebSocket
+    scheme: wss
+    documented: false
+    note: No WebSocket surface is documented anywhere on the developer portal or in the specs.
+  - protocol: GraphQL
+    documented: false
+  liveProbes:
+  - url: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health
+    status: 200
+    note: Production gateway health endpoint answers anonymously.
+  - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1/health
+    status: 200
+    note: Sandbox gateway health endpoint answers anonymously.
+  marketContext: |
+    The UK has the FCA and PRA but no open-insurance obligation; Open Finance remains
+    consultation, not rule. What makes the UK distinctive is the London subscription
+    market and its modernisation programme - Blueprint Two, PPL, Whitespace, Ki. PPL is
+    the largest of the accredited placing platforms in that programme, and it is aimed
+    squarely at brokers and syndicates rather than at developers. PPL is therefore the
+    counter-example to the sector rule: the specifications are real, the data model is
+    a genuine industry standard (ACORD GRLC), the auth is enterprise-grade, and yet the
+    whole thing is close to invisible from the outside because there is no self-serve
+    signup, no public sandbox key, and no marketing of the portal beyond a request-access
+    form.
+sources:
+- url: https://placingplatformlimited.com/
+  type: Website
+  status: 200
+  note: Corporate site. Confirms not-for-profit market platform, 34 Lime Street London, Company No. 08350117.
+- url: https://placingplatformlimited.com/the-core-placing-platform/
+  type: Documentation
+  status: 200
+  note: Product page. "fully aligned with regulatory market data standards", "Align to core market data standards for seamless integration".
+- url: https://placingplatformlimited.com/api-integrations/
+  type: Documentation
+  status: 200
+  note: API marketing page. Source of the ACORD GRLC statement and of the Developer Portal "Request access" form.
+- url: https://developer.pplnextgen.com/
+  type: DeveloperPortal
+  status: 200
+  note: PPL Next Gen API Developer Portal home.
+- url: https://developer.pplnextgen.com/Explore-Innovate
+  type: APIReference
+  status: 200
+  note: The API catalogue - five collections listed with descriptions.
+- url: https://developer.pplnextgen.com/Get-Started/Authentication-Information
+  type: Authentication
+  status: 200
+  note: Azure AD / on-behalf-of / service account flows, with sequence diagrams and sample .NET config.
+- url: https://developer.pplnextgen.com/Get-Started/Registration-Onboarding
+  type: Onboarding
+  status: 200
+  note: Three-stage gate - portal onboarding by email, LIMOSS Common Services subscription and Azure AD guesting, X.509 certificate registration per environment.
+- url: https://developer.pplnextgen.com/Placements/Technical-Model
+  type: APIReference
+  status: 200
+  note: Publishes the Swagger/OpenAPI download link, the Postman collection link, and worked request/response examples against the production host.
+- url: https://placingplatformlimited.com/news/axa-xl-goes-live-with-ppl/
+  type: PressRelease
+  status: 200
+  note: ACORD Solutions Group ADEPT Placing gateway live with AXA XL, 2 December 2025.
+- url: https://placingplatformlimited.com/news/api_adoption_programme/
+  type: PressRelease
+  status: 200
+  note: API Early Adoption Programme with WTW and Tysers; ACORD Solutions Group, Miller, WCL, Novidea joining next phase, 29 February 2024.
+- url: https://www.pplnextgen.com/PPL_Authentication/
+  type: Login
+  status: 200
+  note: The platform itself is a login wall. All www.pplnextgen.com and pplnextgen.com requests redirect here.
+- url: https://pplfirst.com
+  type: Website
+  status: 200
+  note: NOT this company. PPL First / Public Partnerships LLC, US Medicaid self-directed care. Recorded to document the homonym trap.
+actions:
+  apisYmlCreated: true
+  apisListed: 5
+  specsSaved: 5
+  openapiDirectory: openapi/
+  asyncapiCreated: false
+  reason: |
+    Five real OpenAPI 3.0.1 documents were harvested verbatim from the PPL Next Gen
+    developer portal and each became its own apis[] entry. No AsyncAPI was authored
+    because PPL documents no event-push, webhook, callback or streaming surface of any
+    kind - the Events API is pull-only REST and is modelled as such. No specification
+    content was modified, normalised or generated.
