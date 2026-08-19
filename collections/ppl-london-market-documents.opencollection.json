@@ -1,0 +1,437 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "document",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/health"
+          },
+          "docs": "Checks the health of this Document Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/version"
+          },
+          "docs": "Checks the version of this Document Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "document",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Document_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. placementId=placement1,placement2,placement3."
+              },
+              {
+                "name": "documentId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated identifier for each Document record, with a format and structure defined by the technology used. This identifier is used to group multiple versions of Document records together.\nSearch using multiple exact match method, e.g. documentId=id1,id2,id3."
+              },
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "uploadUserEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the User that uploaded the Document.\nSearch using multiple exact match method, e.g. uploadUserEmail=email1,email2,email3."
+              },
+              {
+                "name": "uploadUserFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name of the User that uploaded the Document.\nSearch using contains method, e.g. uploadUserFirstName=contains(astring)."
+              },
+              {
+                "name": "uploadUserLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name of the User that uploaded the Document.\nSearch using contains method, e.g. uploadUserLastName=contains(astring)."
+              },
+              {
+                "name": "teamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Broker Team, as defined by the broker organisation.\nSearch using contains method, e.g. teamName=contains(astring)."
+              },
+              {
+                "name": "fileName",
+                "value": "",
+                "type": "query",
+                "description": "The file name of the Document, including its file extension.\nSearch using contains method, e.g. fileName=contains(astring)."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "A description about the Document and / or its contents.\nSearch using contains method, e.g. description=contains(astring)."
+              },
+              {
+                "name": "classType",
+                "value": "",
+                "type": "query",
+                "description": "A code that describes the class of Document. Examples include Digitised MRC, Non-digitised MRC or Supporting Document.\nSearch using multiple exact match method, e.g. classType=code1,code2,code3."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "A code that represents the type of Document.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+              },
+              {
+                "name": "contextType",
+                "value": "",
+                "type": "query",
+                "description": "Identifies where within a Placement structure this Document is held.\nSearch using multiple exact match method, e.g. contextType=code1,code2,code3."
+              },
+              {
+                "name": "contextId",
+                "value": "",
+                "type": "query",
+                "description": "The unique identifier given within the hierarchy of the Placement structure where the Document is held.\nSearch using multiple exact match method, e.g. contextId=id1,id2,id3."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of all Document records associated within a specified Placement structure, based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Document_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Document record, representing either the Market Reform Contract (MRC) or another type of supporting document. The request contains the document attributes as well as the electronic file which will be submitted into the platform&#39;s content management system. This end point will also be used for when an electronic file is to be replaced, i.e. versioned."
+        },
+        {
+          "info": {
+            "name": "Document_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Document record. This record will contain the document attributes of the document, but does not provide the electronic file."
+        },
+        {
+          "info": {
+            "name": "Document_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the data attributes of a Document record. This operation will not replace the electronic file."
+        },
+        {
+          "info": {
+            "name": "Document_Delete_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Deletes a Document record, where the record is in a state that enables its deletion."
+        },
+        {
+          "info": {
+            "name": "Document_GetContent_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId/content",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "notificationId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.\nSearch using (mandatory) single exact match method, e.g. notificationId=guid."
+              }
+            ]
+          },
+          "docs": "Returns the electronic file that is represented by the Document record. This is the subsequent end point that is called following an asynchronous response that the electronic file is ready to be downloaded."
+        },
+        {
+          "info": {
+            "name": "Document_PostDownload_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId/download",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates the asynchronous operation to download the electronic file of this document."
+        },
+        {
+          "info": {
+            "name": "Document_GetSecurityContent_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId/security/content",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "notificationId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.\nSearch using (mandatory) single exact match method, e.g. notificationId=guid."
+              }
+            ]
+          },
+          "docs": "Returns the electronic file that represents the Market Reform Contract with its underwriting security page(s) and settlement information. This is the subsequent end point that is called following an asynchronous response that the electronic file is ready to be downloaded."
+        },
+        {
+          "info": {
+            "name": "Document_PostSecurityDownload_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents/documents/versions/:documentVersionId/security/download",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "documentVersionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Document Version, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates the asynchronous operation to download the Market Reform Contract with its underwriting security page(s) and settlement information."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

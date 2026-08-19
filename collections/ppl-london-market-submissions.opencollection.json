@@ -1,0 +1,674 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "submission",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/health"
+          },
+          "docs": "Checks the health of this Submission Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/version"
+          },
+          "docs": "Checks the version of this Submission Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "negotiation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Negotiation_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId/negotiations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. contractId=id1,id2,id3."
+              },
+              {
+                "name": "participationId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. participationId=id1,id2,id3."
+              },
+              {
+                "name": "brokerTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring)."
+              },
+              {
+                "name": "brokerEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Broker User responsible for the Contract.\nSearch using multiple exact match method, e.g. brokerEmail=email1,email2,email3."
+              },
+              {
+                "name": "brokerFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerFirstName=contains(astring)."
+              },
+              {
+                "name": "brokerLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerLastName=contains(astring)."
+              },
+              {
+                "name": "underwriterTeamId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for an Underwriter Team, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. underwriterTeamId=id1,id2,id3."
+              },
+              {
+                "name": "underwriterTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Underwriter Team, as defined by the Carrier organisation.\nSearch using contains method, e.g. underwriterTeamName=contains(astring)."
+              },
+              {
+                "name": "underwriterEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Underwriter User responsible for the Negotiation.\nSearch using multiple exact match method, e.g. underwriterEmail=email1,email2,email3."
+              },
+              {
+                "name": "underwriterFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Underwriter User responsible for the Negotiation.\nSearch using contains method, e.g. underwriterFirstName=contains(astring)."
+              },
+              {
+                "name": "underwriterLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Underwriter User responsible for the Negotiation.\nSearch using contains method, e.g. underwriterLastName=contains(astring)."
+              },
+              {
+                "name": "sentByEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Broker or Underwriter User that sent this Negotiation.\nSearch using multiple exact match method, e.g. sentByEmail=email1,email2,email3."
+              },
+              {
+                "name": "sentByFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Broker or Underwriter User that sent this Negotiation.\nSearch using contains method, e.g. sentByFirstName=contains(astring)."
+              },
+              {
+                "name": "sentByLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Broker or Underwriter User that sent this Negotiation.\nSearch using contains method, e.g. sentByLastName=contains(astring)."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of the Negotiation.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+              },
+              {
+                "name": "subType",
+                "value": "",
+                "type": "query",
+                "description": "The subtype of the Negotiation.\nSearch using multiple exact match method, e.g. subType=code1,code2,code3."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.\nSearch using multiple exact match method, e.g. status=code1,code2,code3."
+              },
+              {
+                "name": "isLeader",
+                "value": "",
+                "type": "query",
+                "description": "Parameter used to return Negotiations records that have a leader role (true) or not (false).\nSearch using single exact match method, e.g. isLeader=true/false."
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the role or roles that the Underwriter plays through their participation.\nSearch using multiple exact match method, e.g. role=code1,code2,code3."
+              },
+              {
+                "name": "hasLineConditions",
+                "value": "",
+                "type": "query",
+                "description": "Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.\nSearch using single exact match method, e.g. hasLineConditions=true/false."
+              },
+              {
+                "name": "hasSubjectivities",
+                "value": "",
+                "type": "query",
+                "description": "Parameter used to return Negotiation records that have at least one Subjectivity (true) or no Subjectivities (false) present.\nSearch using single exact match method, e.g. hasSubjectivities=true/false."
+              },
+              {
+                "name": "showLatest",
+                "value": "",
+                "type": "query",
+                "description": "Identifies whether the query results will return only the latest Negotiation record (true) or all Negotiation records (false) for each Participation. Search using single exact match method, e.g. showLatest=true/false."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. negotiationId=id1,id2,id3."
+              }
+            ]
+          },
+          "docs": "Returns a list of all Negotiation records based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Negotiation_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId/negotiations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a single Negotiation record in response to a Broker User&#39;s request for consideration. Underwriter Users will be able to reject, confirm or negotiate on various attributes of their involvement, i.e.  acceptance of contractual roles, carrier stamps, line conditions and subjectivities."
+        },
+        {
+          "info": {
+            "name": "Negotiation_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId/negotiations/:negotiationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Negotiation record. This record will contain attributes pertaining to the single negotiation position between an Underwriter User and an Broker User, based upon its negotiation status within the insurance placement process."
+        },
+        {
+          "info": {
+            "name": "Negotiation_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId/negotiations/:negotiationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Negotiation record, where the record is in a state that enables its update. For example, where Negotiations are in a saved and unsent state."
+        },
+        {
+          "info": {
+            "name": "Negotiation_Reassign_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId/negotiations/:negotiationId/reaassign",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reassigns a Negotiation record to another Underwriter User. The destined Underwriter User does not have to be a member of the same Carrier Team owning the original Submission, but must exist within the same Company hierarchical structure. For the destined Underwriter User, either the entire Submission record is reassigned, or a new Submission record will be created (where there are multiple requests which remain with the original Underwriter User) for underwriting purposes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "submission",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submission_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "clientName",
+                "value": "",
+                "type": "query",
+                "description": "The name by which the Broker User knows the client for the purposes of seeking insurance. \nSearch using contains method, e.g. clientName=contains(astring)."
+              },
+              {
+                "name": "brokerTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring)."
+              },
+              {
+                "name": "brokerOrganisationName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Organisation the User belongs to.\nSearch using contains method, e.g. brokerOrganisationName=contains(astring)."
+              },
+              {
+                "name": "brokerCompanyName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. brokerCompanyName=contains(astring)."
+              },
+              {
+                "name": "brokerUserEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the broker User.\nSearch using multiple exact match method, e.g. brokerUserEmail=email1,email2,email3."
+              },
+              {
+                "name": "brokerFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name of the Broker User.\nSearch using contains method, e.g. brokerFirstName=contains(astring)."
+              },
+              {
+                "name": "brokerLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name of the Broker User.\nSearch using contains method, e.g. brokerLastName=contains(astring)."
+              },
+              {
+                "name": "underwriterTeamId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for an Underwriter Team, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. underwriterTeamId=id1,id2,id3."
+              },
+              {
+                "name": "underwriterTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Underwriter Team, as defined by the underwriter organisation.\nSearch using contains method, e.g. underwriterTeamName=contains(astring)."
+              },
+              {
+                "name": "underwriterCompanyName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. underwriterCompanyName=contains(astring)."
+              },
+              {
+                "name": "underwriterUserEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the underwriter User.\nSearch using multiple exact match method, e.g. underwriterUserEmail=email1,email2,email3."
+              },
+              {
+                "name": "underwriterFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name of the Underwriter User.\nSearch using contains method, e.g. underwriterFirstName=contains(astring)."
+              },
+              {
+                "name": "underwriterLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name of the Underwriter User.\nSearch using contains method, e.g. underwriterLastName=contains(astring)."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of the Submission.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the Submission.\nSearch using multiple exact match method, e.g. status=code1,code2,code3."
+              },
+              {
+                "name": "receivedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date and timestamp when the Submission.\nSearch using range method, e.g. receivedDate=range(date1,date2)."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "A description of the Contract supplied by the Broker.\nSearch using contains method, e.g. description=contains(astring)."
+              },
+              {
+                "name": "uniqueMarketReference",
+                "value": "",
+                "type": "query",
+                "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.\nSearch using multiple exact match method, e.g. uniqueMarketReference=umr1,umr2,umr3."
+              },
+              {
+                "name": "sectionStatus",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the Section status.\nSearch using multiple exact match method, e.g. sectionStatus=code1,code2,code3."
+              },
+              {
+                "name": "inceptionDate",
+                "value": "",
+                "type": "query",
+                "description": "The date on which the (re)insurance contract/section comes into force.\nSearch using range method, e.g. inceptionDate=range(date1,date2)."
+              },
+              {
+                "name": "expiryDate",
+                "value": "",
+                "type": "query",
+                "description": "The date on which the (re)insurance Contract or Section ceases cover.\nSearch using range method, e.g. expiryDate=range(date1,date2)."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              },
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. submissionId=id1,id2,id3."
+              },
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. contractId=id1,id2,id3."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. sectionId=id1,id2,id3."
+              }
+            ]
+          },
+          "docs": "Returns a list of all Submission records based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Submission_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Submission record. This record includes structured data pertaining to a single Contract offering (and any subsequent Sections, if applicable) as well as references to download (1) the Market Reform Contract (MRC) document; and (2) any associated Supporting Documents. Collectively the information presents an offer for consideration."
+        },
+        {
+          "info": {
+            "name": "Submission_Send_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions/submissions/:submissionId/send",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates the operation to send the latest Underwriter responses as part of a response to a Submission back to the Broker. The outcome of each Negotiation will either (1) agree unconditionally to the terms; (2) conditionally agree upon a change of terms; or (3) decline the offer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,3438 @@
+{
+  "item": [
+    {
+      "id": "0a9dab90-0d1d-427e-bc46-b0675ba17771",
+      "name": "health",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4fa7f40e-2711-43c6-8c7d-f2f1b8c8ad27",
+          "name": "Health",
+          "request": {
+            "name": "Health",
+            "description": {
+              "content": "Checks the health of this Notification Resource API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bbbfde53-ae54-4a6e-8038-9bf6d77f5c15",
+              "name": "UP if ok.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"health\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "1e1f0151-ad9e-4604-806f-0a80135b1c62",
+      "name": "version",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "48273da5-da7c-4570-acc2-efffcf63e675",
+          "name": "Version",
+          "request": {
+            "name": "Version",
+            "description": {
+              "content": "Checks the version of this Notification Resource API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a330cecf-dac0-43f3-acba-ea0335badcf6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersionNumber\": \"\",\n  \"implementationVersion\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "43776d6d-4659-49a8-804c-794836c52dcc",
+      "name": "notification",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffac91aa-53da-4ecc-9154-9476696b5586",
+          "name": "Notification Get All v1",
+          "request": {
+            "name": "Notification Get All v1",
+            "description": {
+              "content": "Returns a list of all Notification records, based upon various query parameters. Pagination functionality is supported on this operation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "notifications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "createdDate",
+                  "value": "<string>",
+                  "description": "The date and timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "The code that represents the category of the notification.\nSearch using multiple exact match method, e.g. category=code1,code2,code3."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The code that represents the type of notification.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+                },
+                {
+                  "disabled": false,
+                  "key": "senderEmail",
+                  "value": "<string>",
+                  "description": "The email address of the Sender.\nSearch using multiple exact match method, e.g. senderEmail=email1,email2,email3."
+                },
+                {
+                  "disabled": false,
+                  "key": "senderFirstName",
+                  "value": "<string>",
+                  "description": "The first name of the Sender.\nSearch using contains method, e.g. senderFirstName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "senderLastName",
+                  "value": "<string>",
+                  "description": "The last name of the Sender.\nSearch using contains method, e.g. senderLastName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "companyName",
+                  "value": "<string>",
+                  "description": "Name of the company the Sender belongs to.\nSearch using contains method, e.g. companyName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "recipientEmail",
+                  "value": "<string>",
+                  "description": "The email address of the Recipient.\nSearch using multiple exact match method, e.g. recipientEmail=email1,email2,email3."
+                },
+                {
+                  "disabled": false,
+                  "key": "recipientFirstName",
+                  "value": "<string>",
+                  "description": "The first name of the Recipient.\nSearch using contains method, e.g. recipientFirstName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "recipientLastName",
+                  "value": "<string>",
+                  "description": "The last name of the Recipient.\nSearch using contains method, e.g. recipientLastName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "recipientTeamId",
+                  "value": "<string>",
+                  "description": "The Team ID of the team the Recipient belongs to. A system-generated unique identifier for a Team, with a format and structure defined by the technology used. \nSearch using multiple exact match method, e.g. recipientTeamId=team1,team2,team3."
+                },
+                {
+                  "disabled": false,
+                  "key": "recipientTeamName",
+                  "value": "<string>",
+                  "description": "The name of the Team the Recipient belongs to.\nSearch using contains method, e.g. recipientTeamName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "isTechnical",
+                  "value": "<string>",
+                  "description": "Indicates whether the Notification is related to a technical event  (true) or a business event (false).\nSearch using single exact match method, e.g. isTechnical=true/false."
+                },
+                {
+                  "disabled": false,
+                  "key": "processStatus",
+                  "value": "<string>",
+                  "description": "The code that represents the status of a technical, asynchronous event.\nSearch using multiple exact match method, e.g. processStatus=code1,code2,code3."
+                },
+                {
+                  "disabled": false,
+                  "key": "expiryDate",
+                  "value": "<string>",
+                  "description": "The date and timestamp by which the Subjectivity needs to be met or the deadline date for the Report.\nSearch using range method, e.g. expiryDate=range(date1,date2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "clientName",
+                  "value": "<string>",
+                  "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.\nSearch using contains method, e.g. clientName=contains(astring)."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "<integer>",
+                  "description": "Number of the page to be retrieved."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "Size of the page to be retrieved."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The email address of the Requesting User or the Impersonated User.",
+                "key": "X-Auth-Impersonated-User",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                "key": "X-Auth-Team",
+                "value": "49f8f96a-DDB5-0d3A-AAAd-d9Fce3eB4bCd,25eebDbA-AdeB-fda1-5AB4-2d61Bdd94F8B,598a284c-69Ec-f4ED-AbD4-0ccECffDD4Cf,AF0E96dE-13cB-4334-F4a9-D6cFABAfE15c"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69bbffd2-1142-47f2-8a41-0571b8f3cd81",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"category\": \"\",\n      \"context\": {\n        \"context_id\": \"\",\n        \"context_type\": \"\"\n      },\n      \"is_facility\": false,\n      \"is_technical\": false,\n      \"metadata\": {\n        \"created_by\": {\n          \"user_email\": \"\",\n          \"first_name\": \"\",\n          \"last_name\": \"\"\n        },\n        \"created_channel\": \"\",\n        \"created_date\": \"2014-12-31T23:59:59.938Z\",\n        \"modified_by\": {\n          \"user_email\": \"\",\n          \"first_name\": \"\",\n          \"last_name\": \"\"\n        },\n        \"modified_channel\": \"\",\n        \"modified_date\": \"2014-12-31T23:59:59.938Z\"\n      },\n      \"notification_id\": \"\",\n      \"recipient\": {\n        \"branch_name\": \"\",\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"organisation_name\": \"\",\n        \"recipient_email\": \"\",\n        \"team_id\": \"\",\n        \"team_name\": \"\"\n      },\n      \"sender\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"organisation_name\": \"\",\n        \"sender_email\": \"\"\n      },\n      \"type\": \"\",\n      \"is_read\": false,\n      \"message\": \"\",\n      \"process_status\": \"\",\n      \"name\": \"\",\n      \"expiry_date\": \"2014-12-31T23:59:59.938Z\",\n      \"references\": {\n        \"client_name\": \"\",\n        \"description\": \"\",\n        \"placement_id\": \"\",\n        \"programme_id\": \"\",\n        \"contract_id\": \"\",\n        \"section_id\": \"\",\n        \"participation_id\": \"\",\n        \"submission_id\": \"\"\n      }\n    },\n    {\n      \"category\": \"\",\n      \"context\": {\n        \"context_id\": \"\",\n        \"context_type\": \"\"\n      },\n      \"is_facility\": false,\n      \"is_technical\": false,\n      \"metadata\": {\n        \"created_by\": {\n          \"user_email\": \"\",\n          \"first_name\": \"\",\n          \"last_name\": \"\"\n        },\n        \"created_channel\": \"\",\n        \"created_date\": \"2014-12-31T23:59:59.938Z\",\n        \"modified_by\": {\n          \"user_email\": \"\",\n          \"first_name\": \"\",\n          \"last_name\": \"\"\n        },\n        \"modified_channel\": \"\",\n        \"modified_date\": \"2014-12-31T23:59:59.938Z\"\n      },\n      \"notification_id\": \"\",\n      \"recipient\": {\n        \"branch_name\": \"\",\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"organisation_name\": \"\",\n        \"recipient_email\": \"\",\n        \"team_id\": \"\",\n        \"team_name\": \"\"\n      },\n      \"sender\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"organisation_name\": \"\",\n        \"sender_email\": \"\"\n      },\n      \"type\": \"\",\n      \"is_read\": false,\n      \"message\": \"\",\n      \"process_status\": \"\",\n      \"name\": \"\",\n      \"expiry_date\": \"2014-12-31T23:59:59.938Z\",\n      \"references\": {\n        \"client_name\": \"\",\n        \"description\": \"\",\n        \"placement_id\": \"\",\n        \"programme_id\": \"\",\n        \"contract_id\": \"\",\n        \"section_id\": \"\",\n        \"participation_id\": \"\",\n        \"submission_id\": \"\"\n      }\n    }\n  ],\n  \"page_number\": 0,\n  \"page_size\": 0,\n  \"count\": 0,\n  \"total_results\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "081631c8-1eef-4c6c-b272-84d035c679af",
+              "name": "Mandatory header parameter is missing from the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e47a7e93-3669-4084-8712-6dfb6c9841e9",
+              "name": "Authentication error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df16d046-7392-4adc-81c6-3202a7246c2e",
+              "name": "Invalid team or user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb446629-005c-4c66-b575-e1ecbf915b62",
+              "name": "The maximum field length of the URI provided for the request has been exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request-URI Too Long",
+              "code": 414,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4bd683c0-e724-44e1-8a2f-d0f3f96c0c70",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f11d55b-e466-4dd1-9058-d7e68e3a89d4",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "senderLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "companyName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientFirstName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientLastName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientTeamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isTechnical",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "processStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expiryDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "445498fa-39dc-4299-bb57-3d1ac4d4d8e8",
+          "name": "Notification Get By Id v1",
+          "request": {
+            "name": "Notification Get By Id v1",
+            "description": {
+              "content": "Returns a single Notification record. This record will contain attributes pertaining to the type of notification and any type of action that is required. The context information is the subject of the notification.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "notifications",
+                ":notificationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "notificationId",
+                  "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The email address of the Requesting User or the Impersonated User.",
+                "key": "X-Auth-Impersonated-User",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                "key": "X-Auth-Team",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8dd6b5ab-94f3-4e42-94ae-1d55886084b4",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"category\": \"\",\n  \"context\": {\n    \"context_id\": \"\",\n    \"context_type\": \"\"\n  },\n  \"is_facility\": false,\n  \"is_technical\": false,\n  \"metadata\": {\n    \"created_by\": {\n      \"user_email\": \"\",\n      \"first_name\": \"\",\n      \"last_name\": \"\"\n    },\n    \"created_channel\": \"\",\n    \"created_date\": \"2014-12-31T23:59:59.938Z\",\n    \"modified_by\": {\n      \"user_email\": \"\",\n      \"first_name\": \"\",\n      \"last_name\": \"\"\n    },\n    \"modified_channel\": \"\",\n    \"modified_date\": \"2014-12-31T23:59:59.938Z\"\n  },\n  \"notification_id\": \"\",\n  \"recipient\": {\n    \"branch_name\": \"\",\n    \"company_name\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"organisation_name\": \"\",\n    \"recipient_email\": \"\",\n    \"team_id\": \"\",\n    \"team_name\": \"\"\n  },\n  \"sender\": {\n    \"company_name\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"organisation_name\": \"\",\n    \"sender_email\": \"\"\n  },\n  \"type\": \"\",\n  \"is_read\": false,\n  \"message\": \"\",\n  \"process_status\": \"\",\n  \"name\": \"\",\n  \"expiry_date\": \"2014-12-31T23:59:59.938Z\",\n  \"references\": {\n    \"client_name\": \"\",\n    \"description\": \"\",\n    \"placement_id\": \"\",\n    \"programme_id\": \"\",\n    \"contract_id\": \"\",\n    \"section_id\": \"\",\n    \"participation_id\": \"\",\n    \"submission_id\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93c68031-e6d9-414f-a5a3-dc149d0307a2",
+              "name": "Mandatory header parameter is missing from the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e120a6da-09db-4602-8657-22e958f1d96c",
+              "name": "Authentication error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e805e48-1bcd-4091-be88-1643f4c1d5a3",
+              "name": "Invalid team or user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fbb6cab-c85f-40ea-9d5b-a109829a8f4e",
+              "name": "The maximum field length of the URI provided for the request has been exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request-URI Too Long",
+              "code": 414,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80662439-1e5b-479d-b220-eb265c63c6c7",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ff42a8c-7799-4c43-a791-b975c82fe662",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    ":notificationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "notificationId",
+                      "description": "(Required) A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "529811ee-530a-4109-af8a-95025041978c",
+          "name": "Notification Mark All As Read v1",
+          "request": {
+            "name": "Notification Mark All As Read v1",
+            "description": {
+              "content": "Initiates the operation to update all non-technical Notification records as read from a defined date.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "notifications",
+                "markAllAsRead"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The email address of the Requesting User or the Impersonated User.",
+                "key": "X-Auth-Impersonated-User",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                "key": "X-Auth-Team",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_date\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6df266d2-bb27-43d5-bb70-d3a14506d203",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\",\n  \"items_marked_as_read_count\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d21780dc-1fce-4e7e-ae36-b0e6aedcfcef",
+              "name": "Mandatory header parameter is missing from the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e136bfee-430c-4ab5-85db-e2d5c6b9f1a1",
+              "name": "Authentication error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af6c5035-cc57-477d-9c5c-2e36bd645511",
+              "name": "Invalid team or user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b936e78-1bf6-49c1-ac34-a378a3e6cf70",
+              "name": "The maximum field length of the URI provided for the request has been exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request-URI Too Long",
+              "code": 414,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b1bb2e3-2307-4d2b-82c3-d91767e8173a",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aec1b541-4046-4c45-b8a4-5ec90057498f",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notifications",
+                    "markAllAsRead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from_date\": \"2014-12-31T23:59:59.938Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4d71eb07-5ffd-436d-a358-cec62f7c23ff",
+      "name": "transaction",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4d04bb39-49ee-4a3b-9965-e00576d19d5b",
+          "name": "Transaction Get All v1",
+          "request": {
+            "name": "Transaction Get All v1",
+            "description": {
+              "content": "Returns a list of all Transaction records, based upon various query parameters. Pagination functionality is supported on this operation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "placementId",
+                  "value": "<string>",
+                  "description": "(Required) A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. placementId=guid."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdDate",
+                  "value": "<string>",
+                  "description": "The date and timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "programmeId",
+                  "value": "<string>",
+                  "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. programmeId=guid."
+                },
+                {
+                  "disabled": false,
+                  "key": "contractId",
+                  "value": "<string>",
+                  "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. contractId=guid."
+                },
+                {
+                  "disabled": false,
+                  "key": "sectionId",
+                  "value": "<string>",
+                  "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. sectionId=guid."
+                },
+                {
+                  "disabled": false,
+                  "key": "transactionType",
+                  "value": "<string>",
+                  "description": "The code that represents the transaction type.\nSearch using multiple exact match method, e.g. transactionType=code1,code2,code3."
+                },
+                {
+                  "disabled": false,
+                  "key": "categoryType",
+                  "value": "<string>",
+                  "description": "The code that represents the transaction category type.\nSearch using multiple exact match method, e.g. categoryType=code1,code2,code3."
+                },
+                {
+                  "disabled": false,
+                  "key": "contractVersion",
+                  "value": "<string>",
+                  "description": "Holds the version of the contract. That means this field will only be filled for transaction logs referring to a contract.\nSearch using multiple exact match method, e.g. contractVersion=ver1,ver2,ver3."
+                },
+                {
+                  "disabled": false,
+                  "key": "authorEmail",
+                  "value": "<string>",
+                  "description": "The email address of the Author.\nSearch using multiple exact match method, e.g. authorEmail=email1,email2,email3."
+                },
+                {
+                  "disabled": false,
+                  "key": "authorOnBehalfEmail",
+                  "value": "<string>",
+                  "description": "The email address of the Author On Behalf.\nSearch using multiple exact match method, e.g. authorOnBehalfEmail=email1,email2,email3."
+                },
+                {
+                  "disabled": false,
+                  "key": "recipientEmail",
+                  "value": "<string>",
+                  "description": "The email address of the Recipient.\nSearch using multiple exact match method, e.g. recipientEmail=email1,email2,email3."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "<integer>",
+                  "description": "Number of the page to be retrieved."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "Size of the page to be retrieved."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The email address of the Requesting User or the Impersonated User.",
+                "key": "X-Auth-Impersonated-User",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                "key": "X-Auth-Team",
+                "value": "49f8f96a-DDB5-0d3A-AAAd-d9Fce3eB4bCd,25eebDbA-AdeB-fda1-5AB4-2d61Bdd94F8B,598a284c-69Ec-f4ED-AbD4-0ccECffDD4Cf,AF0E96dE-13cB-4334-F4a9-D6cFABAfE15c"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6e0d3864-837a-4735-a24a-3d69b1da1098",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 0,\n  \"page_number\": 0,\n  \"total_results\": 1234567891234567,\n  \"transactions\": [\n    {\n      \"context\": {\n        \"context_id\": \"\",\n        \"description\": \"\",\n        \"placement_id\": \"\",\n        \"type\": \"\",\n        \"programme_id\": \"\",\n        \"contract_version\": 0\n      },\n      \"metadata\": {\n        \"created_by\": {\n          \"user_email\": \"\",\n          \"first_name\": \"\",\n          \"last_name\": \"\"\n        },\n        \"created_date\": \"2014-12-31T23:59:59.938Z\",\n        \"created_channel\": \"\"\n      },\n      \"recipient\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"recipient_email\": \"\",\n        \"team_name\": \"\"\n      },\n      \"sender\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"sender_email\": \"\",\n        \"team_name\": \"\"\n      },\n      \"transaction_id\": \"\",\n      \"type\": \"\",\n      \"category\": \"\",\n      \"sent_on_behalf_of_user\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"sender_email\": \"\",\n        \"team_name\": \"\"\n      }\n    },\n    {\n      \"context\": {\n        \"context_id\": \"\",\n        \"description\": \"\",\n        \"placement_id\": \"\",\n        \"type\": \"\",\n        \"programme_id\": \"\",\n        \"contract_version\": 0\n      },\n      \"metadata\": {\n        \"created_by\": {\n          \"user_email\": \"\",\n          \"first_name\": \"\",\n          \"last_name\": \"\"\n        },\n        \"created_date\": \"2014-12-31T23:59:59.938Z\",\n        \"created_channel\": \"\"\n      },\n      \"recipient\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"recipient_email\": \"\",\n        \"team_name\": \"\"\n      },\n      \"sender\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"sender_email\": \"\",\n        \"team_name\": \"\"\n      },\n      \"transaction_id\": \"\",\n      \"type\": \"\",\n      \"category\": \"\",\n      \"sent_on_behalf_of_user\": {\n        \"company_name\": \"\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"sender_email\": \"\",\n        \"team_name\": \"\"\n      }\n    }\n  ],\n  \"page_size\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6c5ec0e-84dd-4af0-b65a-7c96d25b20c6",
+              "name": "Mandatory header parameter is missing from the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2cd6c2d7-a090-4830-8d4e-2c4d8d9d09a6",
+              "name": "Authentication error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b5858de6-f235-4d35-9c21-d8555e73e9ca",
+              "name": "Invalid team or user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1123f0ef-1569-4cbc-ab76-06a21fdc4ef5",
+              "name": "The maximum field length of the URI provided for the request has been exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request-URI Too Long",
+              "code": 414,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f9ac726-7e2d-4071-90c0-db3c299dd263",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "152ea493-8d81-4e61-be1a-c3c776651176",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "placementId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "programmeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sectionId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transactionType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contractVersion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "authorOnBehalfEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recipientEmail",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "BB5981Af-EcE7-AEdd-d47d-738d407AeE8b,0016CF9B-B0Fa-DD64-EdF3-acEe81bffbF0,AAa5F7aA-F8BE-75e7-b31c-0cd49a7cF4c3,94d0FA28-56Eb-fE46-CD4e-8d2c8406BdcD,58061c46-6FD9-EDbe-840c-5aFc58bDaEFd,fe9A081f-Ff2c-6Ed9-32C7-10ba175acc13,033F8d34-e14C-2212-6c62-d68eF6aAB658,1d67ff83-d0A2-E546-12da-b78D51547A16,F3eDB0FA-7FCD-cE59-950B-484f4eE3aDbA,6e2A8dBc-C00A-2409-b7f0-FB21C2EF93FD"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b371557-a7f7-43a0-9998-e4203445ffd3",
+          "name": "Transaction Get By Id v1",
+          "request": {
+            "name": "Transaction Get By Id v1",
+            "description": {
+              "content": "Returns a single Transaction record. This record will contain attributes pertaining to the category and type of transaction. The content is determined upon the type of the transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transactionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transactionId",
+                  "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The email address of the Requesting User or the Impersonated User.",
+                "key": "X-Auth-Impersonated-User",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                "key": "X-Auth-Team",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "16693d9a-5856-4d18-a327-c15336113fc8",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"context\": {\n    \"context_id\": \"\",\n    \"description\": \"\",\n    \"placement_id\": \"\",\n    \"type\": \"\",\n    \"programme_id\": \"\",\n    \"contract_version\": 0\n  },\n  \"metadata\": {\n    \"created_by\": {\n      \"user_email\": \"\",\n      \"first_name\": \"\",\n      \"last_name\": \"\"\n    },\n    \"created_date\": \"2014-12-31T23:59:59.938Z\",\n    \"created_channel\": \"\"\n  },\n  \"recipient\": {\n    \"company_name\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"recipient_email\": \"\",\n    \"team_name\": \"\"\n  },\n  \"sender\": {\n    \"company_name\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"sender_email\": \"\",\n    \"team_name\": \"\"\n  },\n  \"transaction_id\": \"\",\n  \"type\": \"\",\n  \"category\": \"\",\n  \"sent_on_behalf_of_user\": {\n    \"company_name\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"sender_email\": \"\",\n    \"team_name\": \"\"\n  },\n  \"attributes\": [\n    {\n      \"key\": \"\",\n      \"value\": \"\"\n    },\n    {\n      \"key\": \"\",\n      \"value\": \"\"\n    }\n  ],\n  \"documents\": [\n    {\n      \"description\": \"\",\n      \"document_version_id\": \"\",\n      \"filename\": \"\",\n      \"type\": \"\",\n      \"category\": \"\"\n    },\n    {\n      \"description\": \"\",\n      \"document_version_id\": \"\",\n      \"filename\": \"\",\n      \"type\": \"\",\n      \"category\": \"\"\n    }\n  ],\n  \"message\": {\n    \"ad_hoc_message\": \"\",\n    \"personal_message\": \"\",\n    \"general_message\": \"\",\n    \"comment\": \"\",\n    \"status_reason\": \"\",\n    \"automatic_response\": \"\",\n    \"quote_narrative\": \"\"\n  },\n  \"stamps\": [\n    {\n      \"name\": \"\",\n      \"status\": \"\",\n      \"written_line\": \"\",\n      \"signed_line\": 0.1,\n      \"references\": [\n        {\n          \"reference\": \"\",\n          \"description\": \"\",\n          \"risk_codes\": [\n            \"\",\n            \"\"\n          ]\n        },\n        {\n          \"reference\": \"\",\n          \"description\": \"\",\n          \"risk_codes\": [\n            \"\",\n            \"\"\n          ]\n        }\n      ],\n      \"risk_classification\": [\n        {\n          \"code\": \"\",\n          \"percentage\": 0.1\n        },\n        {\n          \"code\": \"\",\n          \"percentage\": 0.1\n        }\n      ],\n      \"line_conditions\": [\n        {\n          \"description\": \"\",\n          \"status\": \"\",\n          \"code\": \"\"\n        },\n        {\n          \"description\": \"\",\n          \"status\": \"\",\n          \"code\": \"\"\n        }\n      ]\n    },\n    {\n      \"name\": \"\",\n      \"status\": \"\",\n      \"written_line\": \"\",\n      \"signed_line\": 0.1,\n      \"references\": [\n        {\n          \"reference\": \"\",\n          \"description\": \"\",\n          \"risk_codes\": [\n            \"\",\n            \"\"\n          ]\n        },\n        {\n          \"reference\": \"\",\n          \"description\": \"\",\n          \"risk_codes\": [\n            \"\",\n            \"\"\n          ]\n        }\n      ],\n      \"risk_classification\": [\n        {\n          \"code\": \"\",\n          \"percentage\": 0.1\n        },\n        {\n          \"code\": \"\",\n          \"percentage\": 0.1\n        }\n      ],\n      \"line_conditions\": [\n        {\n          \"description\": \"\",\n          \"status\": \"\",\n          \"code\": \"\"\n        },\n        {\n          \"description\": \"\",\n          \"status\": \"\",\n          \"code\": \"\"\n        }\n      ]\n    }\n  ],\n  \"subjectivities\": [\n    {\n      \"description\": \"\",\n      \"off_cover\": false,\n      \"status\": \"\",\n      \"confirmation_required_by_date\": \"2014-12-31T23:59:59.938Z\",\n      \"satisfaction_attempts\": [\n        {\n          \"attempt_number\": 0,\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"status\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          },\n          \"message\": \"\",\n          \"documents\": [\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"attempt_number\": 0,\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"status\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          },\n          \"message\": \"\",\n          \"documents\": [\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"comments\": [\n        {\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"message\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          }\n        },\n        {\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"message\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          }\n        }\n      ]\n    },\n    {\n      \"description\": \"\",\n      \"off_cover\": false,\n      \"status\": \"\",\n      \"confirmation_required_by_date\": \"2014-12-31T23:59:59.938Z\",\n      \"satisfaction_attempts\": [\n        {\n          \"attempt_number\": 0,\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"status\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          },\n          \"message\": \"\",\n          \"documents\": [\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"attempt_number\": 0,\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"status\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          },\n          \"message\": \"\",\n          \"documents\": [\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"document_version_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filename\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"comments\": [\n        {\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"message\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          }\n        },\n        {\n          \"date\": \"2014-12-31T23:59:59.938Z\",\n          \"message\": \"\",\n          \"user\": {\n            \"first_name\": \"\",\n            \"last_name\": \"\",\n            \"user_email\": \"\"\n          }\n        }\n      ]\n    }\n  ],\n  \"endorsements\": [\n    {\n      \"agreement_party\": \"\",\n      \"effective_from\": \"2014-12-31T23:59:59.938Z\",\n      \"effective_to\": \"2014-12-31T23:59:59.938Z\",\n      \"endorsement_id\": \"\",\n      \"name\": \"\",\n      \"notification_followers\": false,\n      \"reference\": \"\",\n      \"role\": \"\",\n      \"type\": \"\",\n      \"message\": {\n        \"comment\": \"\",\n        \"personal_message\": \"\"\n      },\n      \"broker_user\": {\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"user_email\": \"\"\n      }\n    },\n    {\n      \"agreement_party\": \"\",\n      \"effective_from\": \"2014-12-31T23:59:59.938Z\",\n      \"effective_to\": \"2014-12-31T23:59:59.938Z\",\n      \"endorsement_id\": \"\",\n      \"name\": \"\",\n      \"notification_followers\": false,\n      \"reference\": \"\",\n      \"role\": \"\",\n      \"type\": \"\",\n      \"message\": {\n        \"comment\": \"\",\n        \"personal_message\": \"\"\n      },\n      \"broker_user\": {\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"user_email\": \"\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1e5c21c-5bc9-4201-82e7-0619a717dd47",
+              "name": "Mandatory header parameter is missing from the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9059bae1-8029-4f3c-99e3-65768867ec0c",
+              "name": "Authentication error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb985819-bc6f-475f-97ad-1ea17191bf37",
+              "name": "Invalid team or user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf214d31-3723-447a-8429-1ec6d92f12a2",
+              "name": "The maximum field length of the URI provided for the request has been exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request-URI Too Long",
+              "code": 414,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b305348-412a-4cfe-a3b0-80b0413681f0",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5da34ba-280d-42c4-b3b5-9bd88fd4989c",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transactionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionId",
+                      "description": "(Required) A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The email address of the Requesting User or the Impersonated User.",
+                    "key": "X-Auth-Impersonated-User",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.",
+                    "key": "X-Auth-Team",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"argument\": \"string\",\n      \"field\": \"string\",\n      \"code\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "978c1151-81cb-4151-9910-73d51f3f1927",
+    "name": "event",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API collection provides the capability to retrieve informative and actionable information on an interested party&#39;s involvement within the differing activities of the insurance placement process. This also includes the business transactional log information for any Contract-related engagement between a Broker and an Underwriter that is transacted within the platform.\n\nProvides technical information relating to asynchronous processes and business notifications from the platform that are either informational or require some form of action to be taken by the recipient.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1648 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "placement",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/health"
+          },
+          "docs": "Checks the health of this Placement Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "placement",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Placement_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "brokerTeamId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used. \nSearch using multiple exact match method, e.g. brokerTeamId=id1,id2,id3."
+              },
+              {
+                "name": "brokerTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring)."
+              },
+              {
+                "name": "companyName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. companyName=contains(astring)."
+              },
+              {
+                "name": "branchName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Branch the Broker Team belongs to.\nSearch using contains method, e.g. branchName=contains(astring)."
+              },
+              {
+                "name": "brokerEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Broker User responsible for the Placement.\nSearch using multiple exact match method, e.g. brokerEmail=email1,email2,email3."
+              },
+              {
+                "name": "brokerFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Broker User responsible for the Placement.\nSearch using contains method, e.g. brokerFirstName=contains(astring)."
+              },
+              {
+                "name": "brokerLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Broker User responsible for the Placement.\nSearch using contains method, e.g. brokerLastName=contains(astring)."
+              },
+              {
+                "name": "clientName",
+                "value": "",
+                "type": "query",
+                "description": "The name by which the Broker User knows the client for the purposes of seeking insurance. \nSearch using contains method, e.g. clientName=contains(astring)."
+              },
+              {
+                "name": "placementDescription",
+                "value": "",
+                "type": "query",
+                "description": "A description of the Placement supplied by the Broker.\nSearch using contains method, e.g. placementDescription=contains(astring)."
+              },
+              {
+                "name": "effectiveYear",
+                "value": "",
+                "type": "query",
+                "description": "The represented year in which the Placement is effective for.\nSearch using multiple exact match method, e.g. effectiveYear=year1,year2,year3."
+              },
+              {
+                "name": "placementEarliestInceptionDate",
+                "value": "",
+                "type": "query",
+                "description": "The earliest inception date of all Contracts contained within the Placement structure.\nSearch using range method, e.g. placementEarliestInceptionDate=range(date1,date2)."
+              },
+              {
+                "name": "placementStatus",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the overall Placement status.\nSearch using multiple exact match method, e.g. placementStatus=code1,code2,code3."
+              },
+              {
+                "name": "programmeDescription",
+                "value": "",
+                "type": "query",
+                "description": "A description of the Programme supplied by the Broker.\nSearch using contains method, e.g. programmeDescription=contains(astring)."
+              },
+              {
+                "name": "programmeEarliestInceptionDate",
+                "value": "",
+                "type": "query",
+                "description": "The earliest inception date of all Contracts contained within the Programme structure.\nSearch using range method, e.g. programmeEarliestInceptionDate=range(date1,date2)."
+              },
+              {
+                "name": "programmeStatus",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the Programme status.\nSearch using multiple exact match method, e.g. programmeStatus=code1,code2,code3."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Placement records and any Programme structures, based upon various query parameters. This end point will also provide minimal information about any Contracts within the Placement structure. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Placement_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Placement record. This is the starting point in order for Contracts and Programmes to be added into the platform."
+        },
+        {
+          "info": {
+            "name": "Placement_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns the Placement structure for a specified Placement record. This will contains information about the Placement, its Programmes and summarised information about Contract records within the Placement structure."
+        },
+        {
+          "info": {
+            "name": "Placement_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Placement record, where the record is in a state that enables its update."
+        },
+        {
+          "info": {
+            "name": "Placement_Delete_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Deletes a Placement record, where the record is in a state that enables its deletion."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/version"
+          },
+          "docs": "Checks the version of this Placement Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "programme",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Programme_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId/programmes",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Programme record under the Placement structure. This enables the grouping of Contract records that address a common insurance purpose. Contracts can be added at the time of creation."
+        },
+        {
+          "info": {
+            "name": "Programme_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId/programmes/:programmeId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "programmeId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns the Programme structure for a specified Programme record. This will return information about the Programme and  summarised information about Contract records within the Programme structure."
+        },
+        {
+          "info": {
+            "name": "Programme_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId/programmes/:programmeId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "programmeId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Programme record. Contracts can be added into the Programme structure."
+        },
+        {
+          "info": {
+            "name": "Programme_Delete_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/placements/:placementId/programmes/:programmeId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "programmeId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Deletes a Programme record, where the record is in a state that enables its deletion. Any Contract records that exist in this Programme will be moved into the default Programme."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "contract",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Contract_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "clientName",
+                "value": "",
+                "type": "query",
+                "description": "The name by which the Broker User knows the client for the purposes of seeking insurance. \nSearch using contains method, e.g. clientName=contains(astring)."
+              },
+              {
+                "name": "brokerEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Broker User responsible for the Contract.\nSearch using multiple exact match method, e.g. brokerEmail=email1,email2,email3."
+              },
+              {
+                "name": "brokerFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerFirstName=contains(astring)."
+              },
+              {
+                "name": "brokerLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerLastName=contains(astring)."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "A description of the Contract supplied by the Broker.\nSearch using contains method, e.g. description=contains(astring)."
+              },
+              {
+                "name": "uniqueMarketReference",
+                "value": "",
+                "type": "query",
+                "description": "The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.\nSearch using multiple exact match method, e.g. uniqueMarketReference=umr1,umr2,umr3."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the Contract status.\nSearch using multiple exact match method, e.g. status=code1,code2,code3."
+              },
+              {
+                "name": "inceptionDate",
+                "value": "",
+                "type": "query",
+                "description": "The date on which the (re)insurance contract/section comes into force.\nSearch using range method, e.g. inceptionDate=range(date1,date2)."
+              },
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. placementId=id1,id2,id3."
+              },
+              {
+                "name": "companyName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. companyName=contains(astring)."
+              },
+              {
+                "name": "brokerTeamId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used. \nSearch using multiple exact match method, e.g. brokerTeamId=id1,id2,id3."
+              },
+              {
+                "name": "brokerTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring)."
+              },
+              {
+                "name": "contractType",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the contract type.\nSearch using multiple exact match method, e.g. contractType=code1,code2,code3."
+              },
+              {
+                "name": "coverType",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the cover type.\nSearch using multiple exact match method, e.g. coverType=code1,code2,code3."
+              },
+              {
+                "name": "firstSignAndCloseDate",
+                "value": "",
+                "type": "query",
+                "description": "The date and timestamp of when a contract was first signed and closed.\nSearch using range method, e.g. firstSignAndCloseDate=range(date1,date2)."
+              },
+              {
+                "name": "productCode",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the insurance product under this Contract or Section.\nSearch using multiple exact match method, e.g. productCode=code1,code2,code3."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Contract records, based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Contract_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Contract record under the Placement structure. This will also create the &quot;default&quot; Section of information, which is necessary for adding Underwriters and Facility markets for underwriting purposes."
+        },
+        {
+          "info": {
+            "name": "Contract_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Contract record. This record will contain core Contract information, that includes data attributes that summarise information about the risk to be insured, as well as a summarised list of any Contract Sections that exist within the Contract."
+        },
+        {
+          "info": {
+            "name": "Contract_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the Contract record. This will also update the &quot;default&quot; Section of information."
+        },
+        {
+          "info": {
+            "name": "Contract_Delete_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Deletes a Contract record, where the record is in a state that enables its deletion."
+        },
+        {
+          "info": {
+            "name": "Contract_AssignRoles_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/assignRoles",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates the asynchronous operation to assign the contractual roles to Participations and their Stamps on the Contract. Where a specific Slip Leader has been identified, the process will take this into consideration during the assignment process."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "section",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Section_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "query",
+                "description": "A reference of the Section supplied by the Broker.\nSearch using contains method, e.g. reference=contains(astring)."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "A description of the Section supplied by the Broker.\nSearch using contains method, e.g. description=contains(astring)."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Section records, within a single Contract record. This returned list is a subset of all Section record fields, based upon various query parameters."
+        },
+        {
+          "info": {
+            "name": "Section_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Section record under the Contract, representing a specific partition of the overall risk and / or coverage to be insured."
+        },
+        {
+          "info": {
+            "name": "Section_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Section record. This record will contain all the Section-related structured data."
+        },
+        {
+          "info": {
+            "name": "Section_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Section record, where the record is in a state that enables its update."
+        },
+        {
+          "info": {
+            "name": "Section_Delete_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Deletes a Section record, where the record is in a state that enables its deletion."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "participation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Participation_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId/participations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "companyName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the Company the User belongs to.\nSearch using contains method, e.g. companyName=contains(astring)."
+              },
+              {
+                "name": "underwriterEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email of the Underwriter. \nSearch using multiple exact match method, e.g. underwriterEmail=email1,email2,email3."
+              },
+              {
+                "name": "underwriterFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name by which the Underwriter is known for.\nSearch using contains method, e.g. underwriterFirstName=contains(astring)."
+              },
+              {
+                "name": "underwriterLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name by which the Underwriter is known for.\nSearch using contains method, e.g. underwriterLastName=contains(astring)."
+              },
+              {
+                "name": "offPlatformUnderwriter",
+                "value": "true",
+                "type": "query",
+                "description": "Indicates whether the Underwriter User is registered as an off-platform user (true) or not (false).\nSearch using single exact match method, e.g. offPlatformUnderwriter=true."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the type of Participation.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the Participation status, based upon the Type of Participation.\nSearch using multiple exact match method, e.g. status=code1,code2,code3."
+              },
+              {
+                "name": "hasLineConditions",
+                "value": "true",
+                "type": "query",
+                "description": "Parameter used to return Participation records that have at least one Line Conditions (true) or no Line Conditions (false), irrespective of the Status of the Line Condition.\nSearch using single exact match method, e.g. hasLineConditions=true."
+              },
+              {
+                "name": "hasSubjectivities",
+                "value": "true",
+                "type": "query",
+                "description": "Parameter used to return Participation records that have at least one Subjectivity (true) or no Subjectivities (false), irrespective of the Status of the Subjectivity.\nSearch using single exact match method, e.g. hasSubjectivities=true."
+              },
+              {
+                "name": "isDeclaration",
+                "value": "true",
+                "type": "query",
+                "description": "Parameter used to return Participation records that have been attached to this Section from a Master Facility arrangement.\nSearch using single exact match method, e.g. isDeclaration=true."
+              },
+              {
+                "name": "facilityPanelId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. facilityPanelId=id1,id2,id3."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Participation records, within a single Section. This returned list is based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Participation_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId/participations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates Participation records representing either a single Open Market Underwriter and the Carrier Stamps they are permitted to use, or a multiple of Participation records representing each Underwriter from a panel of underwriters attaching from a Master Facility arrangement."
+        },
+        {
+          "info": {
+            "name": "Participation_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId/participations/:participationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "participationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Participation record. This record will contain the underwriter attributes for underwriting a risk, as well as any facility panel information, where the Underwriter&#39;s involvement is made through a Master Facility arrangement."
+        },
+        {
+          "info": {
+            "name": "Participation_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId/participations/:participationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "participationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Participation record, where the record is in a state that enables its update. Where an Underwriter update involves an update upon a Facility Panel, all involved Participations of said Facility Panel will be updated."
+        },
+        {
+          "info": {
+            "name": "Participation_Delete_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/sections/:sectionId/participations/:participationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "participationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Deletes a Participation record, where the record is in a state that enables its deletion."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "negotiation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Negotiation_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/negotiations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "showLatest",
+                "value": "",
+                "type": "query",
+                "description": "Identifies whether the query results will return only the latest Negotiation record (true) or all Negotiation records (false) for each Participation. Search using single exact match method, e.g. showLatest=true/false."
+              },
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "The date timestamp when the entity was modified.\nSearch using range method, e.g. modifiedDate=range(date1,date2)."
+              },
+              {
+                "name": "submissionId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. submissionId=id1,id2,id3."
+              },
+              {
+                "name": "participationId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. participationId=id1,id2,id3."
+              },
+              {
+                "name": "brokerTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Broker Team, as defined by the broker organisation.\nSearch using contains method, e.g. brokerTeamName=contains(astring)."
+              },
+              {
+                "name": "brokerEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Broker User responsible for the Contract.\nSearch using multiple exact match method, e.g. brokerEmail=email1,email2,email3."
+              },
+              {
+                "name": "brokerFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerFirstName=contains(astring)."
+              },
+              {
+                "name": "brokerLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Broker User responsible for the Contract.\nSearch using contains method, e.g. brokerLastName=contains(astring)."
+              },
+              {
+                "name": "underwriterTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Underwriter Team, as defined by the Carrier organisation.\nSearch using contains method, e.g. underwriterTeamName=contains(astring)."
+              },
+              {
+                "name": "underwriterEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email of the Underwriter. \nSearch using multiple exact match method, e.g. underwriterEmail=email1,email2,email3."
+              },
+              {
+                "name": "underwriterFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name by which the Underwriter is known for.\nSearch using contains method, e.g. underwriterFirstName=contains(astring)."
+              },
+              {
+                "name": "underwriterLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name by which the Underwriter is known for.\nSearch using contains method, e.g. underwriterLastName=contains(astring)."
+              },
+              {
+                "name": "sentByEmail",
+                "value": "",
+                "type": "query",
+                "description": "The User email of the Broker or Underwriter User that sent this Negotiation.\nSearch using multiple exact match method, e.g. sentByEmail=email1,email2,email3."
+              },
+              {
+                "name": "sentByFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The First Name of the Broker or Underwriter User that sent this Negotiation.\nSearch using contains method, e.g. sentByFirstName=contains(astring)."
+              },
+              {
+                "name": "sentByLastName",
+                "value": "",
+                "type": "query",
+                "description": "The Last Name of the Broker or Underwriter User that sent this Negotiation.\nSearch using contains method, e.g. sentByLastName=contains(astring)."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of the Negotiation.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+              },
+              {
+                "name": "subType",
+                "value": "",
+                "type": "query",
+                "description": "The subtype of the Negotiation.\nSearch using multiple exact match method, e.g. subType=code1,code2,code3."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the Negotiation status, based upon the Type of Negotiation.\nSearch using multiple exact match method, e.g. status=code1,code2,code3."
+              },
+              {
+                "name": "isLeader",
+                "value": "",
+                "type": "query",
+                "description": "Parameter used to return Negotiations records that have a leader role (true) or not (false).\nSearch using single exact match method, e.g. isLeader=true/false."
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the role or roles that the Underwriter plays through their participation.\nSearch using multiple exact match method, e.g. role=code1,code2,code3."
+              },
+              {
+                "name": "hasLineConditions",
+                "value": "",
+                "type": "query",
+                "description": "Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.\nSearch using single exact match method, e.g. hasLineConditions=true/false."
+              },
+              {
+                "name": "hasSubjectivities",
+                "value": "",
+                "type": "query",
+                "description": "Parameter used to return Negotiation records that have at least one Subjectivity (true) or no Subjectivities (false) present.\nSearch using single exact match method, e.g. hasSubjectivities=true/false."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.\nSearch using multiple exact match method, e.g. sectionId=id1,id2,id3."
+              }
+            ]
+          },
+          "docs": "Returns a list of all Negotiation records based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Negotiation_Post_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/negotiations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a single Negotiation record in response to an Underwriter User&#39;s response. Broker Users will be able to accept or reject, confirm or negotiate on various attributes of their involvement, i.e.  acceptance of contractual roles, carrier stamps, line conditions and subjectivities."
+        },
+        {
+          "info": {
+            "name": "Negotiation_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/negotiations/:negotiationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Negotiation record. This record will contain attributes pertaining to the single negotiation position between a Broker User and an Underwriter User, based upon its negotiation status within the insurance placement process."
+        },
+        {
+          "info": {
+            "name": "Negotiation_Put_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/negotiations/:negotiationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Negotiation record, where the record is in a state that enables its update. For example, where Negotiations are in a saved and unsent state."
+        },
+        {
+          "info": {
+            "name": "Negotiation_Send_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements/contracts/:contractId/negotiations/:negotiationId/send",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              },
+              {
+                "name": "X-Last-Modified",
+                "value": "2014-12-31T23:59:59.938Z"
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used."
+              },
+              {
+                "name": "negotiationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Initiates the operation to send the latest negotiation response back to an Underwriter. The outcome of this will either (1) agree to the change of terms; (2) negotiate the Underwriter&#39;s latest offer; or (3) withdraw the offer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

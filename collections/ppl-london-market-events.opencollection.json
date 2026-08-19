@@ -1,0 +1,391 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "event",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/health"
+          },
+          "docs": "Checks the health of this Notification Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/version"
+          },
+          "docs": "Checks the version of this Notification Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "notification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Notification_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/notifications",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date and timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the category of the notification.\nSearch using multiple exact match method, e.g. category=code1,code2,code3."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the type of notification.\nSearch using multiple exact match method, e.g. type=code1,code2,code3."
+              },
+              {
+                "name": "senderEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the Sender.\nSearch using multiple exact match method, e.g. senderEmail=email1,email2,email3."
+              },
+              {
+                "name": "senderFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name of the Sender.\nSearch using contains method, e.g. senderFirstName=contains(astring)."
+              },
+              {
+                "name": "senderLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name of the Sender.\nSearch using contains method, e.g. senderLastName=contains(astring)."
+              },
+              {
+                "name": "companyName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the company the Sender belongs to.\nSearch using contains method, e.g. companyName=contains(astring)."
+              },
+              {
+                "name": "recipientEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the Recipient.\nSearch using multiple exact match method, e.g. recipientEmail=email1,email2,email3."
+              },
+              {
+                "name": "recipientFirstName",
+                "value": "",
+                "type": "query",
+                "description": "The first name of the Recipient.\nSearch using contains method, e.g. recipientFirstName=contains(astring)."
+              },
+              {
+                "name": "recipientLastName",
+                "value": "",
+                "type": "query",
+                "description": "The last name of the Recipient.\nSearch using contains method, e.g. recipientLastName=contains(astring)."
+              },
+              {
+                "name": "recipientTeamId",
+                "value": "",
+                "type": "query",
+                "description": "The Team ID of the team the Recipient belongs to. A system-generated unique identifier for a Team, with a format and structure defined by the technology used. \nSearch using multiple exact match method, e.g. recipientTeamId=team1,team2,team3."
+              },
+              {
+                "name": "recipientTeamName",
+                "value": "",
+                "type": "query",
+                "description": "The name of the Team the Recipient belongs to.\nSearch using contains method, e.g. recipientTeamName=contains(astring)."
+              },
+              {
+                "name": "isTechnical",
+                "value": "",
+                "type": "query",
+                "description": "Indicates whether the Notification is related to a technical event  (true) or a business event (false).\nSearch using single exact match method, e.g. isTechnical=true/false."
+              },
+              {
+                "name": "processStatus",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the status of a technical, asynchronous event.\nSearch using multiple exact match method, e.g. processStatus=code1,code2,code3."
+              },
+              {
+                "name": "expiryDate",
+                "value": "",
+                "type": "query",
+                "description": "The date and timestamp by which the Subjectivity needs to be met or the deadline date for the Report.\nSearch using range method, e.g. expiryDate=range(date1,date2)."
+              },
+              {
+                "name": "clientName",
+                "value": "",
+                "type": "query",
+                "description": "The name by which the Broker User knows the client for the purposes of seeking insurance.\nSearch using contains method, e.g. clientName=contains(astring)."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of all Notification records, based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Notification_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/notifications/:notificationId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "notificationId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Notification, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Notification record. This record will contain attributes pertaining to the type of notification and any type of action that is required. The context information is the subject of the notification."
+        },
+        {
+          "info": {
+            "name": "Notification_MarkAllAsRead_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/notifications/markAllAsRead",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates the operation to update all non-technical Notification records as read from a defined date."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "transaction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Transaction_GetAll_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/transactions",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. placementId=guid."
+              },
+              {
+                "name": "createdDate",
+                "value": "",
+                "type": "query",
+                "description": "The date and timestamp when the entity was created.\nSearch using range method, e.g. createdDate=range(date1,date2)."
+              },
+              {
+                "name": "programmeId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. programmeId=guid."
+              },
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. contractId=guid."
+              },
+              {
+                "name": "sectionId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Section, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. sectionId=guid."
+              },
+              {
+                "name": "transactionType",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the transaction type.\nSearch using multiple exact match method, e.g. transactionType=code1,code2,code3."
+              },
+              {
+                "name": "categoryType",
+                "value": "",
+                "type": "query",
+                "description": "The code that represents the transaction category type.\nSearch using multiple exact match method, e.g. categoryType=code1,code2,code3."
+              },
+              {
+                "name": "contractVersion",
+                "value": "",
+                "type": "query",
+                "description": "Holds the version of the contract. That means this field will only be filled for transaction logs referring to a contract.\nSearch using multiple exact match method, e.g. contractVersion=ver1,ver2,ver3."
+              },
+              {
+                "name": "authorEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the Author.\nSearch using multiple exact match method, e.g. authorEmail=email1,email2,email3."
+              },
+              {
+                "name": "authorOnBehalfEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the Author On Behalf.\nSearch using multiple exact match method, e.g. authorOnBehalfEmail=email1,email2,email3."
+              },
+              {
+                "name": "recipientEmail",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the Recipient.\nSearch using multiple exact match method, e.g. recipientEmail=email1,email2,email3."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of all Transaction records, based upon various query parameters. Pagination functionality is supported on this operation."
+        },
+        {
+          "info": {
+            "name": "Transaction_GetById_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events/transactions/:transactionId",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "transactionId",
+                "value": "",
+                "type": "path",
+                "description": "A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used."
+              }
+            ]
+          },
+          "docs": "Returns a single Transaction record. This record will contain attributes pertaining to the category and type of transaction. The content is determined upon the type of the transaction."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

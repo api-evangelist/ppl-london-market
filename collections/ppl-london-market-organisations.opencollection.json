@@ -1,0 +1,247 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "organisation",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "organisation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "brokerOrganisations_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/brokerOrganisations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Company, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. companyId=guid."
+              }
+            ]
+          },
+          "docs": "This end point returns a list of both Broker Teams and Team Members for which the requestor is a member of. This is required in order to support the creation and management of Placements, Programmes and Contract records in the platform, as well as any reassignments of Placements, Programmes and Contracts."
+        },
+        {
+          "info": {
+            "name": "carrierOrganisations_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/carrierOrganisations",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Company, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. companyId=guid."
+              }
+            ]
+          },
+          "docs": "This end point returns a list of both Carrier Teams and Team Members for which the requestor is a member of. This is required in order to support the management of Submissions and Negotiation records in the platform, as well as any reassignments of Submissions and Negotiations."
+        },
+        {
+          "info": {
+            "name": "brokerMarkets_Facilities_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/marketFacilities",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "The text supplied as part of a &quot;contains-based&quot; searchable attribute upon an operation. This field is used for both for open market searching (based upon Carrier and/or Underwriter Name) and facility contract searching (based upon the Contract UMR or Contract Description)."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Master Facility markets on the platform that the Broker Team has been authorised to utilise on a Contract and /or Section. "
+        },
+        {
+          "info": {
+            "name": "brokerMarkets_Underwriters_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/marketUnderwriters",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "placementId",
+                "value": "",
+                "type": "query",
+                "description": "A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.\nSearch using single exact match method, e.g. placementId=placement1."
+              },
+              {
+                "name": "offPlatform",
+                "value": "",
+                "type": "query",
+                "description": "Indicates where an Underwriter is off platform (true) or not (false).\nSearch using single exact match method, e.g. offPlatform=true/false."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "The text supplied as part of a &quot;contains-based&quot; searchable attribute upon an operation. This field is used for both for open market searching (based upon Carrier and/or Underwriter Name) and facility contract searching (based upon the Contract UMR or Contract Description)."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting field and order (unique field only).\nUse + before the field name for ascending order, use - for descending order."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Carrier Company firms and its Underwriters that a Broker Team is authorised to engage with for insurance placement purposes."
+        },
+        {
+          "info": {
+            "name": "brokerMarkets_Stamps_v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/marketUnderwriters/:underwriterEmail/stamps",
+            "headers": [
+              {
+                "name": "X-Auth-Impersonated-User",
+                "value": ""
+              },
+              {
+                "name": "X-Auth-Team",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "underwriterEmail",
+                "value": "",
+                "type": "path",
+                "description": "The email address of the Underwriter."
+              },
+              {
+                "name": "pageNumber",
+                "value": "1",
+                "type": "query",
+                "description": "Number of the page to be retrieved."
+              },
+              {
+                "name": "pageSize",
+                "value": "200",
+                "type": "query",
+                "description": "Size of the page to be retrieved."
+              }
+            ]
+          },
+          "docs": "Returns a list of Carrier Stamps that (i) a specified Underwriter has the authority to underwrite risks with; and (ii) that a Broker Team is authorised to engage with."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/health"
+          },
+          "docs": "Checks the health of this Organisation Resource API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations/version"
+          },
+          "docs": "Checks the version of this Organisation Resource API."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
