@@ -32,6 +32,19 @@ tags:
 - Lloyd's of London
 - Reinsurance
 - Commercial Insurance
+- Brokers
+- Underwriting
+- Placement
+- Market Infrastructure
+- ACORD
+- Electronic Placing
+tags_raw:
+- Insurance
+- United Kingdom
+- London Market
+- Lloyd's of London
+- Reinsurance
+- Commercial Insurance
 - Broker
 - Underwriting
 - Placement
@@ -86,6 +99,11 @@ apis:
   tags:
   - Submission
   - Negotiation
+  - Quotes
+  - Underwriting
+  tags_raw:
+  - Submission
+  - Negotiation
   - Quote
   - Underwriting
   properties:
@@ -113,6 +131,12 @@ apis:
   humanURL: https://developer.pplnextgen.com/organisations
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/organisations/v1
   tags:
+  - Organisation
+  - Reference Data
+  - Brokers
+  - Carrier
+  - Stamps
+  tags_raw:
   - Organisation
   - Reference Data
   - Broker
@@ -174,6 +198,11 @@ apis:
   humanURL: https://developer.pplnextgen.com/events
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/events/v1
   tags:
+  - Event
+  - Notification
+  - Transaction
+  - Audit
+  tags_raw:
   - Events
   - Notifications
   - Transactions
