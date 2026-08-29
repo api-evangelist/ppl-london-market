@@ -24,6 +24,18 @@ description: >-
   and bind (submission negotiation, contract negotiation, participations, firm order)
   and contract issuance via the Market Reform Contract document set; there is no claims
   or FNOL API, and no webhook or event-push surface - the Events API is pull-based.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Insurance
