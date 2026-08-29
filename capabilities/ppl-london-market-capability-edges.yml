@@ -1,0 +1,36 @@
+slug: ppl-london-market
+provider: PPL
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Insurance
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: placement
+  spec_file: ppl-london-market-placement-api-openapi.yml
+  capability_id: BC-2110.60
+  capability_id_l1: BC-2110
+  capability_name: Quote & Submission Management
+  confidence: 0.7
+  evidence: GET /placements, POST /placements; "overall management of Placements, Programmes, Contracts"
+    ... "for insurance placement purposes"
+  reason: Core electronic placement record on a London Market placing platform — broker submission of
+    risks to carriers for quoting and binding, i.e. quote and submission management within insurance distribution.
+- tag: submission
+  spec_file: ppl-london-market-submission-api-openapi.yml
+  capability_id: BC-2110.60
+  capability_id_l1: BC-2110
+  capability_name: Quote & Submission Management
+  confidence: 0.7
+  evidence: '"enables Underwriters to retrieve information about Submission requests that have been supplied
+    by a Broker as well as manage their negotiation of terms of cover"'
+  reason: Explicitly broker-to-underwriter submission retrieval and terms negotiation, matching Quote
+    & Submission Management (submission intake, quote generation, quote-to-bind). An underwriting-risk-intake
+    reading is also defensible, hence 0.7.

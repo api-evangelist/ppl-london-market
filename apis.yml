@@ -951,6 +951,9 @@ apis:
     url: >-
       https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 common:
+- type: CapabilityMap
+  url: capabilities/ppl-london-market-capability-edges.yml
+  name: PPL Business Capability Map
 - type: Overlay
   url: overlays/ppl-london-market-placements-overlay.yaml
 - type: Overlay
