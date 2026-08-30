@@ -1,0 +1,51 @@
+openapi: 3.2.0
+info:
+  title: Ppl London Market Health API
+  version: '1'
+  description: 'Operations tagged health across 5 of this provider''s published API definitions: ppl-london-market-documents.json, ppl-london-market-events.json, ppl-london-market-organisations.json, ppl-london-market-placements.json, ppl-london-market-submissions.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
+  description: Joint Integration testing (JIT2) environment
+tags:
+- name: health
+paths:
+  /health:
+    get:
+      tags:
+      - health
+      description: Checks the health of this Document Resource API.
+      operationId: Health
+      responses:
+        '200':
+          description: UP if ok.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/health'
+    servers:
+    - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
+      description: Joint Integration testing (JIT2) environment
+components:
+  schemas:
+    health:
+      type: object
+      properties:
+        health:
+          type: string
+          description: health value
+          default: ''
+      description: Health endpoint payload
+x-refined-from:
+- ppl-london-market-documents.json
+- ppl-london-market-events.json
+- ppl-london-market-organisations.json
+- ppl-london-market-placements.json
+- ppl-london-market-submissions.json

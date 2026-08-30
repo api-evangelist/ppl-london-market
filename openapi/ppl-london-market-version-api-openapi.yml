@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  title: Ppl London Market Version API
+  version: '1'
+  description: 'Operations tagged version across 5 of this provider''s published API definitions: ppl-london-market-documents.json, ppl-london-market-events.json, ppl-london-market-organisations.json, ppl-london-market-placements.json, ppl-london-market-submissions.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/organisations
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
+  description: Joint Integration testing (JIT2) environment
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
+  description: Joint Integration testing (JIT2) environment
+tags:
+- name: version
+paths:
+  /version:
+    get:
+      tags:
+      - version
+      description: Checks the version of this Document Resource API.
+      operationId: Version
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/version'
+    servers:
+    - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
+      description: Joint Integration testing (JIT2) environment
+components:
+  schemas:
+    version:
+      type: object
+      properties:
+        apiVersionNumber:
+          type: string
+          description: API Version Number
+          default: ''
+        implementationVersion:
+          type: string
+          description: Implementation Version
+          default: ''
+      description: Version endpoint payload
+    version_2:
+      type: object
+      properties:
+        apiVersionNumber:
+          type: string
+          description: API Version Number
+          default: ''
+        implementationVersion:
+          type: string
+          description: Implementation Version
+          default: ''
+      additionalProperties: false
+      description: Version endpoint payload
+x-refined-from:
+- ppl-london-market-documents.json
+- ppl-london-market-events.json
+- ppl-london-market-organisations.json
+- ppl-london-market-placements.json
+- ppl-london-market-submissions.json

@@ -1,0 +1,1545 @@
+openapi: 3.2.0
+info:
+  title: Submission API
+  description: This API collection enables Underwriters to retrieve information about Submission requests that have been supplied by a Broker as well as manage their negotiation of terms of cover.
+  version: '1'
+servers:
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
+  description: Joint Integration testing (JIT2) environment
+tags:
+- name: submission
+  description: Enables the retrieval of Submissions for Underwriters.
+paths:
+  /submissions:
+    get:
+      tags:
+      - submission
+      description: Returns a list of all Submission records based upon various query parameters. Pagination functionality is supported on this operation.
+      operationId: Submission_GetAll_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A list of system-generated unique identifiers for each Underwriter Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$
+          type: array
+          items:
+            type: string
+      - name: createdDate
+        in: query
+        description: 'The date timestamp when the entity was created.
+
+          Search using range method, e.g. createdDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z,\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\)$
+      - name: modifiedDate
+        in: query
+        description: 'The date timestamp when the entity was modified.
+
+          Search using range method, e.g. modifiedDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z,\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\)$
+      - name: clientName
+        in: query
+        description: "The name by which the Broker User knows the client for the purposes of seeking insurance. \nSearch using contains method, e.g. clientName=contains(astring)."
+        schema:
+          type: string
+          pattern: ^contains\(.{1,40}\)$
+      - name: brokerTeamName
+        in: query
+        description: "The name of the Broker Team, as defined by the broker organisation. \nSearch using contains method, e.g. brokerTeamName=contains(astring)."
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: brokerOrganisationName
+        in: query
+        description: 'Name of the Organisation the User belongs to.
+
+          Search using contains method, e.g. brokerOrganisationName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: brokerCompanyName
+        in: query
+        description: 'Name of the Company the User belongs to.
+
+          Search using contains method, e.g. brokerCompanyName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: brokerUserEmail
+        in: query
+        description: 'The User email of the broker User.
+
+          Search using multiple exact match method, e.g. brokerUserEmail=email1,email2,email3.'
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)*$
+      - name: brokerFirstName
+        in: query
+        description: 'The first name of the Broker User.
+
+          Search using contains method, e.g. brokerFirstName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,30}\)$
+      - name: brokerLastName
+        in: query
+        description: 'The last name of the Broker User.
+
+          Search using contains method, e.g. brokerLastName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,30}\)$
+      - name: underwriterTeamId
+        in: query
+        description: 'A system-generated unique identifier for an Underwriter Team, with a format and structure defined by the technology used.
+
+          Search using multiple exact match method, e.g. underwriterTeamId=id1,id2,id3.'
+        schema:
+          type: string
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$
+      - name: underwriterTeamName
+        in: query
+        description: 'The name of the Underwriter Team, as defined by the underwriter organisation.
+
+          Search using contains method, e.g. underwriterTeamName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: underwriterCompanyName
+        in: query
+        description: 'Name of the Company the User belongs to.
+
+          Search using contains method, e.g. underwriterCompanyName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: underwriterUserEmail
+        in: query
+        description: 'The User email of the underwriter User.
+
+          Search using multiple exact match method, e.g. underwriterUserEmail=email1,email2,email3.'
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)*$
+      - name: underwriterFirstName
+        in: query
+        description: 'The first name of the Underwriter User.
+
+          Search using contains method, e.g. underwriterFirstName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,30}\)$
+      - name: underwriterLastName
+        in: query
+        description: 'The last name of the Underwriter User.
+
+          Search using contains method, e.g. underwriterLastName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,30}\)$
+      - name: type
+        in: query
+        description: 'The type of the Submission.
+
+          Search using multiple exact match method, e.g. type=code1,code2,code3.'
+        schema:
+          type: string
+          pattern: ^(.*)(,.*)*$
+      - name: status
+        in: query
+        description: 'The status of the Submission.
+
+          Search using multiple exact match method, e.g. status=code1,code2,code3.'
+        schema:
+          type: string
+          pattern: ^(.*)(,.*)*$
+      - name: receivedDate
+        in: query
+        description: 'The date and timestamp when the Submission.
+
+          Search using range method, e.g. receivedDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z,\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\)$
+      - name: description
+        in: query
+        description: 'A description of the Contract supplied by the Broker.
+
+          Search using contains method, e.g. description=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: uniqueMarketReference
+        in: query
+        description: 'The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+
+          Search using multiple exact match method, e.g. uniqueMarketReference=umr1,umr2,umr3.'
+        schema:
+          type: string
+          pattern: ^(B\d{4}[A-Z0-9]{1,12})(,B\d{4}[A-Z0-9]{1,12})*$
+      - name: sectionStatus
+        in: query
+        description: 'The code that represents the Section status.
+
+          Search using multiple exact match method, e.g. sectionStatus=code1,code2,code3.'
+        schema:
+          type: string
+          pattern: ^(.*)(,.*)*$
+      - name: inceptionDate
+        in: query
+        description: 'The date on which the (re)insurance contract/section comes into force.
+
+          Search using range method, e.g. inceptionDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2},\d{4}-\d{2}-\d{2}\)$
+      - name: expiryDate
+        in: query
+        description: 'The date on which the (re)insurance Contract or Section ceases cover.
+
+          Search using range method, e.g. expiryDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2},\d{4}-\d{2}-\d{2}\)$
+      - name: sort
+        in: query
+        description: 'Sorting field and order (unique field only).
+
+          Use + before the field name for ascending order, use - for descending order.'
+        schema:
+          type: string
+          pattern: ^[+-]?\w+$
+      - name: pageNumber
+        in: query
+        description: Number of the page to be retrieved.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+        example: 1
+      - name: pageSize
+        in: query
+        description: Size of the page to be retrieved.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 200
+        example: 200
+      - name: submissionId
+        in: query
+        description: 'A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+
+          Search using multiple exact match method, e.g. submissionId=id1,id2,id3.'
+        schema:
+          type: string
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$
+      - name: contractId
+        in: query
+        description: 'A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+
+          Search using multiple exact match method, e.g. contractId=id1,id2,id3.'
+        schema:
+          type: string
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$
+      - name: sectionId
+        in: query
+        description: 'A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+
+          Search using multiple exact match method, e.g. sectionId=id1,id2,id3.'
+        schema:
+          type: string
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){0,9}$
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_submissions_getall'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+  /submissions/{submissionId}:
+    get:
+      tags:
+      - submission
+      description: Returns a single Submission record. This record includes structured data pertaining to a single Contract offering (and any subsequent Sections, if applicable) as well as references to download (1) the Market Reform Contract (MRC) document; and (2) any associated Supporting Documents. Collectively the information presents an offer for consideration.
+      operationId: Submission_GetById_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: submissionId
+        in: path
+        description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/submission_getbyid'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+  /submissions/{submissionId}/send:
+    post:
+      tags:
+      - submission
+      description: Initiates the operation to send the latest Underwriter responses as part of a response to a Submission back to the Broker. The outcome of each Negotiation will either (1) agree unconditionally to the terms; (2) conditionally agree upon a change of terms; or (3) decline the offer.
+      operationId: Submission_Send_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: submissionId
+        in: path
+        description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/submission_send_input'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/submission_send_output'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+components:
+  schemas:
+    section_excess:
+      required:
+      - amount
+      - basis_type
+      - currency_code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The code that represents the type of excess.
+          default: ''
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The excess amount applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
+          example: 0.1
+        basis_type:
+          type: string
+          description: The code that represents the basis of the excess.
+          default: ''
+        type_description:
+          type: string
+          description: A bespoke description of the excess type, where not provisioned under the existing reference data type codes.
+          default: ''
+        basis_description:
+          type: string
+          description: A bespoke description of the excess basis type, where not provisioned under the existing reference data basis type codes.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items that represents the Excess(es) applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
+    response_submissions_getall:
+      required:
+      - count
+      - page_number
+      - page_size
+      - submissions
+      - total_results
+      type: object
+      properties:
+        submissions:
+          type: array
+          description: List of submission retrieved
+          items:
+            $ref: '#/components/schemas/submission_getall'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int64
+          example: 1234567891234567
+      additionalProperties: false
+      description: ''
+    submission_contract_getall:
+      required:
+      - broker_code
+      - broker_contract_reference
+      - contract_id
+      - description
+      - sections
+      - unique_market_reference
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the Contract supplied by the Broker.
+          default: ''
+        broker_code:
+          type: string
+          description: A 4-digit Broker code that represents a broker organisation.
+          default: ''
+        broker_contract_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract.
+          default: ''
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
+        sections:
+          type: array
+          description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
+          items:
+            $ref: '#/components/schemas/submission_section_getall'
+      additionalProperties: false
+      description: A collection of insurance Contracts.
+    underwriter_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Underwriter User responsible for the Participation.
+    period_date:
+      required:
+      - expiry_date
+      - inception_date
+      type: object
+      properties:
+        inception_date:
+          type: string
+          description: The date on which the (re)insurance Contract or Section comes into force.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        expiry_date:
+          type: string
+          description: The date on which the (re)insurance Contract or Section ceases cover.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        qualifier_type:
+          type: string
+          description: The code that represents the period qualifier type.
+          default: ''
+        qualifier_description:
+          type: string
+          description: A description of the period qualifier, captured when there is a no alignment to the reference data code.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items to denote the Contract or Section period using specific dates.
+    section_binding_information:
+      type: object
+      properties:
+        signed_line_basis:
+          type: string
+          description: The basis upon which all signed lines are applied to the Order of a Contract or Section.
+          default: ''
+      additionalProperties: false
+      description: The Binding Information relevant to a Contract or Section.
+    section_risk:
+      required:
+      - allocation_percentage
+      - risk_code
+      type: object
+      properties:
+        risk_code:
+          type: string
+          description: The regulatory code that represents the risk for a risk classification.
+          default: ''
+        allocation_percentage:
+          type: number
+          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
+          example: 0.1
+      additionalProperties: false
+      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+    submission_getall:
+      required:
+      - broker_team
+      - broker_user
+      - client_name
+      - description
+      - general_message
+      - metadata
+      - placement_type
+      - programme
+      - received_date
+      - status
+      - submission_id
+      - submission_type
+      - underwriter_team
+      - underwriter_user
+      type: object
+      properties:
+        submission_id:
+          type: string
+          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        placement_type:
+          type: string
+          description: The code that represents the Placement type.
+          default: ''
+        client_name:
+          type: string
+          description: The name by which the Broker User knows the client for the purposes of seeking insurance.
+          default: ''
+        description:
+          type: string
+          description: A description of the Placement supplied by the Broker.
+          default: ''
+        general_message:
+          type: string
+          description: A general message sent to all participating underwriters included in this Submission Pack.
+          default: ''
+        broker_team:
+          $ref: '#/components/schemas/broker_team_org_company_no_id'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team_no_org'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user'
+        submission_type:
+          type: string
+          description: The type of the Submission.
+          default: ''
+        status:
+          type: string
+          description: The status of the Submission.
+          default: ''
+        received_date:
+          type: string
+          description: The date and timestamp when the Submission.
+          format: date-time
+          example: '2014-12-31T00:00:00.000Z'
+        programme:
+          $ref: '#/components/schemas/submission_programme_getall'
+      additionalProperties: false
+      description: Submission structure for Get All
+    underwriter_team_no_org:
+      required:
+      - company_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Underwriter Team, as defined by the carrier organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The Team information of the Underwriter Team responsible for the Participation.
+    notification:
+      required:
+      - category_type
+      - notification_id
+      - status
+      - type
+      type: object
+      properties:
+        notification_id:
+          type: string
+          description: A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.
+          default: ''
+        category_type:
+          type: string
+          description: Identifies the category type of the notification that is being processed in an asynchronous manner.
+          default: ''
+        type:
+          type: string
+          description: Identifies the type of notification that is being processed in an asynchronous manner.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Notification status.
+          default: ''
+      additionalProperties: false
+      description: 'The Notification information relating to the Document. '
+    submission_section_send:
+      required:
+      - section_id
+      - status
+      type: object
+      properties:
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        reference:
+          type: string
+          description: A reference of the Section supplied by the Broker.
+          default: ''
+        description:
+          type: string
+          description: A description of the Section supplied by the Broker.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Section status.
+          default: ''
+      additionalProperties: false
+      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
+    submission_contract_getbyid:
+      required:
+      - broker_code
+      - broker_contract_reference
+      - broker_team
+      - broker_user
+      - contract_id
+      - contract_type
+      - cover_type
+      - description
+      - insureds
+      - sections
+      - sequence_number
+      - status
+      - unique_market_reference
+      - version
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        broker_team:
+          $ref: '#/components/schemas/broker_team_company_no_id'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        sequence_number:
+          type: integer
+          description: The sequence number in which the Contracts are ordered.
+          format: int32
+          example: 0
+        description:
+          type: string
+          description: A description of the Contract supplied by the Broker.
+          default: ''
+        broker_code:
+          type: string
+          description: A 4-digit Broker code that represents a broker organisation.
+          default: ''
+        broker_contract_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract.
+          default: ''
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
+        version:
+          type: integer
+          description: The current version of the Contract.
+          format: int32
+          example: 0
+        contract_type:
+          type: string
+          description: The code that represents the contract type.
+          default: ''
+        cover_type:
+          type: string
+          description: The code that represents the cover type.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Contract status.
+          default: ''
+        insureds:
+          type: array
+          description: A collection of individuals or organisations, and their relationship within a contract of insurance.
+          items:
+            $ref: '#/components/schemas/contract_insured'
+        sections:
+          type: array
+          description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
+          items:
+            $ref: '#/components/schemas/submission_section_getbyid'
+      additionalProperties: false
+      description: A collection of insurance Contracts.
+    geographic_coverage:
+      required:
+      - code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: indicates the type of the geographic coverage, either as a single country or a geographic region.
+          default: ''
+        code:
+          type: string
+          description: The code that represents the value of the country or region based on the geographic coverage type.
+          default: ''
+        description:
+          type: string
+          description: A high level description of the situation, territorial limits or scope, trading warranties or location.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items to represent the territory of cover for a Contract or Section.
+    submission_programme_getall:
+      required:
+      - contract
+      - default
+      - description
+      - programme_id
+      type: object
+      properties:
+        programme_id:
+          type: string
+          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
+          default: ''
+        default:
+          type: boolean
+          description: Identifies whether this is a default Programme. A default Programme is a programme data structure where Contracts that are not within a business-related Programme are maintained.
+          example: false
+        description:
+          type: string
+          description: A description of the Programme supplied by the Broker.
+          default: ''
+        contract:
+          $ref: '#/components/schemas/submission_contract_getall'
+      additionalProperties: false
+      description: A collection of Contracts for a common purpose.
+    submission_getbyid:
+      required:
+      - broker_team
+      - broker_user
+      - client_name
+      - description
+      - general_message
+      - metadata
+      - placement_type
+      - programme
+      - received_date
+      - status
+      - submission_id
+      - submission_type
+      - underwriter_team
+      - underwriter_user
+      type: object
+      properties:
+        submission_id:
+          type: string
+          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        placement_type:
+          type: string
+          description: The code that represents the Placement type.
+          default: ''
+        client_name:
+          type: string
+          description: The name by which the Broker User knows the client for the purposes of seeking insurance.
+          default: ''
+        description:
+          type: string
+          description: A description of the Placement supplied by the Broker.
+          default: ''
+        general_message:
+          type: string
+          description: A general message sent to all participating underwriters included in this Submission Pack.
+          default: ''
+        broker_team:
+          $ref: '#/components/schemas/broker_team_org_company_no_id'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team_no_org'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user'
+        submission_type:
+          type: string
+          description: The type of the Submission.
+          default: ''
+        status:
+          type: string
+          description: The status of the Submission.
+          default: ''
+        received_date:
+          type: string
+          description: The date and timestamp when the Submission.
+          format: date-time
+          example: '2014-12-31T00:00:00.000Z'
+        programme:
+          $ref: '#/components/schemas/submission_programme_getbyid'
+      additionalProperties: false
+      description: Submission structure for Get by Identifier
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      description: The User information of the Metadata User.
+    broker_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the responsible Broker User.
+    submission_contract_send:
+      required:
+      - broker_team
+      - broker_user
+      - contract_id
+      - description
+      - sections
+      - status
+      - unique_market_reference
+      - version
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        broker_team:
+          $ref: '#/components/schemas/broker_team_company_no_id'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        description:
+          type: string
+          description: A description of the Contract supplied by the Broker.
+          default: ''
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
+        version:
+          type: integer
+          description: The current version of the Contract.
+          format: int32
+          example: 0
+        status:
+          type: string
+          description: The code that represents the Contract status.
+          default: ''
+        sections:
+          type: array
+          description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
+          items:
+            $ref: '#/components/schemas/submission_section_send'
+      additionalProperties: false
+      description: A collection of insurance Contracts.
+    section_premium:
+      required:
+      - basis_type
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The code that represents the type of premium.
+          default: ''
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The premium amount applicable under the terms of the insurance Contract or Section.
+          example: 0.1
+        rate:
+          type: number
+          description: The premium rate applicable under the terms of the insurance Contract or Section.
+          example: 0.1
+        rate_unit:
+          type: string
+          description: The code that represents the unit of measurement to be applied to the premium rate.
+          default: ''
+        basis_type:
+          type: string
+          description: The code that represents the basis of the premium.
+          default: ''
+        type_description:
+          type: string
+          description: A bespoke description of the premium type, where not provisioned under the existing reference data type codes.
+          default: ''
+        basis_description:
+          type: string
+          description: A bespoke description of the premium basis type, where not provisioned under the existing reference data basis type codes.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items that represents the financial amount to cover the risk(s) under the terms of the insurance Contract or Section.
+    period:
+      type: object
+      properties:
+        period_date:
+          $ref: '#/components/schemas/period_date'
+        period_range:
+          $ref: '#/components/schemas/period_range'
+      additionalProperties: false
+      description: A collection of data items to denote the Contract or Section period.
+    submission_section_getall:
+      required:
+      - description
+      - period
+      - reference
+      - section_id
+      - status
+      type: object
+      properties:
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        reference:
+          type: string
+          description: A reference of the Section supplied by the Broker.
+          default: ''
+        description:
+          type: string
+          description: A description of the Section supplied by the Broker.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Section status.
+          default: ''
+        period:
+          $ref: '#/components/schemas/period'
+      additionalProperties: false
+      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
+    submission_send_input:
+      required:
+      - negotiation_ids
+      type: object
+      properties:
+        negotiation_ids:
+          type: array
+          description: A list of system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.
+          items:
+            type: string
+            default: ''
+            pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: Submission input structure for Send
+    contract_insured:
+      required:
+      - name
+      - role
+      type: object
+      properties:
+        name:
+          type: string
+          description: The legal name of the insured, reinsured or retrocedent under the terms of a contract of insurance.
+          default: ''
+        role:
+          type: string
+          description: The type of role that a particular individual or organisation is involved in, under the terms of a contract of insurance.
+          default: ''
+      additionalProperties: false
+      description: An individual or organisation, and their relationship within a contract of insurance.
+    section_limit:
+      required:
+      - amount
+      - basis_type
+      - currency_code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The code that represents the type of limit.
+          default: ''
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The limit amount the insurer has agreed to cover under the terms of the insurance Contract or Section.
+          example: 0.1
+        basis_type:
+          type: string
+          description: The code that represents the basis of the limit.
+          default: ''
+        type_description:
+          type: string
+          description: A bespoke description of the limit type, where not provisioned under the existing reference data type codes.
+          default: ''
+        basis_description:
+          type: string
+          description: A bespoke description of the limit basis type, where not provisioned under the existing reference data basis type codes.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items that represents the Limit(s) of any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
+    submission_programme_getbyid:
+      required:
+      - contract
+      - default
+      - description
+      - programme_id
+      type: object
+      properties:
+        programme_id:
+          type: string
+          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
+          default: ''
+        default:
+          type: boolean
+          description: Identifies whether this is a default Programme. A default Programme is a programme data structure where Contracts that are not within a business-related Programme are maintained.
+          example: false
+        description:
+          type: string
+          description: A description of the Programme supplied by the Broker.
+          default: ''
+        contract:
+          $ref: '#/components/schemas/submission_contract_getbyid'
+      additionalProperties: false
+      description: A collection of Contracts for a common purpose.
+    broker_team_org_company_no_id:
+      required:
+      - company_name
+      - organisation_name
+      - team_name
+      type: object
+      properties:
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        organisation_name:
+          type: string
+          description: Name of the Organisation the User belongs to.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    metadata:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      description: A collection of data items to support the creation and update of record entities.
+    error:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    period_range:
+      required:
+      - duration_number
+      - duration_unit
+      type: object
+      properties:
+        duration_number:
+          type: integer
+          description: An integer value representing the numeric element of a Period Range.
+          format: int32
+          example: 0
+        duration_unit:
+          type: string
+          description: The code that represents the unit of measurement element of a Period Range.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items to denote the Contract or Section period, as a numeric and unit of measurement.
+    submission_programme_send:
+      required:
+      - contract
+      - description
+      - programme_id
+      type: object
+      properties:
+        programme_id:
+          type: string
+          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the Programme supplied by the Broker.
+          default: ''
+        contract:
+          $ref: '#/components/schemas/submission_contract_send'
+      additionalProperties: false
+      description: A collection of Contracts for a common purpose.
+    section_deductible:
+      required:
+      - amount
+      - basis_type
+      - currency_code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The code that represents the type of deductible.
+          default: ''
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The deductible amount applicable under the terms of the insurance Contract or Section.
+          example: 0.1
+        basis_type:
+          type: string
+          description: The code that represents the basis of the deductible.
+          default: ''
+        type_description:
+          type: string
+          description: A bespoke description of the deductible type, where not provisioned under the existing reference data type codes.
+          default: ''
+        basis_description:
+          type: string
+          description: A bespoke description of the deductible basis type, where not provisioned under the existing reference data basis type codes.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items that represent the deductible(s) that are applied against the payment of a claim, within a Contract or Section.
+    submission_section_getbyid:
+      required:
+      - class_of_business
+      - description
+      - geographic_coverage
+      - line_of_business
+      - order_percentage
+      - order_type
+      - period
+      - product_code
+      - reference
+      - section_id
+      - sequence_number
+      - stamp_permission_type
+      - status
+      - written_line_basis
+      type: object
+      properties:
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        reference:
+          type: string
+          description: A reference of the Section supplied by the Broker.
+          default: ''
+        description:
+          type: string
+          description: A description of the Section supplied by the Broker.
+          default: ''
+        sequence_number:
+          type: integer
+          description: The sequence number that defines the order in which Sections are ordered.
+          format: int32
+          example: 0
+        status:
+          type: string
+          description: The code that represents the Section status.
+          default: ''
+        period:
+          $ref: '#/components/schemas/period'
+        geographic_coverage:
+          $ref: '#/components/schemas/geographic_coverage'
+        conveyance_description:
+          type: string
+          description: A description of the subject matter insured or nature of liability.
+          default: ''
+        interest_description:
+          type: string
+          description: A description of the interest insured or nature of liability.
+          default: ''
+        order_type:
+          type: string
+          description: The code that represents the written line type, either a percentage or an amount.
+          default: ''
+        order_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        order_percentage:
+          type: number
+          description: The amount or percentage of the insured&#39;s risk that is covered by this Contract or Section.
+          example: 0.1
+        written_line_basis:
+          type: string
+          description: The basis upon which all written lines are applied to the Order of a Contract or Section.
+          default: ''
+        product_code:
+          type: string
+          description: The code that represents the insurance product under this Contract or Section.
+          default: ''
+        line_of_business:
+          type: string
+          description: The code that represents the line of business of the insurance product under this Contract or Section.
+          default: ''
+        class_of_business:
+          type: string
+          description: The code that represents the class of business of the insurance product under this Contract or Section.
+          default: ''
+        settlement_due_date:
+          type: string
+          description: The date and timestamp by when any instalment or payment of premium on this Contract or Section is expected to be paid to insurers.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        installment_period_of_credit_days:
+          type: integer
+          description: The number of days of credit applied to when any instalment or payment of premium is due.
+          format: int32
+          example: 0
+        adjustment_period_of_credit_days:
+          type: integer
+          description: The number of days after the date(s) specified for the provision of adjustments that insurers expect the final adjustment(s) of premium (if any) to be paid.
+          format: int32
+          example: 0
+        stamp_permission_type:
+          type: string
+          description: The code that represents the permitted territory type for the Contract or Section.
+          default: ''
+        year_of_account:
+          type: integer
+          description: The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.
+          format: int32
+          example: 0
+        risk_classification:
+          type: array
+          description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+          items:
+            $ref: '#/components/schemas/section_risk'
+        limits:
+          type: array
+          description: A collection of data items that represents the Limit(s) of any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
+          items:
+            $ref: '#/components/schemas/section_limit'
+        excesses:
+          type: array
+          description: A collection of data items that represents the Excess(es) applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
+          items:
+            $ref: '#/components/schemas/section_excess'
+        deductibles:
+          type: array
+          description: A collection of data items that represent the deductible(s) that are applied against the payment of a claim, within a Contract or Section.
+          items:
+            $ref: '#/components/schemas/section_deductible'
+        premiums:
+          type: array
+          description: A collection of data items that represents the financial amount to cover the risk(s) under the terms of the insurance Contract or Section.
+          items:
+            $ref: '#/components/schemas/section_premium'
+        binding_information:
+          $ref: '#/components/schemas/section_binding_information'
+      additionalProperties: false
+      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
+    submission_send_output:
+      required:
+      - client_name
+      - description
+      - metadata
+      - notification
+      - programme
+      - submission_id
+      - submission_type
+      - underwriter_team
+      - underwriter_user
+      type: object
+      properties:
+        submission_id:
+          type: string
+          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        client_name:
+          type: string
+          description: The name by which the Broker User knows the client for the purposes of seeking insurance.
+          default: ''
+        description:
+          type: string
+          description: A description of the Placement supplied by the Broker.
+          default: ''
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team_no_org'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user'
+        submission_type:
+          type: string
+          description: The type of the Submission.
+          default: ''
+        programme:
+          $ref: '#/components/schemas/submission_programme_send'
+        notification:
+          $ref: '#/components/schemas/notification'
+      additionalProperties: false
+      description: Submission output structure for Send
+    broker_team_company_no_id:
+      required:
+      - company_name
+      - team_name
+      type: object
+      properties:
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+x-original-swagger-version: '2.0'

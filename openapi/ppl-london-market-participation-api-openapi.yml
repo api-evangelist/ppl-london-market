@@ -1,0 +1,1434 @@
+openapi: 3.2.0
+info:
+  title: placement Participation API
+  description: "This API collection provides the capability to manage aspects of the Placement structure. \nThis includes that overall management of Placements, Programmes, Contracts as well as any Sections within a Contract. This also includes the ability to set up carrier/underwriter participants for insurance placement purposes."
+  version: '1'
+servers:
+- url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
+  description: Joint Integration testing (JIT2) environment
+tags:
+- name: participation
+  description: Enables the creation, management and processing of Open Market Underwriters and Facility Panel Underwriters that are willing to participate in the underwriting of an insured's asset or liability, represented within the un/structured information in a Contract or Section.
+paths:
+  /contracts/{contractId}/sections/{sectionId}/participations:
+    get:
+      tags:
+      - participation
+      description: Returns a list of Participation records, within a single Section. This returned list is based upon various query parameters. Pagination functionality is supported on this operation.
+      operationId: Participation_GetAll_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A list of system-generated unique identifiers for each Broker Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$
+          type: array
+          items:
+            type: string
+      - name: contractId
+        in: path
+        description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: sectionId
+        in: path
+        description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: createdDate
+        in: query
+        description: 'The date timestamp when the entity was created.
+
+          Search using range method, e.g. createdDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z,\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\)$
+      - name: modifiedDate
+        in: query
+        description: 'The date timestamp when the entity was modified.
+
+          Search using range method, e.g. modifiedDate=range(date1,date2).'
+        schema:
+          type: string
+          pattern: ^range\(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z,\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\)$
+      - name: companyName
+        in: query
+        description: 'Name of the Company the User belongs to.
+
+          Search using contains method, e.g. companyName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,256}\)$
+      - name: underwriterEmail
+        in: query
+        description: "The email of the Underwriter. \nSearch using multiple exact match method, e.g. underwriterEmail=email1,email2,email3."
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+(,[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)*$
+      - name: underwriterFirstName
+        in: query
+        description: 'The first name by which the Underwriter is known for.
+
+          Search using contains method, e.g. underwriterFirstName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,30}\)$
+      - name: underwriterLastName
+        in: query
+        description: 'The last name by which the Underwriter is known for.
+
+          Search using contains method, e.g. underwriterLastName=contains(astring).'
+        schema:
+          type: string
+          pattern: ^contains\(.{1,30}\)$
+      - name: offPlatformUnderwriter
+        in: query
+        description: 'Indicates whether the Underwriter User is registered as an off-platform user (true) or not (false).
+
+          Search using single exact match method, e.g. offPlatformUnderwriter=true.'
+        schema:
+          type: string
+          pattern: ^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$
+        example: 'true'
+      - name: type
+        in: query
+        description: 'The code that represents the type of Participation.
+
+          Search using multiple exact match method, e.g. type=code1,code2,code3.'
+        schema:
+          type: string
+          pattern: ^(.*)(,.*)*$
+      - name: status
+        in: query
+        description: 'The code that represents the Participation status, based upon the Type of Participation.
+
+          Search using multiple exact match method, e.g. status=code1,code2,code3.'
+        schema:
+          type: string
+          pattern: ^(.*)(,.*)*$
+      - name: hasLineConditions
+        in: query
+        description: 'Parameter used to return Participation records that have at least one Line Conditions (true) or no Line Conditions (false), irrespective of the Status of the Line Condition.
+
+          Search using single exact match method, e.g. hasLineConditions=true.'
+        schema:
+          type: string
+          pattern: ^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$
+        example: 'true'
+      - name: hasSubjectivities
+        in: query
+        description: 'Parameter used to return Participation records that have at least one Subjectivity (true) or no Subjectivities (false), irrespective of the Status of the Subjectivity.
+
+          Search using single exact match method, e.g. hasSubjectivities=true.'
+        schema:
+          type: string
+          pattern: ^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$
+        example: 'true'
+      - name: isDeclaration
+        in: query
+        description: 'Parameter used to return Participation records that have been attached to this Section from a Master Facility arrangement.
+
+          Search using single exact match method, e.g. isDeclaration=true.'
+        schema:
+          type: string
+          pattern: ^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])$
+        example: 'true'
+      - name: facilityPanelId
+        in: query
+        description: 'A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+
+          Search using multiple exact match method, e.g. facilityPanelId=id1,id2,id3.'
+        schema:
+          type: string
+          pattern: ^(?:[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})(?:,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12})*$
+      - name: sort
+        in: query
+        description: 'Sorting field and order (unique field only).
+
+          Use + before the field name for ascending order, use - for descending order.'
+        schema:
+          type: string
+          pattern: ^[+-]?\w+$
+      - name: pageNumber
+        in: query
+        description: Number of the page to be retrieved.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+        example: 1
+      - name: pageSize
+        in: query
+        description: Size of the page to be retrieved.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 200
+        example: 200
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_participations_getall'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+    post:
+      tags:
+      - participation
+      description: Creates Participation records representing either a single Open Market Underwriter and the Carrier Stamps they are permitted to use, or a multiple of Participation records representing each Underwriter from a panel of underwriters attaching from a Master Facility arrangement.
+      operationId: Participation_Post_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: contractId
+        in: path
+        description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: sectionId
+        in: path
+        description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      requestBody:
+        description: Participation structure for creation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/participation_post'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_participations_getall_post'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+      x-codegen-request-body-name: participation
+  /contracts/{contractId}/sections/{sectionId}/participations/{participationId}:
+    get:
+      tags:
+      - participation
+      description: Returns a single Participation record. This record will contain the underwriter attributes for underwriting a risk, as well as any facility panel information, where the Underwriter&#39;s involvement is made through a Master Facility arrangement.
+      operationId: Participation_GetById_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: contractId
+        in: path
+        description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: sectionId
+        in: path
+        description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: participationId
+        in: path
+        description: A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/participation_getbyid'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+    put:
+      tags:
+      - participation
+      description: Updates a Participation record, where the record is in a state that enables its update. Where an Underwriter update involves an update upon a Facility Panel, all involved Participations of said Facility Panel will be updated.
+      operationId: Participation_Put_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: X-Last-Modified
+        in: header
+        description: The date timestamp to be used to validate an update operation.
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2014-12-31T23:59:59.938Z'
+      - name: contractId
+        in: path
+        description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: sectionId
+        in: path
+        description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: participationId
+        in: path
+        description: A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      requestBody:
+        description: Participation structure for updates.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/participation_put'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/participation_getbyid'
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+      x-codegen-request-body-name: participation
+    delete:
+      tags:
+      - participation
+      description: Deletes a Participation record, where the record is in a state that enables its deletion.
+      operationId: Participation_Delete_v1
+      parameters:
+      - name: X-Auth-Impersonated-User
+        in: header
+        description: The email address of the Requesting User or the Impersonated User.
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+      - name: X-Auth-Team
+        in: header
+        description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: contractId
+        in: path
+        description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: sectionId
+        in: path
+        description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      - name: participationId
+        in: path
+        description: A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      responses:
+        '200':
+          description: ''
+          content: {}
+        '400':
+          description: Mandatory header parameter is missing from the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '401':
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '404':
+          description: Invalid team or user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '414':
+          description: The maximum field length of the URI provided for the request has been exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_document'
+components:
+  schemas:
+    participation_put:
+      type: object
+      properties:
+        underwriter_email:
+          type: string
+          description: The email address of the Underwriter.
+          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        sub_panel:
+          $ref: '#/components/schemas/sub_panel_postput'
+        proposed:
+          $ref: '#/components/schemas/proposed'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/stamp_postput'
+        facility_roles:
+          $ref: '#/components/schemas/facility_roles'
+        is_excluded_from_panel:
+          type: boolean
+          description: Identifies whether this Underwriter has been excluded (true) from participating on the Facility Panel for this Contract or Section, or not (false).
+          example: false
+        facility_panel:
+          $ref: '#/components/schemas/facility_panel_put'
+      additionalProperties: false
+      description: Participation structure for updates
+    response_participations_getall_post:
+      required:
+      - count
+      - participations
+      type: object
+      properties:
+        participations:
+          type: array
+          description: List of participations retrieved
+          items:
+            $ref: '#/components/schemas/participation_getbyid'
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+      additionalProperties: false
+      description: ''
+    reference_get:
+      required:
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          description: The reference allocated by the underwriter against the Stamp.
+          default: ''
+        description:
+          type: string
+          description: A description of any processing instructions supplied with the line Reference.
+          default: ''
+        risk_codes:
+          type: array
+          description: The regulatory code(s) that are applicable to the Reference.
+          items:
+            type: string
+            default: ''
+      additionalProperties: false
+      description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+    line_condition_get:
+      required:
+      - code
+      - description
+      - line_condition_id
+      - status
+      type: object
+      properties:
+        line_condition_id:
+          type: string
+          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the line condition.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        code:
+          type: string
+          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
+          default: ''
+      additionalProperties: false
+      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+    broker_team_org_company:
+      required:
+      - company_name
+      - organisation_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        organisation_name:
+          type: string
+          description: Name of the Organisation the User belongs to.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    subjectivity_get:
+      required:
+      - confirmation_required
+      - description
+      - negotiation_status
+      - status
+      - subjectivity_id
+      type: object
+      properties:
+        subjectivity_id:
+          type: string
+          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the subjectivity and any associated terms.
+          default: ''
+        confirmation_required:
+          type: boolean
+          description: Indicates whether a subjectivity requires confirmation (true) or not (false).
+          example: false
+        confirmation_required_by_date:
+          type: string
+          description: The date and timestamp by which the Subjectivity needs to be met.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        off_cover:
+          type: boolean
+          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
+          example: false
+        status:
+          type: string
+          description: The code that represents the status of the Subjectivity.
+          default: ''
+        negotiation_status:
+          type: string
+          description: The code that represents the status of the Subjectivity when this is under negotiation.
+          default: ''
+      additionalProperties: false
+      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+    written_facility:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept, from the original master facility participation.
+    participation_role:
+      required:
+      - role
+      - status
+      type: object
+      properties:
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+      additionalProperties: false
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    participation_post:
+      type: object
+      properties:
+        underwriter_email:
+          type: string
+          description: The email address of the Underwriter.
+          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        sub_panel:
+          $ref: '#/components/schemas/sub_panel_postput'
+        proposed:
+          $ref: '#/components/schemas/proposed'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/stamp_postput'
+        facility_panel:
+          $ref: '#/components/schemas/facility_panel_post'
+      additionalProperties: false
+      description: Participation structure for creates
+    master_facility_get:
+      required:
+      - master_facility_id
+      - signed
+      - written
+      type: object
+      properties:
+        master_facility_id:
+          type: string
+          description: The unique identifier for a Master Facility, that this Participation record originates from.
+          default: ''
+        written:
+          $ref: '#/components/schemas/written_facility'
+        signed:
+          $ref: '#/components/schemas/signed_facility'
+      additionalProperties: false
+      description: The Master Facility information, holding original master facility information.
+    facility_roles:
+      required:
+      - declaration_firm_order_role
+      - declaration_quote_role
+      type: object
+      properties:
+        declaration_quote_role:
+          type: string
+          description: The code that represents the quote role on the that the Underwriter participates in the Facility Panel, with their Participation.
+          default: ''
+        declaration_firm_order_role:
+          type: string
+          description: The code that represents the firm order role on the that the Underwriter participates in the Facility Panel, with their Participation.
+          default: ''
+      additionalProperties: false
+      description: The facility role information that the Declaration Underwriter takes part in through their Participation.
+    participation_getbyid:
+      required:
+      - broker_team
+      - broker_user
+      - contract_id
+      - metadata
+      - participation_id
+      - proposed
+      - section_id
+      - sequence_number
+      - status
+      - type
+      - underwriter_team
+      - underwriter_user
+      - written_line_basis
+      type: object
+      properties:
+        participation_id:
+          type: string
+          description: A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        sequence_number:
+          type: integer
+          description: The sequence number in which the Participation is ordered within a Section.
+          format: int32
+          example: 0
+        type:
+          type: string
+          description: The code that represents the type of Participation.
+          default: ''
+        broker_team:
+          $ref: '#/components/schemas/broker_team_org_company'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user_participation'
+        sub_panel:
+          $ref: '#/components/schemas/sub_panel_get'
+        status:
+          type: string
+          description: The code that represents the Participation status, based upon the Type of Participation.
+          default: ''
+        status_reason:
+          type: string
+          description: The code that represents the reason for the Participation status
+          default: ''
+        backload_code:
+          type: string
+          description: The code that represents the reason of the backload
+          default: ''
+        backload_reason:
+          type: string
+          description: The textual description of the reason for the backload.
+          default: ''
+        is_backload:
+          type: boolean
+          description: Indicates whether the Participation record has been loaded (true) into the platform through an archiving or backloading process, or not (false).
+          example: false
+        written_line_basis:
+          type: string
+          description: The basis on which the underwriter&#39;s written lines are applied to the Order of a Contract or Section.
+          default: ''
+        bound_date:
+          type: string
+          description: The date and timestamp when the Participation record is bound. This is set when (i) the Underwriter unconditionally accepts their participation; or (ii) when the broker accepts the Underwriter&#39;s conditional acceptance for their participation.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        proposed:
+          $ref: '#/components/schemas/proposed'
+        written:
+          $ref: '#/components/schemas/written'
+        calculated:
+          $ref: '#/components/schemas/calculated'
+        signed:
+          $ref: '#/components/schemas/signed'
+        roles:
+          type: array
+          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+          items:
+            $ref: '#/components/schemas/participation_role'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/stamp_get'
+        subjectivities:
+          type: array
+          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+          items:
+            $ref: '#/components/schemas/subjectivity_get'
+        facility_roles:
+          $ref: '#/components/schemas/facility_roles'
+        declaration_underwriter:
+          $ref: '#/components/schemas/team_user'
+        master_facility:
+          $ref: '#/components/schemas/master_facility_get'
+        is_excluded_from_panel:
+          type: string
+          description: Identifies whether this Underwriter has been excluded (true) from participating on the Facility Panel for this Contract or Section, or not (false).
+          example: 'false'
+        facility_panel:
+          $ref: '#/components/schemas/facility_panel_get'
+      additionalProperties: false
+      description: Participation information
+    underwriter_team:
+      required:
+      - company_name
+      - organisation_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Underwriter Team, as defined by the carrier organisation.
+          default: ''
+        organisation_name:
+          type: string
+          description: Name of the Organisation the User belongs to.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The Team information of the Underwriter Team responsible for the Participation.
+    sub_panel_get:
+      required:
+      - name
+      - sequence_number
+      - sub_panel_id
+      type: object
+      properties:
+        sub_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the sub panel.
+          default: ''
+        sequence_number:
+          type: integer
+          description: The sequence number in which the Participations are ordered.
+          format: int32
+          example: 0
+      additionalProperties: false
+      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
+    stamp_get:
+      required:
+      - agency_code
+      - agency_type
+      - name
+      - stamp_id
+      - status
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
+          default: ''
+        agency_type:
+          type: string
+          description: The code that represents the agency type.
+          default: ''
+        agency_code:
+          type: string
+          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
+          default: ''
+        name:
+          type: string
+          description: The legal name of the stamp, as provided by the Carrier organisation.
+          default: ''
+        stamp_role:
+          type: string
+          description: The code that represents the role or roles that the stamp plays in this Participation.
+          default: ''
+        written_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        written_line_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        written_line_amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        calculated_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage. The calculated signing down information.
+          example: 0.1
+        signed_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage. The signed line information.
+          example: 0.1
+        line_conditions:
+          type: array
+          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+          items:
+            $ref: '#/components/schemas/line_condition_get'
+        references:
+          type: array
+          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+          items:
+            $ref: '#/components/schemas/reference_get'
+        status:
+          type: string
+          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+      additionalProperties: false
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    signed_facility:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter, from the original master facility participation.
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    team_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the User.
+    broker_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the responsible Broker User.
+    underwriter_user_participation:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+        off_platform_underwriter:
+          type: boolean
+          description: Indicates whether the Underwriter User is registered as an off-platform user (true) or not (false).
+          example: false
+      additionalProperties: false
+      description: The User information of the Underwriter User responsible for the Participation.
+    proposed_panel:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter for this facility.
+    written:
+      required:
+      - status
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the written line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        status:
+          type: string
+          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    facility_panel_put:
+      required:
+      - facility_id
+      - facility_panel_id
+      - proposed
+      type: object
+      properties:
+        facility_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        facility_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        proposed:
+          $ref: '#/components/schemas/proposed_panel'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    signed:
+      required:
+      - date
+      - line_percentage
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the signed line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter.
+    facility_panel_get:
+      required:
+      - facility_id
+      - facility_panel_id
+      - proposed
+      - status
+      type: object
+      properties:
+        facility_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+          default: ''
+        facility_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Facility Panel status, based upon the Type of Participation.
+          default: ''
+        proposed:
+          $ref: '#/components/schemas/proposed_panel'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    proposed:
+      type: object
+      properties:
+        min_line_percentage:
+          type: number
+          description: The minimum underwriting value, as a percentage.
+          example: 0.1
+        max_line_percentage:
+          type: number
+          description: The maximum underwriting value, as a percentage.
+          example: 0.1
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        min_amount:
+          type: number
+          description: The minimum underwriting value, as an amount.
+          example: 0.1
+        max_amount:
+          type: number
+          description: The maximum underwriting value, as an amount.
+          example: 0.1
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
+    metadata:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      additionalProperties: false
+      description: A collection of data items to support the creation and update of record entities.
+    error:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    response_participations_getall:
+      required:
+      - count
+      - page_number
+      - participations
+      - total_results
+      - page_size
+      type: object
+      properties:
+        participations:
+          type: array
+          description: List of participations retrieved
+          items:
+            $ref: '#/components/schemas/participation_getbyid'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int64
+          example: 1234567891234567
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+      additionalProperties: false
+      description: ''
+    sub_panel_postput:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the sub panel.
+          default: ''
+          pattern: ^.{1,256}$
+      additionalProperties: false
+      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
+    calculated:
+      required:
+      - line_percentage
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
+    stamp_postput:
+      required:
+      - stamp_id
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    facility_panel_post:
+      required:
+      - facility_id
+      - proposed
+      type: object
+      properties:
+        facility_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        import_facility_risk_codes:
+          type: boolean
+          description: Identifies where the facility risk classification will be used in this Section (true) or the current risk classification will be maintained (false).
+          example: false
+        proposed:
+          $ref: '#/components/schemas/proposed_panel'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
