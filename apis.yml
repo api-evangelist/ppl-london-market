@@ -73,6 +73,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Contract
+  tags_raw:
   - contract
   properties:
   - type: OpenAPI
@@ -140,6 +142,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Document
+  tags_raw:
   - document
   properties:
   - type: OpenAPI
@@ -207,6 +211,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Health
+  tags_raw:
   - health
   properties:
   - type: OpenAPI
@@ -277,6 +283,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Negotiation
+  tags_raw:
   - negotiation
   properties:
   - type: OpenAPI
@@ -344,6 +352,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Notification
+  tags_raw:
   - notification
   properties:
   - type: OpenAPI
@@ -411,6 +421,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Organisation
+  tags_raw:
   - organisation
   properties:
   - type: OpenAPI
@@ -481,6 +493,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Participation
+  tags_raw:
   - participation
   properties:
   - type: OpenAPI
@@ -549,6 +563,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Placement
+  tags_raw:
   - placement
   properties:
   - type: OpenAPI
@@ -688,6 +704,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Section
+  tags_raw:
   - section
   properties:
   - type: OpenAPI
@@ -755,6 +773,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Submission
+  tags_raw:
   - submission
   properties:
   - type: OpenAPI
@@ -822,6 +842,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Transaction
+  tags_raw:
   - transaction
   properties:
   - type: OpenAPI
@@ -889,6 +911,8 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
+  - Version
+  tags_raw:
   - version
   properties:
   - type: OpenAPI
