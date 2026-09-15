@@ -2,28 +2,23 @@ aid: ppl-london-market
 url: https://raw.githubusercontent.com/api-evangelist/ppl-london-market/refs/heads/main/apis.yml
 name: PPL
 kind: company
-description: >-
-  PPL (Placing Platform Limited) is the London Market's not-for-profit
-  electronic placing platform, incorporated in England and Wales in 2013 and trading
-  since the first risk was bound on the platform in July 2016. Owned collectively by
-  the market it serves, PPL lets brokers and carriers quote, negotiate, bind and renew
-  open-market (re)insurance risks electronically across almost all classes of business
-  written in London, and is used by roughly 200 carriers and 200 broking firms. It is
-  market infrastructure rather than a carrier or a broker - it writes no insurance and
-  carries no risk - and it is one of the accredited placing platforms underpinning
-  Lloyd's Blueprint Two, generating the Core Data Record for bound business. Its API
-  posture is unusual for insurance and genuinely good: the PPL Next Gen API Developer
-  Portal at developer.pplnextgen.com is publicly readable and publishes a real API
-  catalogue of five REST collections - Organisations, Placements, Submissions,
-  Documents and Events - each with a downloadable OpenAPI 3.0 document and a Postman
-  collection, built on REST standards and the ACORD GRLC (Global Reinsurance and Large
-  Commercial) data model. Actually calling the APIs is market-gated rather than
-  self-serve: consumers must be onboarded by PPL, subscribe to LIMOSS API Common
-  Services, be guested into the Microsoft Entra ID (Azure AD) tenant of the LIMOSS API
-  Gateway, and register an X.509 certificate per environment. The surface covers quote
-  and bind (submission negotiation, contract negotiation, participations, firm order)
-  and contract issuance via the Market Reform Contract document set; there is no claims
-  or FNOL API, and no webhook or event-push surface - the Events API is pull-based.
+description: 'PPL (Placing Platform Limited) is the London Market''s not-for-profit electronic placing
+  platform, incorporated in England and Wales in 2013 and trading since the first risk was bound on the
+  platform in July 2016. Owned collectively by the market it serves, PPL lets brokers and carriers quote,
+  negotiate, bind and renew open-market (re)insurance risks electronically across almost all classes of
+  business written in London, and is used by roughly 200 carriers and 200 broking firms. It is market
+  infrastructure rather than a carrier or a broker - it writes no insurance and carries no risk - and
+  it is one of the accredited placing platforms underpinning Lloyd''s Blueprint Two, generating the Core
+  Data Record for bound business. Its API posture is unusual for insurance and genuinely good: the PPL
+  Next Gen API Developer Portal at developer.pplnextgen.com is publicly readable and publishes a real
+  API catalogue of five REST collections - Organisations, Placements, Submissions, Documents and Events
+  - each with a downloadable OpenAPI 3.0 document and a Postman collection, built on REST standards and
+  the ACORD GRLC (Global Reinsurance and Large Commercial) data model. Actually calling the APIs is market-gated
+  rather than self-serve: consumers must be onboarded by PPL, subscribe to LIMOSS API Common Services,
+  be guested into the Microsoft Entra ID (Azure AD) tenant of the LIMOSS API Gateway, and register an
+  X.509 certificate per environment. The surface covers quote and bind (submission negotiation, contract
+  negotiation, participations, firm order) and contract issuance via the Market Reform Contract document
+  set; there is no claims or FNOL API, and no webhook or event-push surface - the Events API is pull-based.'
 deliveryModel:
   model: saas
   open_source: false
@@ -105,8 +100,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -116,8 +110,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -127,8 +120,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -138,8 +130,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -149,8 +140,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-document-api
   name: PPL Document API
   description: The document API from PPL — 6 operation(s) for document.
@@ -174,8 +164,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -185,8 +174,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -196,8 +184,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -207,8 +194,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -218,8 +204,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-health-api
   name: PPL Health API
   description: The health API from PPL — 1 operation(s) for health.
@@ -243,8 +228,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -254,8 +238,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -265,8 +248,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -276,8 +258,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -287,14 +268,12 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-negotiation-api
   name: PPL Negotiation API
-  description: >-
-    Enables the creation and management of the flow of negotiations from a Broker to an Underwriter. Negotiations
-    shown will be those which (1) have been formally communicated to the Underwriter; and (2) &#39;saved&#39;
-    Negotiation records (i.e. that are waiting to be sent to the Underwriter).
+  description: Enables the creation and management of the flow of negotiations from a Broker to an Underwriter.
+    Negotiations shown will be those which (1) have been formally communicated to the Underwriter; and
+    (2) 'saved' Negotiation records (i.e. that are waiting to be sent to the Underwriter).
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
@@ -315,8 +294,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -326,8 +304,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -337,8 +314,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -348,8 +324,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -359,8 +334,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-notification-api
   name: PPL Notification API
   description: The notification API from PPL — 3 operation(s) for notification.
@@ -384,8 +358,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -395,8 +368,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -406,8 +378,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -417,8 +388,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -428,8 +398,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-organisation-api
   name: PPL Organisation API
   description: The organisation API from PPL — 5 operation(s) for organisation.
@@ -453,8 +422,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -464,8 +432,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -475,8 +442,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -486,8 +452,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -497,14 +462,12 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-participation-api
   name: PPL Participation API
-  description: >-
-    Enables the creation, management and processing of Open Market Underwriters and Facility Panel Underwriters
-    that are willing to participate in the underwriting of an insured's asset or liability, represented
-    within the un/structured information in a Contract or Section.
+  description: Enables the creation, management and processing of Open Market Underwriters and Facility
+    Panel Underwriters that are willing to participate in the underwriting of an insured's asset or liability,
+    represented within the un/structured information in a Contract or Section.
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
@@ -525,8 +488,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -536,8 +498,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -547,8 +508,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -558,8 +518,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -569,12 +528,11 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-placement-api
   name: PPL Placement API
-  description: >-
-    Enables the creation and management of the Placement structure that comprises of Programmes and Contracts.
+  description: Enables the creation and management of the Placement structure that comprises of Programmes
+    and Contracts.
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
@@ -595,8 +553,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -606,8 +563,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -617,8 +573,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -628,8 +583,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -639,13 +593,11 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-programme-api
   name: PPL Programme API
-  description: >-
-    Enables the creation and management of Programme structures within a Placement. This also includes
-    the capability to add existing Contracts into a programme.
+  description: Enables the creation and management of Programme structures within a Placement. This also
+    includes the capability to add existing Contracts into a programme.
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
@@ -664,8 +616,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -675,8 +626,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -686,8 +636,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -697,8 +646,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -708,14 +656,12 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-section-api
   name: PPL Section API
-  description: >-
-    Enables the creation and management of Contract sections, as structured data. Each Section represents
-    of a specific partition of the overall risk to be insured. A section can be based upon the cover type,
-    coverage (e.g. class of business), geographic territory and / or layer (limit of liability).
+  description: Enables the creation and management of Contract sections, as structured data. Each Section
+    represents of a specific partition of the overall risk to be insured. A section can be based upon
+    the cover type, coverage (e.g. class of business), geographic territory and / or layer (limit of liability).
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
@@ -736,8 +682,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -747,8 +692,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -758,8 +702,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -769,8 +712,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -780,8 +722,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-submission-api
   name: PPL Submission API
   description: Enables the retrieval of Submissions for Underwriters.
@@ -805,8 +746,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -816,8 +756,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -827,8 +766,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -838,8 +776,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -849,8 +786,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-transaction-api
   name: PPL Transaction API
   description: The transaction API from PPL — 2 operation(s) for transaction.
@@ -874,8 +810,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -885,8 +820,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -896,8 +830,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -907,8 +840,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -918,8 +850,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 - aid: ppl-london-market:ppl-london-market-version-api
   name: PPL Version API
   description: The version API from PPL — 1 operation(s) for version.
@@ -943,8 +874,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Placements/Business-Process-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/placements/NextGen%20Market%20Placement%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/submissions
   - type: APIReference
@@ -954,8 +884,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Submissions/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/submissions/NextGen%20Market%20Submission%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/organisations
   - type: APIReference
@@ -965,8 +894,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Organisations/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/organisations/NextGen%20Market%20Organisation%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/documents
   - type: APIReference
@@ -976,8 +904,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Documents/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/documents/NextGen%20Market%20Document%20API%20%5BRelease%203%5D.postman_collection.zip
   - type: Documentation
     url: https://developer.pplnextgen.com/events
   - type: APIReference
@@ -987,8 +914,7 @@ apis:
   - type: Documentation
     url: https://developer.pplnextgen.com/Events/Information-Model
   - type: PostmanCollection
-    url: >-
-      https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
+    url: https://developer.pplnextgen.com/static/resources/events/NextGen%20Market%20Event%20API%20%5BRelease%203%5D.postman_collection.zip
 common:
 - type: CapabilityMap
   url: capabilities/ppl-london-market-capability-edges.yml
@@ -1033,7 +959,10 @@ common:
 - type: X-MCPServerCandidate
   name: Derived candidate MCP tool surface (no server published by PPL)
   url: mcp/ppl-london-market-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: ToolCrosswalk
   name: MCP tool to OpenAPI operationId crosswalk
   url: mcp/ppl-london-market-tool-crosswalk.yml
