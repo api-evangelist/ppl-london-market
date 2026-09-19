@@ -147,7 +147,7 @@ apis:
   humanURL: https://developer.pplnextgen.com/placements
   baseURL: https://api.londonmarketgroup.co.uk/ppl/nextgen/placements/v1
   tags:
-  - Document
+  - Documents
   tags_raw:
   - document
   properties:
