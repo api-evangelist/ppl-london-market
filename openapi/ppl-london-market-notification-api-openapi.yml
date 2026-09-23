@@ -1,21 +1,18 @@
 openapi: 3.2.0
 info:
   title: event Notification API
-  description: 'This API collection provides the capability to retrieve informative and actionable information on an interested party&#39;s involvement within the differing activities of the insurance placement process. This also includes the business transactional log information for any Contract-related engagement between a Broker and an Underwriter that is transacted within the platform.
-
-
-    Provides technical information relating to asynchronous processes and business notifications from the platform that are either informational or require some form of action to be taken by the recipient.'
+  description: This API collection provides the capability to retrieve informative and actionable information on an interested party's involvement within the differing activities of the insurance placement process.
   version: '1'
 servers:
 - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/events
   description: Joint Integration testing (JIT2) environment
 tags:
-- name: notification
+- name: Notification
 paths:
   /notifications:
     get:
       tags:
-      - notification
+      - Notification
       description: Returns a list of all Notification records, based upon various query parameters. Pagination functionality is supported on this operation.
       operationId: Notification_GetAll_v1
       parameters:
@@ -228,10 +225,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Notification get all v1
+      x-summary-source: derived
   /notifications/{notificationId}:
     get:
       tags:
-      - notification
+      - Notification
       description: Returns a single Notification record. This record will contain attributes pertaining to the type of notification and any type of action that is required. The context information is the subject of the notification.
       operationId: Notification_GetById_v1
       parameters:
@@ -298,10 +297,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Notification get by id v1
+      x-summary-source: derived
   /notifications/markAllAsRead:
     post:
       tags:
-      - notification
+      - Notification
       description: Initiates the operation to update all non-technical Notification records as read from a defined date.
       operationId: Notification_MarkAllAsRead_v1
       parameters:
@@ -369,59 +370,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: notifications
+      summary: Notification mark all as read v1
+      x-summary-source: derived
 components:
   schemas:
-    metadata_user:
-      required:
-      - user_email
+    error:
       type: object
       properties:
-        user_email:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
           type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      description: The User information of the Metadata User.
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
+          description: The error code.
+    error_document:
       type: object
+      description: The error document.
       properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      description: A collection of data items to support the creation and update of record entities.
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
     response_notification_record:
       required:
       - category
@@ -488,36 +470,71 @@ components:
           $ref: '#/components/schemas/references'
       additionalProperties: false
       description: The Notification Information record.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
-    error:
+    sender_notifications:
+      required:
+      - company_name
+      - first_name
+      - last_name
+      - organisation_name
+      - sender_email
       type: object
       properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
+        sender_email:
           type: string
-          description: The error code.
+          description: The email address of the Sender.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the Sender.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the Sender.
+          default: ''
+        organisation_name:
+          type: string
+          description: Name of the organisation the Sender belongs to.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the company the Sender belongs to.
+          default: ''
+      additionalProperties: false
+      description: The Sender information of the individual responsible for the Notification record.
+    context_notification:
+      required:
+      - context_id
+      - context_type
+      type: object
+      properties:
+        context_type:
+          type: string
+          description: The code that represents where within the hierarchical structure of the platform the subject of this record belongs.
+          default: ''
+        context_id:
+          type: string
+          description: The unique identifier of the subject to which the Context Type relates to.
+          default: ''
+      additionalProperties: false
+      description: Contextual information about where the subject of this Notification is within the platform.
+    response_markallasread:
+      required:
+      - from_date
+      - items_marked_as_read_count
+      type: object
+      properties:
+        from_date:
+          type: string
+          description: The date and timestamp from which any Notification records with a Created Date on or after this date, will be marked as read.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        items_marked_as_read_count:
+          type: integer
+          description: The number of Notification records that have been marked as read as part of the synchronous operation.
+          format: int32
+          example: 0
+      additionalProperties: false
+      description: Response for notifications mark all as read endpoint.
     references:
       required:
       - client_name
@@ -558,22 +575,39 @@ components:
           default: ''
       additionalProperties: false
       description: Notification references structure.
-    context_notification:
+    metadata:
       required:
-      - context_id
-      - context_type
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
       type: object
       properties:
-        context_type:
+        created_date:
           type: string
-          description: The code that represents where within the hierarchical structure of the platform the subject of this record belongs.
-          default: ''
-        context_id:
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
           type: string
-          description: The unique identifier of the subject to which the Context Type relates to.
+          description: The mechanism used to create the entity, e.g. OutSystems, API
           default: ''
-      additionalProperties: false
-      description: Contextual information about where the subject of this Notification is within the platform.
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      description: A collection of data items to support the creation and update of record entities.
     response_notifications:
       type: object
       properties:
@@ -604,55 +638,6 @@ components:
           example: 0
       additionalProperties: false
       description: ''
-    response_markallasread:
-      required:
-      - from_date
-      - items_marked_as_read_count
-      type: object
-      properties:
-        from_date:
-          type: string
-          description: The date and timestamp from which any Notification records with a Created Date on or after this date, will be marked as read.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        items_marked_as_read_count:
-          type: integer
-          description: The number of Notification records that have been marked as read as part of the synchronous operation.
-          format: int32
-          example: 0
-      additionalProperties: false
-      description: Response for notifications mark all as read endpoint.
-    sender_notifications:
-      required:
-      - company_name
-      - first_name
-      - last_name
-      - organisation_name
-      - sender_email
-      type: object
-      properties:
-        sender_email:
-          type: string
-          description: The email address of the Sender.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the Sender.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the Sender.
-          default: ''
-        organisation_name:
-          type: string
-          description: Name of the organisation the Sender belongs to.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the company the Sender belongs to.
-          default: ''
-      additionalProperties: false
-      description: The Sender information of the individual responsible for the Notification record.
     recipient_notifications:
       required:
       - branch_name
@@ -711,3 +696,21 @@ components:
           example: '2014-12-31T23:59:59.938Z'
       additionalProperties: false
       description: Payload for notifications mark all as read endpoint.
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      description: The User information of the Metadata User.

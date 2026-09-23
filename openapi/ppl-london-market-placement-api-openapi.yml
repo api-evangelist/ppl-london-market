@@ -1,19 +1,21 @@
 openapi: 3.2.0
 info:
   title: Placement API
-  description: "This API collection provides the capability to manage aspects of the Placement structure. \nThis includes that overall management of Placements, Programmes, Contracts as well as any Sections within a Contract. This also includes the ability to set up carrier/underwriter participants for insurance placement purposes."
+  description: 'This API collection provides the capability to manage aspects of the Placement structure.
+
+    This includes that overall management of Placements, Programmes, Contracts as well as any Sections within a Contract. This also includes the ability to set up carrier/underwriter participants for insurance placement purposes.'
   version: '1'
 servers:
 - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
   description: Joint Integration testing (JIT2) environment
 tags:
-- name: placement
+- name: Placement
   description: Enables the creation and management of the Placement structure that comprises of Programmes and Contracts.
 paths:
   /placements:
     get:
       tags:
-      - placement
+      - Placement
       description: Returns a list of Placement records and any Programme structures, based upon various query parameters. This end point will also provide minimal information about any Contracts within the Placement structure. Pagination functionality is supported on this operation.
       operationId: Placement_GetAll_v1
       parameters:
@@ -230,9 +232,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Placement get all v1
+      x-summary-source: derived
     post:
       tags:
-      - placement
+      - Placement
       description: Creates a Placement record. This is the starting point in order for Contracts and Programmes to be added into the platform.
       operationId: Placement_Post_v1
       parameters:
@@ -300,10 +304,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: placement
+      summary: Placement post v1
+      x-summary-source: derived
   /placements/{placementId}:
     get:
       tags:
-      - placement
+      - Placement
       description: Returns the Placement structure for a specified Placement record. This will contains information about the Placement, its Programmes and summarised information about Contract records within the Placement structure.
       operationId: Placement_GetById_v1
       parameters:
@@ -370,9 +376,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Placement get by id v1
+      x-summary-source: derived
     put:
       tags:
-      - placement
+      - Placement
       description: Updates a Placement record, where the record is in a state that enables its update.
       operationId: Placement_Put_v1
       parameters:
@@ -455,9 +463,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: placement
+      summary: Placement put v1
+      x-summary-source: derived
     delete:
       tags:
-      - placement
+      - Placement
       description: Deletes a Placement record, where the record is in a state that enables its deletion.
       operationId: Placement_Delete_v1
       parameters:
@@ -521,27 +531,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Placement delete v1
+      x-summary-source: derived
 components:
   schemas:
-    metadata_user:
-      required:
-      - user_email
+    error:
       type: object
       properties:
-        user_email:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
           type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Metadata User.
+          description: The error code.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
     placement_contract_getbyid:
       required:
       - broker_team
@@ -611,7 +634,52 @@ components:
             $ref: '#/components/schemas/placement_section_getbyid'
       additionalProperties: false
       description: A collection of insurance Contracts.
-    placement_put:
+    placement_broker_team:
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+        branch_name:
+          type: string
+          description: Name of the Branch the Broker Team belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the Placement.
+    placement_programme_getall:
+      required:
+      - programme_id
+      type: object
+      properties:
+        programme_id:
+          type: string
+          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the Placement supplied by the Broker.
+          default: ''
+        earliest_inception_date:
+          type: string
+          description: The earliest inception date of all Contracts contained within the Programme structure.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        status:
+          type: string
+          description: The code that represents the Programme status.
+          default: ''
+      additionalProperties: false
+      description: A collection of Contracts for a common purpose.
+    placement_post:
       required:
       - client_name
       - description
@@ -642,104 +710,35 @@ components:
           default: ''
           pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
       additionalProperties: false
-      description: Placement structure for updates
-    broker_user:
+      description: Placement structure for creates
+    placement_section_getbyid:
       required:
-      - first_name
-      - last_name
-      - user_email
+      - section_id
       type: object
       properties:
-        user_email:
+        section_id:
           type: string
-          description: The email address of the User.
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
           default: ''
-        first_name:
+        reference:
           type: string
-          description: The first name of the User.
+          description: A reference of the Section supplied by the Broker.
           default: ''
-        last_name:
+        description:
           type: string
-          description: The last name of the User.
+          description: A description of the Section supplied by the Broker.
+          default: ''
+        sequence_number:
+          type: integer
+          description: The sequence number that defines the order in which Sections are ordered.
+          format: int32
+          example: 0
+        status:
+          type: string
+          description: The code that represents the Section status.
           default: ''
       additionalProperties: false
-      description: The User information of the responsible Broker User.
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      additionalProperties: false
-      description: A collection of data items to support the creation and update of record entities.
-    placement_broker_team:
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-        branch_name:
-          type: string
-          description: Name of the Branch the Broker Team belongs to.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the Placement.
-    error:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
-          type: string
-          description: The error code.
+      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
     placement_getall:
       required:
       - broker_team
@@ -792,66 +791,6 @@ components:
             $ref: '#/components/schemas/placement_programme_getall'
       additionalProperties: false
       description: Placement for Get All
-    placement_section_getbyid:
-      required:
-      - section_id
-      type: object
-      properties:
-        section_id:
-          type: string
-          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
-          default: ''
-        reference:
-          type: string
-          description: A reference of the Section supplied by the Broker.
-          default: ''
-        description:
-          type: string
-          description: A description of the Section supplied by the Broker.
-          default: ''
-        sequence_number:
-          type: integer
-          description: The sequence number that defines the order in which Sections are ordered.
-          format: int32
-          example: 0
-        status:
-          type: string
-          description: The code that represents the Section status.
-          default: ''
-      additionalProperties: false
-      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
-    placement_post:
-      required:
-      - client_name
-      - description
-      - effective_year
-      - user_email
-      type: object
-      properties:
-        client_name:
-          type: string
-          description: The name by which the Broker User knows the client for the purposes of seeking insurance.
-          default: ''
-          pattern: ^.{1,40}$
-        description:
-          type: string
-          description: A description of the Placement supplied by the Broker.
-          default: ''
-          pattern: ^.{1,256}$
-        effective_year:
-          type: integer
-          description: The represented year in which the Placement is effective for.
-          format: int32
-          minimum: 1900
-          maximum: 9999
-          example: 1900
-        user_email:
-          type: string
-          description: The User information of the Broker User responsible for the Placement. The email address of the User.
-          default: ''
-          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
-      additionalProperties: false
-      description: Placement structure for creates
     broker_team_company:
       required:
       - company_name
@@ -873,6 +812,40 @@ components:
           default: ''
       additionalProperties: false
       description: The team information of the Broker Team responsible for the node.
+    metadata:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      additionalProperties: false
+      description: A collection of data items to support the creation and update of record entities.
     response_placements_getall:
       type: object
       properties:
@@ -903,15 +876,91 @@ components:
           example: 0
       additionalProperties: false
       description: ''
-    error_document:
+    metadata_user:
+      required:
+      - user_email
       type: object
-      description: The error document.
       properties:
-        errors:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    broker_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the responsible Broker User.
+    placement_programme_getbyid:
+      required:
+      - broker_team
+      - programme_id
+      type: object
+      properties:
+        programme_id:
+          type: string
+          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
+          default: ''
+        default:
+          type: boolean
+          description: Identifies whether this is a default Programme. A default Programme is a programme data structure where Contracts that are not within a business-related Programme are maintained.
+          example: false
+        sequence_number:
+          type: integer
+          description: The sequence number in which differing Programmes are ordered.
+          format: int32
+          example: 0
+        broker_team:
+          $ref: '#/components/schemas/broker_team_company'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        description:
+          type: string
+          description: A description of the Placement supplied by the Broker.
+          default: ''
+        earliest_inception_date:
+          type: string
+          description: The earliest inception date of all Contracts contained within the Programme structure.
+          format: date
+          example: '2014-12-31'
+        status:
+          type: string
+          description: The code that represents the Programme status.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        contracts:
           type: array
-          description: A collection of errors. The list may be empty.
+          description: A collection of insurance Contracts.
           items:
-            $ref: '#/components/schemas/error'
+            $ref: '#/components/schemas/placement_contract_getbyid'
+      additionalProperties: false
+      description: A collection of Contracts for a common purpose.
     placement_getbyid:
       required:
       - broker_team
@@ -964,72 +1013,35 @@ components:
             $ref: '#/components/schemas/placement_programme_getbyid'
       additionalProperties: false
       description: Placement for Get By Id
-    placement_programme_getall:
+    placement_put:
       required:
-      - programme_id
+      - client_name
+      - description
+      - effective_year
+      - user_email
       type: object
       properties:
-        programme_id:
+        client_name:
           type: string
-          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
+          description: The name by which the Broker User knows the client for the purposes of seeking insurance.
           default: ''
+          pattern: ^.{1,40}$
         description:
           type: string
           description: A description of the Placement supplied by the Broker.
           default: ''
-        earliest_inception_date:
-          type: string
-          description: The earliest inception date of all Contracts contained within the Programme structure.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-        status:
-          type: string
-          description: The code that represents the Programme status.
-          default: ''
-      additionalProperties: false
-      description: A collection of Contracts for a common purpose.
-    placement_programme_getbyid:
-      required:
-      - broker_team
-      - programme_id
-      type: object
-      properties:
-        programme_id:
-          type: string
-          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
-          default: ''
-        default:
-          type: boolean
-          description: Identifies whether this is a default Programme. A default Programme is a programme data structure where Contracts that are not within a business-related Programme are maintained.
-          example: false
-        sequence_number:
+          pattern: ^.{1,256}$
+        effective_year:
           type: integer
-          description: The sequence number in which differing Programmes are ordered.
+          description: The represented year in which the Placement is effective for.
           format: int32
-          example: 0
-        broker_team:
-          $ref: '#/components/schemas/broker_team_company'
-        broker_user:
-          $ref: '#/components/schemas/broker_user'
-        description:
+          minimum: 1900
+          maximum: 9999
+          example: 1900
+        user_email:
           type: string
-          description: A description of the Placement supplied by the Broker.
+          description: The User information of the Broker User responsible for the Placement. The email address of the User.
           default: ''
-        earliest_inception_date:
-          type: string
-          description: The earliest inception date of all Contracts contained within the Programme structure.
-          format: date
-          example: '2014-12-31'
-        status:
-          type: string
-          description: The code that represents the Programme status.
-          default: ''
-        metadata:
-          $ref: '#/components/schemas/metadata'
-        contracts:
-          type: array
-          description: A collection of insurance Contracts.
-          items:
-            $ref: '#/components/schemas/placement_contract_getbyid'
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
       additionalProperties: false
-      description: A collection of Contracts for a common purpose.
+      description: Placement structure for updates

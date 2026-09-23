@@ -1,0 +1,55 @@
+{
+  "provider": "ppl-london-market",
+  "sources": [
+    "_original/ppl-london-market-documents.json",
+    "_original/ppl-london-market-events.json",
+    "_original/ppl-london-market-organisations.json",
+    "_original/ppl-london-market-placements.json",
+    "_original/ppl-london-market-submissions.json"
+  ],
+  "outputs": [
+    "ppl-london-market-document-api-openapi.yml",
+    "ppl-london-market-health-api-openapi.yml",
+    "ppl-london-market-version-api-openapi.yml",
+    "ppl-london-market-notification-api-openapi.yml",
+    "ppl-london-market-transaction-api-openapi.yml",
+    "ppl-london-market-organisation-api-openapi.yml",
+    "ppl-london-market-contract-api-openapi.yml",
+    "ppl-london-market-negotiation-api-openapi.yml",
+    "ppl-london-market-participation-api-openapi.yml",
+    "ppl-london-market-placement-api-openapi.yml",
+    "ppl-london-market-programme-api-openapi.yml",
+    "ppl-london-market-section-api-openapi.yml",
+    "ppl-london-market-submission-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (5 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "ppl-london-market-documents.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "ppl-london-market-events.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "ppl-london-market-organisations.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "ppl-london-market-placements.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "ppl-london-market-submissions.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "tag 'health' spans 5 source specs (ppl-london-market-documents.json, ppl-london-market-events.json, ppl-london-market-organisations.json, ppl-london-market-placements.json, ppl-london-market-submissions.json): per-path servers applied",
+    "tag 'version' spans 5 source specs (ppl-london-market-documents.json, ppl-london-market-events.json, ppl-london-market-organisations.json, ppl-london-market-placements.json, ppl-london-market-submissions.json): per-path servers applied",
+    "tag 'negotiation' spans 2 source specs (ppl-london-market-placements.json, ppl-london-market-submissions.json): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "ppl-london-market-contract-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-document-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-negotiation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-notification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-organisation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-participation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-placement-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-programme-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-section-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-submission-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-transaction-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ppl-london-market-version-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

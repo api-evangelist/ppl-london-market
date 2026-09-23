@@ -1,7 +1,9 @@
 openapi: 3.2.0
 info:
   title: placement Programme API
-  description: "This API collection provides the capability to manage aspects of the Placement structure. \nThis includes that overall management of Placements, Programmes, Contracts as well as any Sections within a Contract. This also includes the ability to set up carrier/underwriter participants for insurance placement purposes."
+  description: 'This API collection provides the capability to manage aspects of the Placement structure.
+
+    This includes that overall management of Placements, Programmes, Contracts as well as any Sections within a Contract. This also includes the ability to set up carrier/underwriter participants for insurance placement purposes.'
   version: '1'
 servers:
 - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/placements
@@ -88,11 +90,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: programme
+      summary: Programme post v1
+      x-summary-source: derived
   /placements/{placementId}/programmes/{programmeId}:
     get:
       tags:
       - programme
-      description: Returns the Programme structure for a specified Programme record. This will return information about the Programme and  summarised information about Contract records within the Programme structure.
+      description: Returns the Programme structure for a specified Programme record. This will return information about the Programme and summarised information about Contract records within the Programme structure.
       operationId: Programme_GetById_v1
       parameters:
       - name: X-Auth-Impersonated-User
@@ -165,6 +169,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Programme get by id v1
+      x-summary-source: derived
     put:
       tags:
       - programme
@@ -257,6 +263,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: programme
+      summary: Programme put v1
+      x-summary-source: derived
     delete:
       tags:
       - programme
@@ -330,98 +338,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Programme delete v1
+      x-summary-source: derived
 components:
   schemas:
-    metadata_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Metadata User.
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      additionalProperties: false
-      description: A collection of data items to support the creation and update of record entities.
-    programme_contract_getbyid:
-      required:
-      - contract_id
-      - unique_market_reference
-      type: object
-      properties:
-        contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-        unique_market_reference:
-          type: string
-          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
-          default: ''
-      additionalProperties: false
-      description: A collection of insurance Contracts.
-    broker_user:
-      required:
-      - first_name
-      - last_name
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the responsible Broker User.
     error:
       type: object
       properties:
@@ -452,27 +372,6 @@ components:
           description: A collection of errors. The list may be empty.
           items:
             $ref: '#/components/schemas/error'
-    broker_team_company:
-      required:
-      - company_name
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
     programme_post:
       required:
       - description
@@ -553,6 +452,89 @@ components:
             $ref: '#/components/schemas/programme_contract_getbyid'
       additionalProperties: false
       description: A collection of Contracts for a common purpose.
+    broker_team_company:
+      required:
+      - company_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    metadata:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      additionalProperties: false
+      description: A collection of data items to support the creation and update of record entities.
+    programme_contract_getbyid:
+      required:
+      - contract_id
+      - unique_market_reference
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
+      additionalProperties: false
+      description: A collection of insurance Contracts.
+    programme_contract_postput:
+      required:
+      - contract_id
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: ''
     programme_put:
       required:
       - description
@@ -576,15 +558,43 @@ components:
             $ref: '#/components/schemas/programme_contract_postput'
       additionalProperties: false
       description: Programme structure for updates
-    programme_contract_postput:
+    broker_user:
       required:
-      - contract_id
+      - first_name
+      - last_name
+      - user_email
       type: object
       properties:
-        contract_id:
+        user_email:
           type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          description: The email address of the User.
           default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
       additionalProperties: false
-      description: ''
+      description: The User information of the responsible Broker User.
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.

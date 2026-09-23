@@ -15,12 +15,12 @@ servers:
 - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
   description: Joint Integration testing (JIT2) environment
 tags:
-- name: health
+- name: Health
 paths:
   /health:
     get:
       tags:
-      - health
+      - Health
       description: Checks the health of this Document Resource API.
       operationId: Health
       responses:
@@ -30,6 +30,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/health'
+      summary: Health
+      x-summary-source: derived
     servers:
     - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
       description: Joint Integration testing (JIT2) environment

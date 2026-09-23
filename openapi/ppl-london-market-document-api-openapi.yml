@@ -1,21 +1,18 @@
 openapi: 3.2.0
 info:
   title: Document API
-  description: 'This API collection provides the capability of supporting the management of document files and document information in the platform. This includes the Market Reform Contract (MRC) as well as supporting documents that can be added at various levels of hierarchy in the Placement structure.
-
-
-    Enables the creation and management of Document data relating to the hierarchical structure of a Placement. This includes the management of the Market Reform Contract (MRC) documents and any supporting documentation that is used as part of a Submission to an Underwriter for insurance placement purposes.'
+  description: This API collection provides the capability of supporting the management of document files and document information in the platform.
   version: '1'
 servers:
 - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
   description: Joint Integration testing (JIT2) environment
 tags:
-- name: document
+- name: Document
 paths:
   /documents:
     get:
       tags:
-      - document
+      - Document
       description: Returns a list of all Document records associated within a specified Placement structure, based upon various query parameters. Pagination functionality is supported on this operation.
       operationId: Document_GetAll_v1
       parameters:
@@ -214,10 +211,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Document get all v1
+      x-summary-source: derived
     post:
       tags:
-      - document
-      description: Creates a Document record, representing either the Market Reform Contract (MRC) or another type of supporting document. The request contains the document attributes as well as the electronic file which will be submitted into the platform&#39;s content management system. This end point will also be used for when an electronic file is to be replaced, i.e. versioned.
+      - Document
+      description: Creates a Document record, representing either the Market Reform Contract (MRC) or another type of supporting document. The request contains the document attributes as well as the electronic file which will be submitted into the platform's content management system. This end point will also be used for when an electronic file is to be replaced, i.e. versioned.
       operationId: Document_Post_v1
       parameters:
       - name: X-Auth-Impersonated-User
@@ -284,10 +283,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: document
+      summary: Document post v1
+      x-summary-source: derived
   /documents/versions/{documentVersionId}:
     get:
       tags:
-      - document
+      - Document
       description: Returns a single Document record. This record will contain the document attributes of the document, but does not provide the electronic file.
       operationId: Document_GetById_v1
       parameters:
@@ -354,9 +355,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Document get by id v1
+      x-summary-source: derived
     put:
       tags:
-      - document
+      - Document
       description: Updates the data attributes of a Document record. This operation will not replace the electronic file.
       operationId: Document_Put_v1
       parameters:
@@ -439,9 +442,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: document
+      summary: Document put v1
+      x-summary-source: derived
     delete:
       tags:
-      - document
+      - Document
       description: Deletes a Document record, where the record is in a state that enables its deletion.
       operationId: Document_Delete_v1
       parameters:
@@ -508,10 +513,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Document delete v1
+      x-summary-source: derived
   /documents/versions/{documentVersionId}/content:
     get:
       tags:
-      - document
+      - Document
       description: Returns the electronic file that is represented by the Document record. This is the subsequent end point that is called following an asynchronous response that the electronic file is ready to be downloaded.
       operationId: Document_GetContent_v1
       parameters:
@@ -588,10 +595,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Document get content v1
+      x-summary-source: derived
   /documents/versions/{documentVersionId}/download:
     post:
       tags:
-      - document
+      - Document
       description: Initiates the asynchronous operation to download the electronic file of this document.
       operationId: Document_PostDownload_v1
       parameters:
@@ -664,10 +673,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Document post download v1
+      x-summary-source: derived
   /documents/versions/{documentVersionId}/security/content:
     get:
       tags:
-      - document
+      - Document
       description: Returns the electronic file that represents the Market Reform Contract with its underwriting security page(s) and settlement information. This is the subsequent end point that is called following an asynchronous response that the electronic file is ready to be downloaded.
       operationId: Document_GetSecurityContent_v1
       parameters:
@@ -744,10 +755,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_document'
+      summary: Document get security content v1
+      x-summary-source: derived
   /documents/versions/{documentVersionId}/security/download:
     post:
       tags:
-      - document
+      - Document
       description: Initiates the asynchronous operation to download the Market Reform Contract with its underwriting security page(s) and settlement information.
       operationId: Document_PostSecurityDownload_v1
       parameters:
@@ -822,107 +835,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_document'
       x-codegen-request-body-name: securityDetails
+      summary: Document post security download v1
+      x-summary-source: derived
 components:
   schemas:
-    metadata_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      description: The User information of the Metadata User.
-    document_get:
-      required:
-      - broker_team
-      - class_type
-      - context
-      - description
-      - document_id
-      - document_version_id
-      - filename
-      - is_shared
-      - major_version
-      - metadata
-      - minor_version
-      - size
-      - status
-      - type
-      - user
-      - version
-      type: object
-      properties:
-        document_version_id:
-          type: string
-          description: A system-generated unique identifier for a Document, with a format and structure defined by the technology used.
-          default: ''
-        document_id:
-          type: string
-          description: A system-generated identifier for each Document record, with a format and structure defined by the technology used. This identifier is used to group multiple versions of the same Document together.
-          default: ''
-        version:
-          type: string
-          description: The full version number of the Document, as a period separated concatenation of its major version and minor version.
-          default: ''
-        major_version:
-          type: integer
-          description: The major version element of the Document&#39;s version number.
-          format: int32
-          example: 0
-        minor_version:
-          type: integer
-          description: The minor version element of the Document&#39;s version number.
-          format: int32
-          example: 0
-        metadata:
-          $ref: '#/components/schemas/metadata'
-        user:
-          $ref: '#/components/schemas/team_user'
-        broker_team:
-          $ref: '#/components/schemas/broker_team'
-        filename:
-          type: string
-          description: The file name of the Document, including its file extension.
-          default: ''
-        description:
-          type: string
-          description: A description about the Document and / or its contents.
-          default: ''
-        size:
-          type: integer
-          description: The size of the electronic file of the Document, in bytes.
-          format: int32
-          example: 0
-        class_type:
-          type: string
-          description: A code that describes the class of Document. Examples include Digitised MRC, Non-digitised MRC or Supporting Document.
-          default: ''
-        type:
-          type: string
-          description: A code that represents the type of Document.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the Document status.
-          default: ''
-        context:
-          $ref: '#/components/schemas/context_document'
-        is_shared:
-          type: boolean
-          description: Identifies whether this document has been shared as part of a Submission Pack to any Underwriter participating on a Contract within the Placement (true) or not (false).
-          example: false
-      additionalProperties: false
-      description: Document for (generic) Gets
     document_post_securitydownload:
       required:
       - includes_supporting_documents
@@ -956,103 +872,6 @@ components:
           default: ''
       additionalProperties: false
       description: Document input structure for post security download
-    broker_team:
-      required:
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      description: A collection of data items to support the creation and update of record entities.
-    team_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the User.
-    notification:
-      required:
-      - category_type
-      - notification_id
-      - status
-      - type
-      type: object
-      properties:
-        notification_id:
-          type: string
-          description: A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.
-          default: ''
-        category_type:
-          type: string
-          description: Identifies the category type of the notification that is being processed in an asynchronous manner.
-          default: ''
-        type:
-          type: string
-          description: Identifies the type of notification that is being processed in an asynchronous manner.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the Notification status.
-          default: ''
-      additionalProperties: false
-      description: 'The Notification information relating to the Document. '
-    document_post_download:
-      additionalProperties: false
-      description: Dummy payload for LIMOSS Consumption
     error:
       type: object
       properties:
@@ -1074,38 +893,6 @@ components:
         code:
           type: string
           description: The error code.
-    document_put:
-      required:
-      - context
-      - description
-      - filename
-      - placement_id
-      - type
-      type: object
-      properties:
-        placement_id:
-          type: string
-          description: A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        filename:
-          type: string
-          description: The file name of the Document, including its file extension.
-          default: ''
-          pattern: ^.{3,256}$
-        description:
-          type: string
-          description: A description about the Document and / or its contents.
-          default: ''
-          pattern: ^.{1,40}$
-        type:
-          type: string
-          description: A code that represents the type of Document.
-          default: ''
-        context:
-          $ref: '#/components/schemas/context_document'
-      additionalProperties: false
-      description: Document structure for updates
     error_document:
       type: object
       description: The error document.
@@ -1115,53 +902,6 @@ components:
           description: A collection of errors. The list may be empty.
           items:
             $ref: '#/components/schemas/error'
-    document_post_response:
-      required:
-      - broker_team
-      - class_type
-      - context
-      - description
-      - filename
-      - is_shared
-      - notification
-      - type
-      - user
-      type: object
-      properties:
-        document_id:
-          type: string
-          description: A system-generated identifier for each Document record, with a format and structure defined by the technology used. This identifier is used to group multiple versions of the same Document together.
-          default: ''
-        user:
-          $ref: '#/components/schemas/team_user'
-        broker_team:
-          $ref: '#/components/schemas/broker_team'
-        filename:
-          type: string
-          description: The file name of the Document, including its file extension.
-          default: ''
-        description:
-          type: string
-          description: A description about the Document and / or its contents.
-          default: ''
-        class_type:
-          type: string
-          description: A code that describes the class of Document. Examples include Digitised MRC, Non-digitised MRC or Supporting Document.
-          default: ''
-        type:
-          type: string
-          description: A code that represents the type of Document.
-          default: ''
-        context:
-          $ref: '#/components/schemas/context_document'
-        is_shared:
-          type: boolean
-          description: Identifies whether this document has been shared as part of a Submission Pack to any Underwriter participating on a Contract within the Placement (true) or not (false).
-          example: false
-        notification:
-          $ref: '#/components/schemas/notification'
-      additionalProperties: false
-      description: Document for Post Output
     document_delete_response:
       required:
       - broker_team
@@ -1246,23 +986,79 @@ components:
           $ref: '#/components/schemas/notification'
       additionalProperties: false
       description: Document for Delete Output
-    context_document:
+    document_post_response:
       required:
-      - context_id
-      - context_type
+      - broker_team
+      - class_type
+      - context
+      - description
+      - filename
+      - is_shared
+      - notification
+      - type
+      - user
       type: object
       properties:
-        context_type:
+        document_id:
           type: string
-          description: Identifies where within the hierarchical structure of a Placement this Document is held.
+          description: A system-generated identifier for each Document record, with a format and structure defined by the technology used. This identifier is used to group multiple versions of the same Document together.
           default: ''
-        context_id:
+        user:
+          $ref: '#/components/schemas/team_user'
+        broker_team:
+          $ref: '#/components/schemas/broker_team'
+        filename:
           type: string
-          description: The unique identifier within the hierarchical structure of a Placement where this Document is held.
+          description: The file name of the Document, including its file extension.
           default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        description:
+          type: string
+          description: A description about the Document and / or its contents.
+          default: ''
+        class_type:
+          type: string
+          description: A code that describes the class of Document. Examples include Digitised MRC, Non-digitised MRC or Supporting Document.
+          default: ''
+        type:
+          type: string
+          description: A code that represents the type of Document.
+          default: ''
+        context:
+          $ref: '#/components/schemas/context_document'
+        is_shared:
+          type: boolean
+          description: Identifies whether this document has been shared as part of a Submission Pack to any Underwriter participating on a Contract within the Placement (true) or not (false).
+          example: false
+        notification:
+          $ref: '#/components/schemas/notification'
       additionalProperties: false
-      description: Contextual information about where this Document sits within the Placement structure hierarchy. Document records can exist at Placement, Programme, Contract, Section or Subpanel level.
+      description: Document for Post Output
+    notification:
+      required:
+      - category_type
+      - notification_id
+      - status
+      - type
+      type: object
+      properties:
+        notification_id:
+          type: string
+          description: A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.
+          default: ''
+        category_type:
+          type: string
+          description: Identifies the category type of the notification that is being processed in an asynchronous manner.
+          default: ''
+        type:
+          type: string
+          description: Identifies the type of notification that is being processed in an asynchronous manner.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Notification status.
+          default: ''
+      additionalProperties: false
+      description: 'The Notification information relating to the Document. '
     document_post_FileString:
       required:
       - context
@@ -1305,6 +1101,22 @@ components:
           default: ''
       additionalProperties: false
       description: Document structure for creates
+    broker_team:
+      required:
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
     document_post_securitydownload_output:
       required:
       - includes_supporting_documents
@@ -1339,6 +1151,191 @@ components:
           $ref: '#/components/schemas/notification'
       additionalProperties: false
       description: Document output structure for post security download
+    context_document:
+      required:
+      - context_id
+      - context_type
+      type: object
+      properties:
+        context_type:
+          type: string
+          description: Identifies where within the hierarchical structure of a Placement this Document is held.
+          default: ''
+        context_id:
+          type: string
+          description: The unique identifier within the hierarchical structure of a Placement where this Document is held.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: Contextual information about where this Document sits within the Placement structure hierarchy. Document records can exist at Placement, Programme, Contract, Section or Subpanel level.
+    metadata:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      description: A collection of data items to support the creation and update of record entities.
+    document_post_download:
+      additionalProperties: false
+      description: Dummy payload for LIMOSS Consumption
+    team_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the User.
+    document_get:
+      required:
+      - broker_team
+      - class_type
+      - context
+      - description
+      - document_id
+      - document_version_id
+      - filename
+      - is_shared
+      - major_version
+      - metadata
+      - minor_version
+      - size
+      - status
+      - type
+      - user
+      - version
+      type: object
+      properties:
+        document_version_id:
+          type: string
+          description: A system-generated unique identifier for a Document, with a format and structure defined by the technology used.
+          default: ''
+        document_id:
+          type: string
+          description: A system-generated identifier for each Document record, with a format and structure defined by the technology used. This identifier is used to group multiple versions of the same Document together.
+          default: ''
+        version:
+          type: string
+          description: The full version number of the Document, as a period separated concatenation of its major version and minor version.
+          default: ''
+        major_version:
+          type: integer
+          description: The major version element of the Document&#39;s version number.
+          format: int32
+          example: 0
+        minor_version:
+          type: integer
+          description: The minor version element of the Document&#39;s version number.
+          format: int32
+          example: 0
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        user:
+          $ref: '#/components/schemas/team_user'
+        broker_team:
+          $ref: '#/components/schemas/broker_team'
+        filename:
+          type: string
+          description: The file name of the Document, including its file extension.
+          default: ''
+        description:
+          type: string
+          description: A description about the Document and / or its contents.
+          default: ''
+        size:
+          type: integer
+          description: The size of the electronic file of the Document, in bytes.
+          format: int32
+          example: 0
+        class_type:
+          type: string
+          description: A code that describes the class of Document. Examples include Digitised MRC, Non-digitised MRC or Supporting Document.
+          default: ''
+        type:
+          type: string
+          description: A code that represents the type of Document.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Document status.
+          default: ''
+        context:
+          $ref: '#/components/schemas/context_document'
+        is_shared:
+          type: boolean
+          description: Identifies whether this document has been shared as part of a Submission Pack to any Underwriter participating on a Contract within the Placement (true) or not (false).
+          example: false
+      additionalProperties: false
+      description: Document for (generic) Gets
+    document_put:
+      required:
+      - context
+      - description
+      - filename
+      - placement_id
+      - type
+      type: object
+      properties:
+        placement_id:
+          type: string
+          description: A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        filename:
+          type: string
+          description: The file name of the Document, including its file extension.
+          default: ''
+          pattern: ^.{3,256}$
+        description:
+          type: string
+          description: A description about the Document and / or its contents.
+          default: ''
+          pattern: ^.{1,40}$
+        type:
+          type: string
+          description: A code that represents the type of Document.
+          default: ''
+        context:
+          $ref: '#/components/schemas/context_document'
+      additionalProperties: false
+      description: Document structure for updates
     response_documents_getall:
       type: object
       properties:
@@ -1369,3 +1366,21 @@ components:
           example: 0
       additionalProperties: false
       description: ''
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      description: The User information of the Metadata User.

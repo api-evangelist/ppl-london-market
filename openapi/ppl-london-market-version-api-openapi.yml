@@ -15,12 +15,12 @@ servers:
 - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
   description: Joint Integration testing (JIT2) environment
 tags:
-- name: version
+- name: Version
 paths:
   /version:
     get:
       tags:
-      - version
+      - Version
       description: Checks the version of this Document Resource API.
       operationId: Version
       responses:
@@ -30,6 +30,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/version'
+      summary: Version
+      x-summary-source: derived
     servers:
     - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/documents
       description: Joint Integration testing (JIT2) environment
