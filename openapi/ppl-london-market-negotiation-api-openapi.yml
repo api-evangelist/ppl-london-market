@@ -652,7 +652,7 @@ paths:
       tags:
       - negotiation
       description: Returns a list of all Negotiation records based upon various query parameters. Pagination functionality is supported on this operation.
-      operationId: Negotiation_GetAll_v1
+      operationId: getSubmissionsBySubmissionIdNegotiations
       parameters:
       - name: X-Auth-Impersonated-User
         in: header
@@ -942,11 +942,13 @@ paths:
                 $ref: '#/components/schemas/error_document'
       summary: Negotiation get all v1
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Negotiation_GetAll_v1
     post:
       tags:
       - negotiation
       description: Creates a single Negotiation record in response to a Broker User's request for consideration. Underwriter Users will be able to reject, confirm or negotiate on various attributes of their involvement, i.e. acceptance of contractual roles, carrier stamps, line conditions and subjectivities.
-      operationId: Negotiation_Post_v1
+      operationId: postSubmissionsBySubmissionIdNegotiations
       parameters:
       - name: X-Auth-Impersonated-User
         in: header
@@ -1021,6 +1023,8 @@ paths:
       x-codegen-request-body-name: negotiation
       summary: Negotiation post v1
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Negotiation_Post_v1
     servers:
     - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
       description: Joint Integration testing (JIT2) environment
@@ -1029,7 +1033,7 @@ paths:
       tags:
       - negotiation
       description: Returns a single Negotiation record. This record will contain attributes pertaining to the single negotiation position between an Underwriter User and an Broker User, based upon its negotiation status within the insurance placement process.
-      operationId: Negotiation_GetById_v1
+      operationId: getSubmissionsBySubmissionIdNegotiationsByNegotiationId
       parameters:
       - name: X-Auth-Impersonated-User
         in: header
@@ -1103,11 +1107,13 @@ paths:
                 $ref: '#/components/schemas/error_document'
       summary: Negotiation get by id v1
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Negotiation_GetById_v1
     put:
       tags:
       - negotiation
       description: Updates a Negotiation record, where the record is in a state that enables its update. For example, where Negotiations are in a saved and unsent state.
-      operationId: Negotiation_Put_v1
+      operationId: putSubmissionsBySubmissionIdNegotiationsByNegotiationId
       parameters:
       - name: X-Auth-Impersonated-User
         in: header
@@ -1197,6 +1203,8 @@ paths:
       x-codegen-request-body-name: negotiation
       summary: Negotiation put v1
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Negotiation_Put_v1
     servers:
     - url: https://sand-api.londonmarketgroup.co.uk/ppl/nextgen/submissions
       description: Joint Integration testing (JIT2) environment
@@ -1300,519 +1308,6 @@ paths:
       description: Joint Integration testing (JIT2) environment
 components:
   schemas:
-    placement_negotiation_amount:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        comments_history:
-          type: array
-          description: Array of comments on the Line Percentage Negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: The specified underwriting value, as an amount.
-    placement_negotiation_facility_panel_signed:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the signed line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-      additionalProperties: false
-      description: The signed line information, that the Broker has confirmed to the Underwriter.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
-    placement_negotiation_role_postput:
-      required:
-      - accept_decline_role_indicator
-      - role
-      type: object
-      properties:
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-        accept_decline_role_indicator:
-          type: boolean
-          description: dentifies whether declined contractual role has been accepted (true) or not (false).&#160;
-          example: false
-        comment:
-          type: string
-          description: Latest comment on the negotiation of declining the contractual role proposed by the Broker.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    placement_negotiation_role:
-      required:
-      - status
-      - role
-      type: object
-      properties:
-        status:
-          type: string
-          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-      additionalProperties: false
-      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    placement_negotiation_comments:
-      required:
-      - comment
-      - date
-      - user
-      type: object
-      properties:
-        date:
-          type: string
-          description: The date and timestamp when the comment was provided.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-        comment:
-          type: string
-          description: The Sender comment specific for a negotiable data attribute.
-          default: ''
-        user:
-          $ref: '#/components/schemas/comment_user'
-      additionalProperties: false
-      description: Array of comments for Negotiation usage.
-    comment_user:
-      required:
-      - first_name
-      - last_name
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the User.
-    placement_negotiation_stamp_line_condition:
-      required:
-      - code
-      - description
-      - line_condition_id
-      - status
-      type: object
-      properties:
-        line_condition_id:
-          type: string
-          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
-          default: ''
-        description:
-          type: string
-          description: A description of the line condition.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        code:
-          type: string
-          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
-          default: ''
-        comments_history:
-          type: array
-          description: Array of comments on the stamps&#39; line conditions negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-    placement_negotiation_subjectivity_post:
-      required:
-      - subjectivity_id
-      type: object
-      properties:
-        subjectivity_id:
-          type: string
-          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        saved_as_accepted:
-          type: boolean
-          description: Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).
-          example: false
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a Subjectivity proposed by the Underwriter.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-    placement_negotiation_stamp_reference:
-      required:
-      - description
-      - reference
-      type: object
-      properties:
-        reference:
-          type: string
-          description: The reference allocated by the underwriter against the Stamp.
-          default: ''
-        description:
-          type: string
-          description: A description of any processing instructions supplied with the line Reference.
-          default: ''
-        risk_codes:
-          type: array
-          description: The regulatory code(s) that are applicable to the Reference.
-          items:
-            type: string
-            default: ''
-      additionalProperties: false
-      description: ''
-    placement_negotiation_stamp_line_condition_postput:
-      required:
-      - accept_line_condition_indicator
-      - line_condition_id
-      type: object
-      properties:
-        line_condition_id:
-          type: string
-          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        accept_line_condition_indicator:
-          type: boolean
-          description: Identifies whether the line condition has been accepted (true) or not (false).&#160;
-          example: false
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-    placement_negotiation_facility_panel_calculated:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-      additionalProperties: false
-      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
-    placement_negotiation_leader_written_line_percenta:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-      additionalProperties: false
-      description: ''
-    placement_negotiation_sub_panel:
-      required:
-      - name
-      - sub_panel_id
-      type: object
-      properties:
-        sub_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the sub panel.
-          default: ''
-      additionalProperties: false
-      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
-    placement_negotiation_amount_postput:
-      type: object
-      properties:
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a differing Written Line Amount than that proposed by the Broker.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The specified underwriting value, as an amount.
-    placement_negotiation_leader_written_amount:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: ''
-    placement_negotiation_signed:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the signed line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The signed line information, that the Broker has confirmed to the Underwriter.
-    response_placement_negotiations_getall:
-      required:
-      - count
-      - negotiations
-      - page_number
-      - page_size
-      - total_results
-      type: object
-      properties:
-        negotiations:
-          type: array
-          description: List of negotiations retrieved
-          items:
-            $ref: '#/components/schemas/placement_negotiation_getall'
-        page_number:
-          type: integer
-          description: Number of the page retrieved
-          format: int32
-          example: 0
-        page_size:
-          type: integer
-          description: Size of the page retrieved
-          format: int32
-          example: 0
-        count:
-          type: integer
-          description: The number of records on the current page
-          format: int32
-          example: 0
-        total_results:
-          type: integer
-          description: Total number of results
-          format: int64
-          example: 1234567891234567
-      additionalProperties: false
-      description: ''
-    placement_negotiation_facility_panel_master:
-      required:
-      - facility_contract_id
-      - section_id
-      - section_name
-      - unique_market_reference
-      type: object
-      properties:
-        facility_contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-        unique_market_reference:
-          type: string
-          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
-          default: ''
-        section_id:
-          type: string
-          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
-          default: ''
-        section_name:
-          type: string
-          description: A description of the Section supplied by the Broker.
-          default: ''
-      additionalProperties: false
-      description: ''
-    placement_negotiation_line_percentage_postput:
-      type: object
-      properties:
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a differing Written Line Percentage than that proposed by the Broker.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The specified underwriting value, as a percentage.
-    placement_negotiation_line_percentage:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        comments_history:
-          type: array
-          description: Array of comments on the Line Percentage Negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: The specified underwriting value, as a percentage.
-    broker_user:
-      required:
-      - first_name
-      - last_name
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the responsible Broker User.
-    placement_negotiation_stamp_postput:
-      required:
-      - accept_stamp_indicator
-      - stamp_id
-      type: object
-      properties:
-        stamp_id:
-          type: string
-          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        line_conditions:
-          type: array
-          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_stamp_line_condition_postput'
-        accept_stamp_indicator:
-          type: boolean
-          description: Identifies whether the stamp has been accepted (true) or not (false).&#160;
-          example: false
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a Carrier Stamp proposed by the Underwriter.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    underwriter_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Underwriter User responsible for the Participation.
-    placement_negotiation_written:
-      required:
-      - status
-      type: object
-      properties:
-        line_percentage:
-          $ref: '#/components/schemas/placement_negotiation_line_percentage'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          $ref: '#/components/schemas/placement_negotiation_amount'
-        date:
-          type: string
-          description: The date and timestamp when the written line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        status:
-          type: string
-          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    placement_negotiation_role_plus:
-      required:
-      - role
-      - status
-      type: object
-      properties:
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        comments_history:
-          type: array
-          description: Array of comments on the roles Negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    error:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
-          type: string
-          description: The error code.
     placement_negotiation_contract_document_postput:
       type: object
       properties:
@@ -1827,54 +1322,6 @@ components:
           pattern: ^.{1,8000}$
       additionalProperties: false
       description: The negotiation pertaining to the content of the Contract Document.
-    placement_negotiation_leader:
-      required:
-      - company_name
-      - role
-      - stamp
-      - underwriter_leader
-      type: object
-      properties:
-        underwriter_leader:
-          $ref: '#/components/schemas/underwriter_user'
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        written:
-          $ref: '#/components/schemas/placement_negotiation_leader_written'
-        stamp:
-          $ref: '#/components/schemas/placement_negotiation_leader_stamp'
-      additionalProperties: false
-      description: ''
-    placement_negotiation_calculated:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-      additionalProperties: false
-      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
-    underwriter_team_only_name:
-      required:
-      - team_name
-      type: object
-      properties:
-        team_name:
-          type: string
-          description: The name of the Underwriter Team, as defined by the carrier organisation.
-          default: ''
-      additionalProperties: false
-      description: The Team information of the Underwriter Team responsible for the Participation.
     placement_negotiation_getall:
       required:
       - broker_team
@@ -1998,6 +1445,735 @@ components:
           example: false
       additionalProperties: false
       description: Negotiation structure for Get All
+    placement_negotiation_facility_panel_signed:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the signed line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter.
+    placement_negotiation_amount_postput:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a differing Written Line Amount than that proposed by the Broker.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The specified underwriting value, as an amount.
+    placement_negotiation_role_postput:
+      required:
+      - accept_decline_role_indicator
+      - role
+      type: object
+      properties:
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        accept_decline_role_indicator:
+          type: boolean
+          description: dentifies whether declined contractual role has been accepted (true) or not (false).&#160;
+          example: false
+        comment:
+          type: string
+          description: Latest comment on the negotiation of declining the contractual role proposed by the Broker.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    placement_negotiation_leader_written_line_percenta:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: ''
+    placement_negotiation_leader_stamp:
+      required:
+      - agency_code
+      - agency_type
+      - name
+      - percentage_of_total_written_line
+      - stamp_role
+      type: object
+      properties:
+        agency_type:
+          type: string
+          description: The code that represents the agency type.
+          default: ''
+        agency_code:
+          type: string
+          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
+          default: ''
+        name:
+          type: string
+          description: The legal name of the stamp, as provided by the Carrier organisation.
+          default: ''
+        stamp_role:
+          type: string
+          description: The code that represents the role or roles that the stamp plays in this Participation.
+          default: ''
+        percentage_of_total_written_line:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        written_line_absolute_percentage:
+          type: number
+          description: The specified underwriting value, as an absolute percentage of a Stamp.
+          example: 0.1
+        written_line_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        written_line_amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: ''
+    placement_negotiation_written:
+      required:
+      - status
+      type: object
+      properties:
+        line_percentage:
+          $ref: '#/components/schemas/placement_negotiation_line_percentage'
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          $ref: '#/components/schemas/placement_negotiation_amount'
+        date:
+          type: string
+          description: The date and timestamp when the written line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        status:
+          type: string
+          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    placement_negotiation_line_percentage:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        comments_history:
+          type: array
+          description: Array of comments on the Line Percentage Negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: The specified underwriting value, as a percentage.
+    placement_negotiation_signed:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the signed line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter.
+    comment_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the User.
+    placement_negotiation_leader:
+      required:
+      - company_name
+      - role
+      - stamp
+      - underwriter_leader
+      type: object
+      properties:
+        underwriter_leader:
+          $ref: '#/components/schemas/underwriter_user'
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        written:
+          $ref: '#/components/schemas/placement_negotiation_leader_written'
+        stamp:
+          $ref: '#/components/schemas/placement_negotiation_leader_stamp'
+      additionalProperties: false
+      description: ''
+    placement_negotiation_comments:
+      required:
+      - comment
+      - date
+      - user
+      type: object
+      properties:
+        date:
+          type: string
+          description: The date and timestamp when the comment was provided.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        comment:
+          type: string
+          description: The Sender comment specific for a negotiable data attribute.
+          default: ''
+        user:
+          $ref: '#/components/schemas/comment_user'
+      additionalProperties: false
+      description: Array of comments for Negotiation usage.
+    placement_negotiation_post:
+      required:
+      - responding_to_negotiation_id
+      - status
+      type: object
+      properties:
+        responding_to_negotiation_id:
+          type: string
+          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        status:
+          type: string
+          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
+          default: ''
+        sent_by_user_message:
+          type: string
+          description: The user message specific for a negotiable data attribute.
+          default: ''
+          pattern: ^.{1,8000}$
+        written:
+          $ref: '#/components/schemas/placement_negotiation_written_postput'
+        roles:
+          type: array
+          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_role_postput'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_stamp_postput'
+        subjectivities:
+          type: array
+          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_subjectivity_post'
+        contract_document:
+          $ref: '#/components/schemas/placement_negotiation_contract_document_postput'
+      additionalProperties: false
+      description: Negotiation structure for creates
+    placement_negotiation_proposed:
+      type: object
+      properties:
+        min_line_percentage:
+          type: number
+          description: The minimum underwriting value, as a percentage.
+          example: 0.1
+        max_line_percentage:
+          type: number
+          description: The maximum underwriting value, as a percentage.
+          example: 0.1
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        min_amount:
+          type: number
+          description: The minimum underwriting value, as an amount.
+          example: 0.1
+        max_amount:
+          type: number
+          description: The maximum underwriting value, as an amount.
+          example: 0.1
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
+    placement_negotiation_save_response:
+      required:
+      - date
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/comment_user'
+        date:
+          type: string
+          description: The date and timestamp of the User responsible for saving the Negotiation record.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: Information about the saving of the Negotiation record.
+    placement_negotiation_amount:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        comments_history:
+          type: array
+          description: Array of comments on the Line Percentage Negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: The specified underwriting value, as an amount.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    placement_negotiation_subjectivity_post:
+      required:
+      - subjectivity_id
+      type: object
+      properties:
+        subjectivity_id:
+          type: string
+          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        saved_as_accepted:
+          type: boolean
+          description: Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).
+          example: false
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a Subjectivity proposed by the Underwriter.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+    sent_by_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the User.
+    placement_negotiation_contract_document:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: The code that represents the status of the Contract Document comments.
+          default: ''
+        comments_history:
+          type: array
+          description: Array of comments on the Contract Document Comments negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: The negotiation pertaining to the content of the Contract Document.
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    broker_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the responsible Broker User.
+    placement_negotiation_sub_panel:
+      required:
+      - name
+      - sub_panel_id
+      type: object
+      properties:
+        sub_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the sub panel.
+          default: ''
+      additionalProperties: false
+      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
+    placement_negotiation_subjectivity:
+      required:
+      - confirmation_required
+      - description
+      - negotiation_status
+      - off_cover_indicator
+      - saved_as_accepted
+      - saved_as_declined
+      - status
+      - subjectivity_id
+      type: object
+      properties:
+        subjectivity_id:
+          type: string
+          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the subjectivity and any associated terms.
+          default: ''
+        confirmation_required:
+          type: boolean
+          description: Indicates whether a subjectivity requires confirmation (true) or not (false).
+          example: false
+        confirmation_required_by_date:
+          type: string
+          description: The date and timestamp by which the Subjectivity needs to be met.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        off_cover_indicator:
+          type: boolean
+          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
+          example: false
+        status:
+          type: string
+          description: The code that represents the status of the Subjectivity.
+          default: ''
+        negotiation_status:
+          type: string
+          description: The code that represents the status of the Subjectivity when this is under negotiation.
+          default: ''
+        withdrawn_date:
+          type: string
+          description: The date and timestamp on which the Subjectivity was withdrawn.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        saved_as_accepted:
+          type: boolean
+          description: Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).
+          example: false
+        saved_as_declined:
+          type: boolean
+          description: Identifies when the Subjectivity under review is marked as Declined (true) or not (false).
+          example: false
+        comments_history:
+          type: array
+          description: Array of comments on the subjectivities negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+    placement_negotiation_leader_written_amount:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: ''
+    placement_negotiation_written_postput:
+      required:
+      - accept_written_line_indicator
+      type: object
+      properties:
+        line_percentage:
+          $ref: '#/components/schemas/placement_negotiation_line_percentage_postput'
+        amount:
+          $ref: '#/components/schemas/placement_negotiation_amount_postput'
+        accept_written_line_indicator:
+          type: boolean
+          description: dentifies whether the written line has been accepted (true) or not (false).&#160;
+          example: false
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    placement_negotiation_facility_panel_calculated:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
+    placement_negotiation_facility_panel_written:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the written line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    placement_negotiation_stamp:
+      required:
+      - agency_code
+      - agency_type
+      - name
+      - stamp_id
+      - status
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
+          default: ''
+        agency_type:
+          type: string
+          description: The code that represents the agency type.
+          default: ''
+        agency_code:
+          type: string
+          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
+          default: ''
+        name:
+          type: string
+          description: The legal name of the stamp, as provided by the Carrier organisation.
+          default: ''
+        stamp_role:
+          type: string
+          description: The code that represents the role or roles that the stamp plays in this Participation.
+          default: ''
+        percentage_of_total_written_line:
+          type: number
+          description: The specified underwriting value, as a proportion of 100 percent of the overall negotiation.
+          example: 0.1
+        written_line_absolute_percentage:
+          type: number
+          description: The specified underwriting value, as an absolute percentage of a Stamp.
+          example: 0.1
+        written_line_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        written_line_amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        calculated_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage. The calculated signing down information.
+          example: 0.1
+        signed_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage. The signed line information.
+          example: 0.1
+        risk_classification:
+          type: array
+          description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_stamp_risk_code'
+        line_conditions:
+          type: array
+          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_stamp_line_condition'
+        references:
+          type: array
+          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_stamp_reference'
+        status:
+          type: string
+          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        comments_history:
+          type: array
+          description: Array of comments on the stamps negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    error:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    placement_negotiation_stamp_line_condition:
+      required:
+      - code
+      - description
+      - line_condition_id
+      - status
+      type: object
+      properties:
+        line_condition_id:
+          type: string
+          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the line condition.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        code:
+          type: string
+          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
+          default: ''
+        comments_history:
+          type: array
+          description: Array of comments on the stamps&#39; line conditions negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+    placement_negotiation_calculated:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
+    placement_negotiation_leader_written:
+      type: object
+      properties:
+        line_percentage:
+          $ref: '#/components/schemas/placement_negotiation_leader_written_line_percenta'
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          $ref: '#/components/schemas/placement_negotiation_leader_written_amount'
+      additionalProperties: false
+      description: ''
     placement_negotiation_settlement:
       required:
       - adjustment_period_of_credit_days
@@ -2022,44 +2198,6 @@ components:
           example: 0
       additionalProperties: false
       description: ''
-    placement_negotiation_stamp_risk_code:
-      required:
-      - code
-      - percentage
-      type: object
-      properties:
-        code:
-          type: string
-          description: The regulatory code that represents the risk for a risk classification.
-          default: ''
-        percentage:
-          type: number
-          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
-          example: 0.1
-      additionalProperties: false
-      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
-    placement_negotiation_facility_panel:
-      required:
-      - facility_panel_id
-      - master_facility
-      type: object
-      properties:
-        facility_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
-          default: ''
-        proposed:
-          $ref: '#/components/schemas/placement_negotiation_facility_panel_proposed'
-        written:
-          $ref: '#/components/schemas/placement_negotiation_facility_panel_written'
-        calculated:
-          $ref: '#/components/schemas/placement_negotiation_facility_panel_calculated'
-        signed:
-          $ref: '#/components/schemas/placement_negotiation_facility_panel_signed'
-        master_facility:
-          $ref: '#/components/schemas/placement_negotiation_facility_panel_master'
-      additionalProperties: false
-      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
     placement_negotiation_getbyid:
       required:
       - broker_team
@@ -2237,308 +2375,6 @@ components:
             $ref: '#/components/schemas/placement_negotiation_leader'
       additionalProperties: false
       description: Negotiation structure for Get by Identifier
-    placement_negotiation_written_postput:
-      required:
-      - accept_written_line_indicator
-      type: object
-      properties:
-        line_percentage:
-          $ref: '#/components/schemas/placement_negotiation_line_percentage_postput'
-        amount:
-          $ref: '#/components/schemas/placement_negotiation_amount_postput'
-        accept_written_line_indicator:
-          type: boolean
-          description: dentifies whether the written line has been accepted (true) or not (false).&#160;
-          example: false
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    placement_negotiation_stamp:
-      required:
-      - agency_code
-      - agency_type
-      - name
-      - stamp_id
-      - status
-      type: object
-      properties:
-        stamp_id:
-          type: string
-          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
-          default: ''
-        agency_type:
-          type: string
-          description: The code that represents the agency type.
-          default: ''
-        agency_code:
-          type: string
-          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
-          default: ''
-        name:
-          type: string
-          description: The legal name of the stamp, as provided by the Carrier organisation.
-          default: ''
-        stamp_role:
-          type: string
-          description: The code that represents the role or roles that the stamp plays in this Participation.
-          default: ''
-        percentage_of_total_written_line:
-          type: number
-          description: The specified underwriting value, as a proportion of 100 percent of the overall negotiation.
-          example: 0.1
-        written_line_absolute_percentage:
-          type: number
-          description: The specified underwriting value, as an absolute percentage of a Stamp.
-          example: 0.1
-        written_line_currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        written_line_amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        calculated_line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage. The calculated signing down information.
-          example: 0.1
-        signed_line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage. The signed line information.
-          example: 0.1
-        risk_classification:
-          type: array
-          description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_stamp_risk_code'
-        line_conditions:
-          type: array
-          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_stamp_line_condition'
-        references:
-          type: array
-          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_stamp_reference'
-        status:
-          type: string
-          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        comments_history:
-          type: array
-          description: Array of comments on the stamps negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    placement_negotiation_leader_written:
-      type: object
-      properties:
-        line_percentage:
-          $ref: '#/components/schemas/placement_negotiation_leader_written_line_percenta'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          $ref: '#/components/schemas/placement_negotiation_leader_written_amount'
-      additionalProperties: false
-      description: ''
-    broker_team:
-      required:
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
-    placement_negotiation_subjectivity:
-      required:
-      - confirmation_required
-      - description
-      - negotiation_status
-      - off_cover_indicator
-      - saved_as_accepted
-      - saved_as_declined
-      - status
-      - subjectivity_id
-      type: object
-      properties:
-        subjectivity_id:
-          type: string
-          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
-          default: ''
-        description:
-          type: string
-          description: A description of the subjectivity and any associated terms.
-          default: ''
-        confirmation_required:
-          type: boolean
-          description: Indicates whether a subjectivity requires confirmation (true) or not (false).
-          example: false
-        confirmation_required_by_date:
-          type: string
-          description: The date and timestamp by which the Subjectivity needs to be met.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        off_cover_indicator:
-          type: boolean
-          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
-          example: false
-        status:
-          type: string
-          description: The code that represents the status of the Subjectivity.
-          default: ''
-        negotiation_status:
-          type: string
-          description: The code that represents the status of the Subjectivity when this is under negotiation.
-          default: ''
-        withdrawn_date:
-          type: string
-          description: The date and timestamp on which the Subjectivity was withdrawn.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        saved_as_accepted:
-          type: boolean
-          description: Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).
-          example: false
-        saved_as_declined:
-          type: boolean
-          description: Identifies when the Subjectivity under review is marked as Declined (true) or not (false).
-          example: false
-        comments_history:
-          type: array
-          description: Array of comments on the subjectivities negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-    placement_negotiation_leader_stamp:
-      required:
-      - agency_code
-      - agency_type
-      - name
-      - percentage_of_total_written_line
-      - stamp_role
-      type: object
-      properties:
-        agency_type:
-          type: string
-          description: The code that represents the agency type.
-          default: ''
-        agency_code:
-          type: string
-          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
-          default: ''
-        name:
-          type: string
-          description: The legal name of the stamp, as provided by the Carrier organisation.
-          default: ''
-        stamp_role:
-          type: string
-          description: The code that represents the role or roles that the stamp plays in this Participation.
-          default: ''
-        percentage_of_total_written_line:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        written_line_absolute_percentage:
-          type: number
-          description: The specified underwriting value, as an absolute percentage of a Stamp.
-          example: 0.1
-        written_line_currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        written_line_amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: ''
-    placement_negotiation_post:
-      required:
-      - responding_to_negotiation_id
-      - status
-      type: object
-      properties:
-        responding_to_negotiation_id:
-          type: string
-          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        status:
-          type: string
-          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
-          default: ''
-        sent_by_user_message:
-          type: string
-          description: The user message specific for a negotiable data attribute.
-          default: ''
-          pattern: ^.{1,8000}$
-        written:
-          $ref: '#/components/schemas/placement_negotiation_written_postput'
-        roles:
-          type: array
-          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_role_postput'
-        stamps:
-          type: array
-          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_stamp_postput'
-        subjectivities:
-          type: array
-          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_subjectivity_post'
-        contract_document:
-          $ref: '#/components/schemas/placement_negotiation_contract_document_postput'
-      additionalProperties: false
-      description: Negotiation structure for creates
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      additionalProperties: false
-      description: A collection of data items to support the creation and update of record entities.
     placement_negotiation_put:
       required:
       - responding_to_negotiation_id
@@ -2580,10 +2416,73 @@ components:
           $ref: '#/components/schemas/placement_negotiation_contract_document_postput'
       additionalProperties: false
       description: Negotiation structure for updates
-    sent_by_user:
+    broker_team:
       required:
-      - first_name
-      - last_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    placement_negotiation_stamp_postput:
+      required:
+      - accept_stamp_indicator
+      - stamp_id
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        line_conditions:
+          type: array
+          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_stamp_line_condition_postput'
+        accept_stamp_indicator:
+          type: boolean
+          description: Identifies whether the stamp has been accepted (true) or not (false).&#160;
+          example: false
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a Carrier Stamp proposed by the Underwriter.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    placement_negotiation_facility_panel:
+      required:
+      - facility_panel_id
+      - master_facility
+      type: object
+      properties:
+        facility_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+          default: ''
+        proposed:
+          $ref: '#/components/schemas/placement_negotiation_facility_panel_proposed'
+        written:
+          $ref: '#/components/schemas/placement_negotiation_facility_panel_written'
+        calculated:
+          $ref: '#/components/schemas/placement_negotiation_facility_panel_calculated'
+        signed:
+          $ref: '#/components/schemas/placement_negotiation_facility_panel_signed'
+        master_facility:
+          $ref: '#/components/schemas/placement_negotiation_facility_panel_master'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    underwriter_user:
+      required:
       - user_email
       type: object
       properties:
@@ -2600,23 +2499,298 @@ components:
           description: The last name of the User.
           default: ''
       additionalProperties: false
-      description: The User information of the User.
-    placement_negotiation_save_response:
+      description: The User information of the Underwriter User responsible for the Participation.
+    metadata:
       required:
-      - date
-      - user
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/comment_user'
-        date:
+        created_date:
           type: string
-          description: The date and timestamp of the User responsible for saving the Negotiation record.
+          description: The date and timestamp when the entity was created.
           format: date-time
           example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
       additionalProperties: false
-      description: Information about the saving of the Negotiation record.
-    placement_negotiation_proposed:
+      description: A collection of data items to support the creation and update of record entities.
+    placement_negotiation_stamp_line_condition_postput:
+      required:
+      - accept_line_condition_indicator
+      - line_condition_id
+      type: object
+      properties:
+        line_condition_id:
+          type: string
+          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        accept_line_condition_indicator:
+          type: boolean
+          description: Identifies whether the line condition has been accepted (true) or not (false).&#160;
+          example: false
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+    underwriter_team_only_name:
+      required:
+      - team_name
+      type: object
+      properties:
+        team_name:
+          type: string
+          description: The name of the Underwriter Team, as defined by the carrier organisation.
+          default: ''
+      additionalProperties: false
+      description: The Team information of the Underwriter Team responsible for the Participation.
+    placement_negotiation_role:
+      required:
+      - status
+      - role
+      type: object
+      properties:
+        status:
+          type: string
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+      additionalProperties: false
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    response_placement_negotiations_getall:
+      required:
+      - count
+      - negotiations
+      - page_number
+      - page_size
+      - total_results
+      type: object
+      properties:
+        negotiations:
+          type: array
+          description: List of negotiations retrieved
+          items:
+            $ref: '#/components/schemas/placement_negotiation_getall'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int64
+          example: 1234567891234567
+      additionalProperties: false
+      description: ''
+    placement_negotiation_stamp_risk_code:
+      required:
+      - code
+      - percentage
+      type: object
+      properties:
+        code:
+          type: string
+          description: The regulatory code that represents the risk for a risk classification.
+          default: ''
+        percentage:
+          type: number
+          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
+          example: 0.1
+      additionalProperties: false
+      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+    placement_negotiation_facility_panel_master:
+      required:
+      - facility_contract_id
+      - section_id
+      - section_name
+      - unique_market_reference
+      type: object
+      properties:
+        facility_contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        section_name:
+          type: string
+          description: A description of the Section supplied by the Broker.
+          default: ''
+      additionalProperties: false
+      description: ''
+    placement_negotiation_facility_panel_proposed:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
+    placement_negotiation_line_percentage_postput:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a differing Written Line Percentage than that proposed by the Broker.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The specified underwriting value, as a percentage.
+    placement_negotiation_role_plus:
+      required:
+      - role
+      - status
+      type: object
+      properties:
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        comments_history:
+          type: array
+          description: Array of comments on the roles Negotiation.
+          items:
+            $ref: '#/components/schemas/placement_negotiation_comments'
+      additionalProperties: false
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    placement_negotiation_stamp_reference:
+      required:
+      - description
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          description: The reference allocated by the underwriter against the Stamp.
+          default: ''
+        description:
+          type: string
+          description: A description of any processing instructions supplied with the line Reference.
+          default: ''
+        risk_codes:
+          type: array
+          description: The regulatory code(s) that are applicable to the Reference.
+          items:
+            type: string
+            default: ''
+      additionalProperties: false
+      description: ''
+    submission_negotiation_post:
+      required:
+      - responding_to_negotiation_id
+      - status
+      type: object
+      properties:
+        responding_to_negotiation_id:
+          type: string
+          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        status:
+          type: string
+          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
+          default: ''
+        sent_by_user_message:
+          type: string
+          description: The user message specific for a negotiable data attribute.
+          default: ''
+          pattern: ^.{1,8000}$
+        settlement:
+          $ref: '#/components/schemas/submission_negotiation_settlement'
+        year_of_account:
+          type: integer
+          description: The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.
+          format: int32
+          minimum: 1900
+          maximum: 9999
+          example: 1900
+        written:
+          $ref: '#/components/schemas/submission_negotiation_written_postput'
+        roles:
+          type: array
+          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_role_postput'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_stamp_post'
+        subjectivities:
+          type: array
+          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_subjectivity_post'
+        contract_document:
+          $ref: '#/components/schemas/submission_negotiation_contract_document_postput'
+      additionalProperties: false
+      description: Negotiation structure for creates
+    submission_negotiation_leader_written_line_percent:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: ''
+    submission_negotiation_proposed:
       type: object
       properties:
         min_line_percentage:
@@ -2649,80 +2823,122 @@ components:
           example: 0.1
       additionalProperties: false
       description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
-    placement_negotiation_facility_panel_written:
+    broker_team_only_name:
+      required:
+      - team_name
+      type: object
+      properties:
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    submission_negotiation_line_percentage_postput:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a differing Written Line Percentage than that proposed by the Broker.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The specified underwriting value, as a percentage.
+    submission_negotiation_stamp_post:
+      required:
+      - stamp_id
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        percentage_of_total_written_line:
+          type: number
+          description: The specified underwriting value, as a proportion of 100 percent of the overall negotiation.
+          example: 0.1
+        written_line_absolute_percentage:
+          type: number
+          description: The specified underwriting value, as an absolute percentage of a Stamp.
+          example: 0.1
+        written_line_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        written_line_amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        risk_classification:
+          type: array
+          description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_stamp_risk_code'
+        line_conditions:
+          type: array
+          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_stamp_line_condition_post'
+        references:
+          type: array
+          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_stamp_reference'
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a Carrier Stamp proposed by the Underwriter.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    submission_negotiation_leader_written_amount:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: ''
+    submission_negotiation_facility_panel_calculated:
       type: object
       properties:
         line_percentage:
           type: number
           description: The specified underwriting value, as a percentage.
           example: 0.1
+      additionalProperties: false
+      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
+    submission_negotiation_written:
+      required:
+      - status
+      type: object
+      properties:
+        line_percentage:
+          $ref: '#/components/schemas/submission_negotiation_line_percentage'
         currency_code:
           type: string
           description: The 3-character code that represents the currency in ISO 4217 standard.
           default: ''
         amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
+          $ref: '#/components/schemas/submission_negotiation_amount'
         date:
           type: string
           description: The date and timestamp when the written line was provided.
           format: date-time
           example: '2014-12-31T23:59:59.938Z'
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    placement_negotiation_contract_document:
-      required:
-      - status
-      type: object
-      properties:
         status:
           type: string
-          description: The code that represents the status of the Contract Document comments.
-          default: ''
-        comments_history:
-          type: array
-          description: Array of comments on the Contract Document Comments negotiation.
-          items:
-            $ref: '#/components/schemas/placement_negotiation_comments'
-      additionalProperties: false
-      description: The negotiation pertaining to the content of the Contract Document.
-    placement_negotiation_facility_panel_proposed:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
-    metadata_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
+          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
           default: ''
       additionalProperties: false
-      description: The User information of the Metadata User.
+      description: The written underwriting line information, that the Underwriter is willing to accept.
     submission_negotiation_subjectivity_put:
       required:
       - confirmation_required
@@ -2840,23 +3056,186 @@ components:
             $ref: '#/components/schemas/submission_negotiation_comments'
       additionalProperties: false
       description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    submission_negotiation_stamp_risk_code:
+    submission_negotiation_sub_panel:
       required:
-      - code
-      - percentage
+      - name
+      - sub_panel_id
       type: object
       properties:
-        code:
+        sub_panel_id:
           type: string
-          description: The regulatory code that represents the risk for a risk classification.
+          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
           default: ''
-          pattern: ^.{1,256}$
-        percentage:
+        name:
+          type: string
+          description: The name of the sub panel.
+          default: ''
+      additionalProperties: false
+      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
+    submission_negotiation_leader_stamp:
+      required:
+      - agency_code
+      - agency_type
+      - name
+      - percentage_of_total_written_line
+      - stamp_role
+      type: object
+      properties:
+        agency_type:
+          type: string
+          description: The code that represents the agency type.
+          default: ''
+        agency_code:
+          type: string
+          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
+          default: ''
+        name:
+          type: string
+          description: The legal name of the stamp, as provided by the Carrier organisation.
+          default: ''
+        stamp_role:
+          type: string
+          description: The code that represents the role or roles that the stamp plays in this Participation.
+          default: ''
+        percentage_of_total_written_line:
           type: number
-          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        written_line_absolute_percentage:
+          type: number
+          description: The specified underwriting value, as an absolute percentage of a Stamp.
+          example: 0.1
+        written_line_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        written_line_amount:
+          type: number
+          description: The specified underwriting value, as an amount.
           example: 0.1
       additionalProperties: false
-      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+      description: ''
+    submission_negotiation_contract_document:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: The code that represents the status of the Contract Document comments.
+          default: ''
+        comments_history:
+          type: array
+          description: Array of comments on the Contract Document Comments negotiation.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_comments'
+      additionalProperties: false
+      description: The negotiation pertaining to the content of the Contract Document.
+    submission_negotiation_role_postput:
+      required:
+      - decline_role_indicator
+      - role
+      type: object
+      properties:
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        decline_role_indicator:
+          type: boolean
+          description: Identifies whether the contractual role has been declined (true) or not (false).
+          example: false
+        comment:
+          type: string
+          description: Latest comment on the negotiation of declining the contractual role proposed by the Broker.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    submission_negotiation_calculated:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
+    submission_negotiation_leader_written:
+      type: object
+      properties:
+        line_percentage:
+          $ref: '#/components/schemas/submission_negotiation_leader_written_line_percent'
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          $ref: '#/components/schemas/submission_negotiation_leader_written_amount'
+      additionalProperties: false
+      description: ''
+    submission_negotiation_signed:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the signed line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter.
+    submission_negotiation_amount_postput:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a differing Written Line Amount than that proposed by the Broker.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The specified underwriting value, as an amount.
+    notification:
+      required:
+      - category_type
+      - notification_id
+      - status
+      - type
+      type: object
+      properties:
+        notification_id:
+          type: string
+          description: A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.
+          default: ''
+        category_type:
+          type: string
+          description: Identifies the category type of the notification that is being processed in an asynchronous manner.
+          default: ''
+        type:
+          type: string
+          description: Identifies the type of notification that is being processed in an asynchronous manner.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Notification status.
+          default: ''
+      additionalProperties: false
+      description: 'The Notification information relating to the Document. '
     submission_negotiation_subjectivity_post:
       required:
       - confirmation_required
@@ -2893,6 +3272,53 @@ components:
           pattern: ^.{1,8000}$
       additionalProperties: false
       description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+    metadata_user_2:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      description: The User information of the Metadata User.
+    submission_negotiation_save_response:
+      required:
+      - date
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/comment_user'
+        date:
+          type: string
+          description: The date and timestamp of the User responsible for saving the Negotiation record.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: Information about the saving of the Negotiation record.
+    submission_negotiation_contract_document_postput:
+      type: object
+      properties:
+        proposed_contract_document_comments:
+          type: boolean
+          description: Identifies when the Underwriter response is subject to comments made to the Contract Document (true) or not (false).
+          example: false
+        comment:
+          type: string
+          description: Latest comment on the negotiation of comments made to the Contract Document.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The negotiation pertaining to the content of the Contract Document.
     submission_negotiation_line_percentage:
       type: object
       properties:
@@ -2907,22 +3333,56 @@ components:
             $ref: '#/components/schemas/submission_negotiation_comments'
       additionalProperties: false
       description: The specified underwriting value, as a percentage.
-    submission_negotiation_contract_document:
+    submission_negotiation_reassign_output:
       required:
-      - status
+      - metadata
+      - negotiation_id
+      - notification
+      - submission_id
+      - underwriter_team
+      - underwriter_user
       type: object
       properties:
-        status:
+        negotiation_id:
           type: string
-          description: The code that represents the status of the Contract Document comments.
+          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.
           default: ''
-        comments_history:
-          type: array
-          description: Array of comments on the Contract Document Comments negotiation.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_comments'
+        metadata:
+          $ref: '#/components/schemas/metadata_2'
+        submission_id:
+          type: string
+          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+          default: ''
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team_no_org_no_company'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user'
+        notification:
+          $ref: '#/components/schemas/notification'
       additionalProperties: false
-      description: The negotiation pertaining to the content of the Contract Document.
+      description: Negotiation structure for reassign output
+    submission_negotiation_stamp_line_condition_post:
+      required:
+      - code
+      - description
+      type: object
+      properties:
+        description:
+          type: string
+          description: A description of the line condition.
+          default: ''
+          pattern: ^.{1,1024}$
+        code:
+          type: string
+          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
+          default: ''
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
     submission_negotiation_stamp_line_condition:
       required:
       - code
@@ -2954,24 +3414,393 @@ components:
             $ref: '#/components/schemas/submission_negotiation_comments'
       additionalProperties: false
       description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-    submission_negotiation_leader_written_amount:
+    submission_negotiation_facility_panel_master:
+      required:
+      - facility_contract_id
+      - section_id
+      - section_name
+      - unique_market_reference
       type: object
       properties:
-        value:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
+        facility_contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        section_name:
+          type: string
+          description: A description of the Section supplied by the Broker.
+          default: ''
       additionalProperties: false
       description: ''
-    submission_negotiation_leader_written_line_percent:
+    submission_negotiation_written_postput:
       type: object
       properties:
-        value:
+        line_percentage:
+          $ref: '#/components/schemas/submission_negotiation_line_percentage_postput'
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          $ref: '#/components/schemas/submission_negotiation_amount_postput'
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    response_submission_negotiations_getall:
+      required:
+      - count
+      - negotiations
+      - page_number
+      - page_size
+      - total_results
+      type: object
+      properties:
+        negotiations:
+          type: array
+          description: List of negotiations retrieved
+          items:
+            $ref: '#/components/schemas/submission_negotiation_getall'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int64
+          example: 1234567891234567
+      additionalProperties: false
+      description: ''
+    submission_negotiation_getall:
+      required:
+      - broker_team
+      - broker_user
+      - contract_id
+      - contract_version
+      - has_line_conditions
+      - has_subjectivities
+      - is_leader
+      - metadata
+      - negotiation_id
+      - order_limit
+      - order_percentage
+      - participation_id
+      - personal_message
+      - responding_to_negotiation_id
+      - section_id
+      - sent_by_user
+      - status
+      - status_reason
+      - submission_id
+      - type
+      - underwriter_team
+      - underwriter_user
+      - written_line_basis
+      type: object
+      properties:
+        negotiation_id:
+          type: string
+          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata_2'
+        responding_to_negotiation_id:
+          type: string
+          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
+          default: ''
+        submission_id:
+          type: string
+          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
+          default: ''
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        contract_version:
+          type: integer
+          description: The contract version this negotiation respects to.
+          format: int32
+          example: 0
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        participation_id:
+          type: string
+          description: A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.
+          default: ''
+        broker_team:
+          $ref: '#/components/schemas/broker_team_only_name'
+        broker_user:
+          $ref: '#/components/schemas/broker_user'
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team_no_org_no_company'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user'
+        sent_by_user:
+          $ref: '#/components/schemas/sent_by_user'
+        personal_message:
+          type: string
+          description: A personal message from the broker in relation to the Underwriter&#39;s Participation.
+          default: ''
+        type:
+          type: string
+          description: The type of the Negotiation.
+          default: ''
+        sub_type:
+          type: string
+          description: The subtype of the Negotiation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
+          default: ''
+        status_reason:
+          type: string
+          description: The code that represents the reason for the Negotiation status
+          default: ''
+        written_line_basis:
+          type: string
+          description: The basis on which the underwriter&#39;s written lines are applied to the Order of a Contract or Section.
+          default: ''
+        signed_line_basis:
+          type: string
+          description: The basis on which the underwriter&#39;s signed lines are applied to the Order of a Contract or Section.
+          default: ''
+        order_percentage:
+          type: number
+          description: The basis upon which all signed lines are applied to the Order of a Contract or Section.
+          example: 0.1
+        order_limit:
+          type: number
+          description: The value to be used as part of the signing down process, where the Order is expressed as a monetary amount.
+          example: 0.1
+        is_leader:
+          type: boolean
+          description: Parameter used to return Negotiations records that have a leader role (true) or not (false).
+          example: false
+        roles:
+          type: array
+          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_role'
+        has_line_conditions:
+          type: boolean
+          description: Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.
+          example: false
+        has_subjectivities:
+          type: boolean
+          description: Parameter used to return Negotiation records that have at least one Subjectivity (true) or no Subjectivities (false) present.
+          example: false
+      additionalProperties: false
+      description: Negotiation structure for Get All
+    submission_negotiation_facility_panel_written:
+      type: object
+      properties:
+        line_percentage:
           type: number
           description: The specified underwriting value, as a percentage.
           example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the written line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
       additionalProperties: false
-      description: ''
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    underwriter_team_no_org_no_company:
+      required:
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Underwriter Team, as defined by the carrier organisation.
+          default: ''
+      additionalProperties: false
+      description: The Team information of the Underwriter Team responsible for the Participation.
+    submission_negotiation_facility_panel:
+      required:
+      - facility_panel_id
+      - master_facility
+      type: object
+      properties:
+        facility_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+          default: ''
+        proposed:
+          $ref: '#/components/schemas/submission_negotiation_facility_panel_proposed'
+        written:
+          $ref: '#/components/schemas/submission_negotiation_facility_panel_written'
+        calculated:
+          $ref: '#/components/schemas/submission_negotiation_facility_panel_calculated'
+        signed:
+          $ref: '#/components/schemas/submission_negotiation_facility_panel_signed'
+        master_facility:
+          $ref: '#/components/schemas/submission_negotiation_facility_panel_master'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    submission_negotiation_stamp_risk_code:
+      required:
+      - code
+      - percentage
+      type: object
+      properties:
+        code:
+          type: string
+          description: The regulatory code that represents the risk for a risk classification.
+          default: ''
+          pattern: ^.{1,256}$
+        percentage:
+          type: number
+          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
+          example: 0.1
+      additionalProperties: false
+      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
+    submission_negotiation_put:
+      required:
+      - responding_to_negotiation_id
+      - status
+      type: object
+      properties:
+        responding_to_negotiation_id:
+          type: string
+          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        status:
+          type: string
+          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
+          default: ''
+        sent_by_user_message:
+          type: string
+          description: The user message specific for a negotiable data attribute.
+          default: ''
+          pattern: ^.{1,8000}$
+        settlement:
+          $ref: '#/components/schemas/submission_negotiation_settlement'
+        year_of_account:
+          type: integer
+          description: The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.
+          format: int32
+          minimum: 1900
+          maximum: 9999
+          example: 1900
+        written:
+          $ref: '#/components/schemas/submission_negotiation_written_postput'
+        roles:
+          type: array
+          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_role_postput'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_stamp_put'
+        subjectivities:
+          type: array
+          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_subjectivity_put'
+        contract_document:
+          $ref: '#/components/schemas/submission_negotiation_contract_document_postput'
+      additionalProperties: false
+      description: Negotiation structure for updates
+    metadata_2:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user_2'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user_2'
+      description: A collection of data items to support the creation and update of record entities.
+    submission_negotiation_reassign:
+      required:
+      - underwriter_team
+      - underwriter_user
+      type: object
+      properties:
+        underwriter_team:
+          $ref: '#/components/schemas/underwriter_team_reassign'
+        underwriter_user:
+          $ref: '#/components/schemas/underwriter_user_reassign'
+      additionalProperties: false
+      description: Negotiation input structure for reassign
+    submission_negotiation_stamp_line_condition_put:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: string
+          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
+          default: ''
+        comment:
+          type: string
+          description: Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.
+          default: ''
+          pattern: ^.{1,8000}$
+      additionalProperties: false
+      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
     submission_negotiation_stamp_put:
       required:
       - stamp_id
@@ -3021,67 +3850,196 @@ components:
           pattern: ^.{1,8000}$
       additionalProperties: false
       description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    submission_negotiation_amount_postput:
+    submission_negotiation_leader:
+      required:
+      - company_name
+      - role
+      - stamp
+      - underwriter_leader
+      type: object
+      properties:
+        underwriter_leader:
+          $ref: '#/components/schemas/underwriter_user'
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        written:
+          $ref: '#/components/schemas/submission_negotiation_leader_written'
+        stamp:
+          $ref: '#/components/schemas/submission_negotiation_leader_stamp'
+      additionalProperties: false
+      description: ''
+    submission_negotiation_subjectivity:
+      required:
+      - confirmation_required
+      - description
+      - negotiation_status
+      - off_cover_indicator
+      - saved_as_accepted
+      - saved_as_declined
+      - status
+      - subjectivity_id
+      type: object
+      properties:
+        subjectivity_id:
+          type: string
+          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the subjectivity and any associated terms.
+          default: ''
+        confirmation_required:
+          type: boolean
+          description: Indicates whether a subjectivity requires confirmation (true) or not (false).
+          example: false
+        confirmation_required_by_date:
+          type: string
+          description: The date and timestamp by which the Subjectivity needs to be met.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        off_cover_indicator:
+          type: boolean
+          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
+          example: false
+        status:
+          type: string
+          description: The code that represents the status of the Subjectivity.
+          default: ''
+        negotiation_status:
+          type: string
+          description: The code that represents the status of the Subjectivity when this is under negotiation.
+          default: ''
+        withdrawn_date:
+          type: string
+          description: The date and timestamp on which the Subjectivity was withdrawn.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        saved_as_accepted:
+          type: boolean
+          description: Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).
+          example: false
+        saved_as_declined:
+          type: boolean
+          description: Identifies when the Subjectivity under review is marked as Declined (true) or not (false).
+          example: false
+        comments_history:
+          type: array
+          description: Array of comments on the subjectivities negotiation.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_comments'
+      additionalProperties: false
+      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
+    underwriter_team_reassign:
+      required:
+      - team_id
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: The Team information of the Underwriter Team responsible for the Participation.
+    submission_negotiation_facility_panel_signed:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the signed line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter.
+    submission_negotiation_amount:
       type: object
       properties:
         value:
           type: number
           description: The specified underwriting value, as an amount.
           example: 0.1
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a differing Written Line Amount than that proposed by the Broker.
-          default: ''
-          pattern: ^.{1,8000}$
+        comments_history:
+          type: array
+          description: Array of comments on the Line Percentage Negotiation.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_comments'
       additionalProperties: false
       description: The specified underwriting value, as an amount.
-    response_submission_negotiations_getall:
+    submission_negotiation_role:
       required:
-      - count
-      - negotiations
-      - page_number
-      - page_size
-      - total_results
+      - status
+      - role
       type: object
       properties:
-        negotiations:
-          type: array
-          description: List of negotiations retrieved
-          items:
-            $ref: '#/components/schemas/submission_negotiation_getall'
-        page_number:
-          type: integer
-          description: Number of the page retrieved
-          format: int32
-          example: 0
-        page_size:
-          type: integer
-          description: Size of the page retrieved
-          format: int32
-          example: 0
-        count:
-          type: integer
-          description: The number of records on the current page
-          format: int32
-          example: 0
-        total_results:
-          type: integer
-          description: Total number of results
-          format: int64
-          example: 1234567891234567
-      additionalProperties: false
-      description: ''
-    broker_team_only_name:
-      required:
-      - team_name
-      type: object
-      properties:
-        team_name:
+        status:
           type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
           default: ''
       additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    submission_negotiation_facility_panel_proposed:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
+    submission_negotiation_comments:
+      required:
+      - comment
+      - date
+      - user
+      type: object
+      properties:
+        date:
+          type: string
+          description: The date and timestamp when the comment was provided.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        comment:
+          type: string
+          description: The Sender comment specific for a negotiable data attribute.
+          default: ''
+        user:
+          $ref: '#/components/schemas/comment_user'
+      additionalProperties: false
+      description: Array of comments for Negotiation usage.
     underwriter_user_reassign:
       required:
       - user_email
@@ -3094,18 +4052,52 @@ components:
           pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
       additionalProperties: false
       description: The User information of the Underwriter User responsible for the Participation.
-    submission_negotiation_reassign:
+    submission_negotiation_role_plus:
       required:
-      - underwriter_team
-      - underwriter_user
+      - role
+      - status
       type: object
       properties:
-        underwriter_team:
-          $ref: '#/components/schemas/underwriter_team_reassign'
-        underwriter_user:
-          $ref: '#/components/schemas/underwriter_user_reassign'
+        role:
+          type: string
+          description: The code that represents the role or roles that the Underwriter plays through their participation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        comments_history:
+          type: array
+          description: Array of comments on the roles Negotiation.
+          items:
+            $ref: '#/components/schemas/submission_negotiation_comments'
       additionalProperties: false
-      description: Negotiation input structure for reassign
+      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
+    submission_negotiation_stamp_reference:
+      required:
+      - description
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          description: The reference allocated by the underwriter against the Stamp.
+          default: ''
+          pattern: ^.{1,35}$
+        description:
+          type: string
+          description: A description of any processing instructions supplied with the line Reference.
+          default: ''
+          pattern: ^.{1,88}$
+        risk_codes:
+          type: array
+          description: The regulatory code(s) that are applicable to the Reference.
+          items:
+            type: string
+            default: ''
+            pattern: ^.{1,256}$
+      additionalProperties: false
+      description: ''
     submission_negotiation_getbyid:
       required:
       - broker_team
@@ -3309,990 +4301,6 @@ components:
           example: 1
       additionalProperties: false
       description: ''
-    submission_negotiation_reassign_output:
-      required:
-      - metadata
-      - negotiation_id
-      - notification
-      - submission_id
-      - underwriter_team
-      - underwriter_user
-      type: object
-      properties:
-        negotiation_id:
-          type: string
-          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.
-          default: ''
-        metadata:
-          $ref: '#/components/schemas/metadata_2'
-        submission_id:
-          type: string
-          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
-          default: ''
-        underwriter_team:
-          $ref: '#/components/schemas/underwriter_team_no_org_no_company'
-        underwriter_user:
-          $ref: '#/components/schemas/underwriter_user'
-        notification:
-          $ref: '#/components/schemas/notification'
-      additionalProperties: false
-      description: Negotiation structure for reassign output
-    submission_negotiation_leader_written:
-      type: object
-      properties:
-        line_percentage:
-          $ref: '#/components/schemas/submission_negotiation_leader_written_line_percent'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          $ref: '#/components/schemas/submission_negotiation_leader_written_amount'
-      additionalProperties: false
-      description: ''
-    submission_negotiation_facility_panel_proposed:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
-    submission_negotiation_comments:
-      required:
-      - comment
-      - date
-      - user
-      type: object
-      properties:
-        date:
-          type: string
-          description: The date and timestamp when the comment was provided.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-        comment:
-          type: string
-          description: The Sender comment specific for a negotiable data attribute.
-          default: ''
-        user:
-          $ref: '#/components/schemas/comment_user'
-      additionalProperties: false
-      description: Array of comments for Negotiation usage.
-    underwriter_team_no_org_no_company:
-      required:
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Underwriter Team, as defined by the carrier organisation.
-          default: ''
-      additionalProperties: false
-      description: The Team information of the Underwriter Team responsible for the Participation.
-    submission_negotiation_role:
-      required:
-      - status
-      - role
-      type: object
-      properties:
-        status:
-          type: string
-          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-      additionalProperties: false
-      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    submission_negotiation_proposed:
-      type: object
-      properties:
-        min_line_percentage:
-          type: number
-          description: The minimum underwriting value, as a percentage.
-          example: 0.1
-        max_line_percentage:
-          type: number
-          description: The maximum underwriting value, as a percentage.
-          example: 0.1
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        min_amount:
-          type: number
-          description: The minimum underwriting value, as an amount.
-          example: 0.1
-        max_amount:
-          type: number
-          description: The maximum underwriting value, as an amount.
-          example: 0.1
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
-    submission_negotiation_amount:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        comments_history:
-          type: array
-          description: Array of comments on the Line Percentage Negotiation.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_comments'
-      additionalProperties: false
-      description: The specified underwriting value, as an amount.
-    submission_negotiation_facility_panel_written:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the written line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    submission_negotiation_save_response:
-      required:
-      - date
-      - user
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/comment_user'
-        date:
-          type: string
-          description: The date and timestamp of the User responsible for saving the Negotiation record.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-      additionalProperties: false
-      description: Information about the saving of the Negotiation record.
-    submission_negotiation_role_plus:
-      required:
-      - role
-      - status
-      type: object
-      properties:
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        comments_history:
-          type: array
-          description: Array of comments on the roles Negotiation.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_comments'
-      additionalProperties: false
-      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    submission_negotiation_put:
-      required:
-      - responding_to_negotiation_id
-      - status
-      type: object
-      properties:
-        responding_to_negotiation_id:
-          type: string
-          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        status:
-          type: string
-          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
-          default: ''
-        sent_by_user_message:
-          type: string
-          description: The user message specific for a negotiable data attribute.
-          default: ''
-          pattern: ^.{1,8000}$
-        settlement:
-          $ref: '#/components/schemas/submission_negotiation_settlement'
-        year_of_account:
-          type: integer
-          description: The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.
-          format: int32
-          minimum: 1900
-          maximum: 9999
-          example: 1900
-        written:
-          $ref: '#/components/schemas/submission_negotiation_written_postput'
-        roles:
-          type: array
-          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_role_postput'
-        stamps:
-          type: array
-          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_stamp_put'
-        subjectivities:
-          type: array
-          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_subjectivity_put'
-        contract_document:
-          $ref: '#/components/schemas/submission_negotiation_contract_document_postput'
-      additionalProperties: false
-      description: Negotiation structure for updates
-    submission_negotiation_facility_panel_master:
-      required:
-      - facility_contract_id
-      - section_id
-      - section_name
-      - unique_market_reference
-      type: object
-      properties:
-        facility_contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-        unique_market_reference:
-          type: string
-          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
-          default: ''
-        section_id:
-          type: string
-          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
-          default: ''
-        section_name:
-          type: string
-          description: A description of the Section supplied by the Broker.
-          default: ''
-      additionalProperties: false
-      description: ''
-    submission_negotiation_signed:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the signed line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The signed line information, that the Broker has confirmed to the Underwriter.
-    submission_negotiation_leader:
-      required:
-      - company_name
-      - role
-      - stamp
-      - underwriter_leader
-      type: object
-      properties:
-        underwriter_leader:
-          $ref: '#/components/schemas/underwriter_user'
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the status of the role when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        written:
-          $ref: '#/components/schemas/submission_negotiation_leader_written'
-        stamp:
-          $ref: '#/components/schemas/submission_negotiation_leader_stamp'
-      additionalProperties: false
-      description: ''
-    submission_negotiation_post:
-      required:
-      - responding_to_negotiation_id
-      - status
-      type: object
-      properties:
-        responding_to_negotiation_id:
-          type: string
-          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        status:
-          type: string
-          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
-          default: ''
-        sent_by_user_message:
-          type: string
-          description: The user message specific for a negotiable data attribute.
-          default: ''
-          pattern: ^.{1,8000}$
-        settlement:
-          $ref: '#/components/schemas/submission_negotiation_settlement'
-        year_of_account:
-          type: integer
-          description: The year of account to which any premium payment for this Contract or Section is allocated to. This is usually required on risks where the contract period exceeds 18 months.
-          format: int32
-          minimum: 1900
-          maximum: 9999
-          example: 1900
-        written:
-          $ref: '#/components/schemas/submission_negotiation_written_postput'
-        roles:
-          type: array
-          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_role_postput'
-        stamps:
-          type: array
-          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_stamp_post'
-        subjectivities:
-          type: array
-          description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_subjectivity_post'
-        contract_document:
-          $ref: '#/components/schemas/submission_negotiation_contract_document_postput'
-      additionalProperties: false
-      description: Negotiation structure for creates
-    submission_negotiation_stamp_post:
-      required:
-      - stamp_id
-      type: object
-      properties:
-        stamp_id:
-          type: string
-          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        percentage_of_total_written_line:
-          type: number
-          description: The specified underwriting value, as a proportion of 100 percent of the overall negotiation.
-          example: 0.1
-        written_line_absolute_percentage:
-          type: number
-          description: The specified underwriting value, as an absolute percentage of a Stamp.
-          example: 0.1
-        written_line_currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-          pattern: ^[A-Z]{3}$
-        written_line_amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        risk_classification:
-          type: array
-          description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_stamp_risk_code'
-        line_conditions:
-          type: array
-          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_stamp_line_condition_post'
-        references:
-          type: array
-          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_stamp_reference'
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a Carrier Stamp proposed by the Underwriter.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    submission_negotiation_facility_panel:
-      required:
-      - facility_panel_id
-      - master_facility
-      type: object
-      properties:
-        facility_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
-          default: ''
-        proposed:
-          $ref: '#/components/schemas/submission_negotiation_facility_panel_proposed'
-        written:
-          $ref: '#/components/schemas/submission_negotiation_facility_panel_written'
-        calculated:
-          $ref: '#/components/schemas/submission_negotiation_facility_panel_calculated'
-        signed:
-          $ref: '#/components/schemas/submission_negotiation_facility_panel_signed'
-        master_facility:
-          $ref: '#/components/schemas/submission_negotiation_facility_panel_master'
-      additionalProperties: false
-      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
-    submission_negotiation_stamp_line_condition_put:
-      required:
-      - code
-      type: object
-      properties:
-        code:
-          type: string
-          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
-          default: ''
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-    submission_negotiation_written:
-      required:
-      - status
-      type: object
-      properties:
-        line_percentage:
-          $ref: '#/components/schemas/submission_negotiation_line_percentage'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          $ref: '#/components/schemas/submission_negotiation_amount'
-        date:
-          type: string
-          description: The date and timestamp when the written line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        status:
-          type: string
-          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    submission_negotiation_stamp_line_condition_post:
-      required:
-      - code
-      - description
-      type: object
-      properties:
-        description:
-          type: string
-          description: A description of the line condition.
-          default: ''
-          pattern: ^.{1,1024}$
-        code:
-          type: string
-          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
-          default: ''
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a Carrier Stamp&#39;s Line Condition proposed by the Underwriter.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-    notification:
-      required:
-      - category_type
-      - notification_id
-      - status
-      - type
-      type: object
-      properties:
-        notification_id:
-          type: string
-          description: A system-generated unique identifier for a Notification, with a format and structure defined by the technology used.
-          default: ''
-        category_type:
-          type: string
-          description: Identifies the category type of the notification that is being processed in an asynchronous manner.
-          default: ''
-        type:
-          type: string
-          description: Identifies the type of notification that is being processed in an asynchronous manner.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the Notification status.
-          default: ''
-      additionalProperties: false
-      description: 'The Notification information relating to the Document. '
-    submission_negotiation_getall:
-      required:
-      - broker_team
-      - broker_user
-      - contract_id
-      - contract_version
-      - has_line_conditions
-      - has_subjectivities
-      - is_leader
-      - metadata
-      - negotiation_id
-      - order_limit
-      - order_percentage
-      - participation_id
-      - personal_message
-      - responding_to_negotiation_id
-      - section_id
-      - sent_by_user
-      - status
-      - status_reason
-      - submission_id
-      - type
-      - underwriter_team
-      - underwriter_user
-      - written_line_basis
-      type: object
-      properties:
-        negotiation_id:
-          type: string
-          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used.
-          default: ''
-        metadata:
-          $ref: '#/components/schemas/metadata_2'
-        responding_to_negotiation_id:
-          type: string
-          description: A system-generated unique identifier for a Negotiation, with a format and structure defined by the technology used. The identifier Negotiation record that this record is in response to.
-          default: ''
-        submission_id:
-          type: string
-          description: A system-generated unique identifier for a Submission, with a format and structure defined by the technology used.
-          default: ''
-        contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-        contract_version:
-          type: integer
-          description: The contract version this negotiation respects to.
-          format: int32
-          example: 0
-        section_id:
-          type: string
-          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
-          default: ''
-        participation_id:
-          type: string
-          description: A system-generated unique identifier for a Participation, with a format and structure defined by the technology used.
-          default: ''
-        broker_team:
-          $ref: '#/components/schemas/broker_team_only_name'
-        broker_user:
-          $ref: '#/components/schemas/broker_user'
-        underwriter_team:
-          $ref: '#/components/schemas/underwriter_team_no_org_no_company'
-        underwriter_user:
-          $ref: '#/components/schemas/underwriter_user'
-        sent_by_user:
-          $ref: '#/components/schemas/sent_by_user'
-        personal_message:
-          type: string
-          description: A personal message from the broker in relation to the Underwriter&#39;s Participation.
-          default: ''
-        type:
-          type: string
-          description: The type of the Negotiation.
-          default: ''
-        sub_type:
-          type: string
-          description: The subtype of the Negotiation.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the Negotiation status, based upon the Type of Negotiation.
-          default: ''
-        status_reason:
-          type: string
-          description: The code that represents the reason for the Negotiation status
-          default: ''
-        written_line_basis:
-          type: string
-          description: The basis on which the underwriter&#39;s written lines are applied to the Order of a Contract or Section.
-          default: ''
-        signed_line_basis:
-          type: string
-          description: The basis on which the underwriter&#39;s signed lines are applied to the Order of a Contract or Section.
-          default: ''
-        order_percentage:
-          type: number
-          description: The basis upon which all signed lines are applied to the Order of a Contract or Section.
-          example: 0.1
-        order_limit:
-          type: number
-          description: The value to be used as part of the signing down process, where the Order is expressed as a monetary amount.
-          example: 0.1
-        is_leader:
-          type: boolean
-          description: Parameter used to return Negotiations records that have a leader role (true) or not (false).
-          example: false
-        roles:
-          type: array
-          description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_role'
-        has_line_conditions:
-          type: boolean
-          description: Parameter used to return Negotiation records that have at least one Line Condition (true) or no Line Conditions (false) present in any Stamp within a Participation, irrespective of the Status of the Line Condition.
-          example: false
-        has_subjectivities:
-          type: boolean
-          description: Parameter used to return Negotiation records that have at least one Subjectivity (true) or no Subjectivities (false) present.
-          example: false
-      additionalProperties: false
-      description: Negotiation structure for Get All
-    underwriter_team_reassign:
-      required:
-      - team_id
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Underwriter Team, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-      additionalProperties: false
-      description: The Team information of the Underwriter Team responsible for the Participation.
-    submission_negotiation_subjectivity:
-      required:
-      - confirmation_required
-      - description
-      - negotiation_status
-      - off_cover_indicator
-      - saved_as_accepted
-      - saved_as_declined
-      - status
-      - subjectivity_id
-      type: object
-      properties:
-        subjectivity_id:
-          type: string
-          description: A system-generated unique identifier for a Subjectivity, with a format and structure defined by the technology used.
-          default: ''
-        description:
-          type: string
-          description: A description of the subjectivity and any associated terms.
-          default: ''
-        confirmation_required:
-          type: boolean
-          description: Indicates whether a subjectivity requires confirmation (true) or not (false).
-          example: false
-        confirmation_required_by_date:
-          type: string
-          description: The date and timestamp by which the Subjectivity needs to be met.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        off_cover_indicator:
-          type: boolean
-          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
-          example: false
-        status:
-          type: string
-          description: The code that represents the status of the Subjectivity.
-          default: ''
-        negotiation_status:
-          type: string
-          description: The code that represents the status of the Subjectivity when this is under negotiation.
-          default: ''
-        withdrawn_date:
-          type: string
-          description: The date and timestamp on which the Subjectivity was withdrawn.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        saved_as_accepted:
-          type: boolean
-          description: Identifies when the Subjectivity under review from the Broker is marked as Accepted (true) or not (false).
-          example: false
-        saved_as_declined:
-          type: boolean
-          description: Identifies when the Subjectivity under review is marked as Declined (true) or not (false).
-          example: false
-        comments_history:
-          type: array
-          description: Array of comments on the subjectivities negotiation.
-          items:
-            $ref: '#/components/schemas/submission_negotiation_comments'
-      additionalProperties: false
-      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-    submission_negotiation_stamp_reference:
-      required:
-      - description
-      - reference
-      type: object
-      properties:
-        reference:
-          type: string
-          description: The reference allocated by the underwriter against the Stamp.
-          default: ''
-          pattern: ^.{1,35}$
-        description:
-          type: string
-          description: A description of any processing instructions supplied with the line Reference.
-          default: ''
-          pattern: ^.{1,88}$
-        risk_codes:
-          type: array
-          description: The regulatory code(s) that are applicable to the Reference.
-          items:
-            type: string
-            default: ''
-            pattern: ^.{1,256}$
-      additionalProperties: false
-      description: ''
-    submission_negotiation_facility_panel_calculated:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-      additionalProperties: false
-      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
-    submission_negotiation_sub_panel:
-      required:
-      - name
-      - sub_panel_id
-      type: object
-      properties:
-        sub_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the sub panel.
-          default: ''
-      additionalProperties: false
-      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
-    submission_negotiation_line_percentage_postput:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        comment:
-          type: string
-          description: Latest comment on the negotiation of a differing Written Line Percentage than that proposed by the Broker.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The specified underwriting value, as a percentage.
-    submission_negotiation_role_postput:
-      required:
-      - decline_role_indicator
-      - role
-      type: object
-      properties:
-        role:
-          type: string
-          description: The code that represents the role or roles that the Underwriter plays through their participation.
-          default: ''
-        decline_role_indicator:
-          type: boolean
-          description: Identifies whether the contractual role has been declined (true) or not (false).
-          example: false
-        comment:
-          type: string
-          description: Latest comment on the negotiation of declining the contractual role proposed by the Broker.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    submission_negotiation_calculated:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-      additionalProperties: false
-      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
-    submission_negotiation_leader_stamp:
-      required:
-      - agency_code
-      - agency_type
-      - name
-      - percentage_of_total_written_line
-      - stamp_role
-      type: object
-      properties:
-        agency_type:
-          type: string
-          description: The code that represents the agency type.
-          default: ''
-        agency_code:
-          type: string
-          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
-          default: ''
-        name:
-          type: string
-          description: The legal name of the stamp, as provided by the Carrier organisation.
-          default: ''
-        stamp_role:
-          type: string
-          description: The code that represents the role or roles that the stamp plays in this Participation.
-          default: ''
-        percentage_of_total_written_line:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        written_line_absolute_percentage:
-          type: number
-          description: The specified underwriting value, as an absolute percentage of a Stamp.
-          example: 0.1
-        written_line_currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        written_line_amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: ''
-    metadata_2:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user_2'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user_2'
-      description: A collection of data items to support the creation and update of record entities.
-    submission_negotiation_contract_document_postput:
-      type: object
-      properties:
-        proposed_contract_document_comments:
-          type: boolean
-          description: Identifies when the Underwriter response is subject to comments made to the Contract Document (true) or not (false).
-          example: false
-        comment:
-          type: string
-          description: Latest comment on the negotiation of comments made to the Contract Document.
-          default: ''
-          pattern: ^.{1,8000}$
-      additionalProperties: false
-      description: The negotiation pertaining to the content of the Contract Document.
-    submission_negotiation_written_postput:
-      type: object
-      properties:
-        line_percentage:
-          $ref: '#/components/schemas/submission_negotiation_line_percentage_postput'
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-          pattern: ^[A-Z]{3}$
-        amount:
-          $ref: '#/components/schemas/submission_negotiation_amount_postput'
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    submission_negotiation_facility_panel_signed:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the signed line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-      additionalProperties: false
-      description: The signed line information, that the Broker has confirmed to the Underwriter.
-    metadata_user_2:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      description: The User information of the Metadata User.
 x-refined-from:
 - ppl-london-market-placements.json
 - ppl-london-market-submissions.json

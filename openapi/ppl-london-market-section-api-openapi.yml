@@ -448,6 +448,40 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    period_range:
+      required:
+      - duration_number
+      - duration_unit
+      type: object
+      properties:
+        duration_number:
+          type: integer
+          description: An integer value representing the numeric element of a Period Range.
+          format: int32
+          example: 1
+          minimum: 1
+        duration_unit:
+          type: string
+          description: The code that represents the unit of measurement element of a Period Range.
+          default: ''
+      additionalProperties: false
+      description: A collection of data items to denote the Contract or Section period, as a numeric and unit of measurement.
+    section_risk:
+      required:
+      - allocation_percentage
+      - risk_code
+      type: object
+      properties:
+        risk_code:
+          type: string
+          description: The regulatory code that represents the risk for a risk classification.
+          default: ''
+        allocation_percentage:
+          type: number
+          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
+          example: 0.1
+      additionalProperties: false
+      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
     section_limit:
       required:
       - amount
@@ -485,128 +519,6 @@ components:
           pattern: ^.{1,512}$
       additionalProperties: false
       description: A collection of data items that represents the Limit(s) of any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
-    section_getall:
-      required:
-      - contract_id
-      - description
-      - firm_order_ready
-      - metadata
-      - period
-      - placement_id
-      - quote_ready
-      - reference
-      - section_id
-      - sequence_number
-      - status
-      type: object
-      properties:
-        section_id:
-          type: string
-          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
-          default: ''
-        metadata:
-          $ref: '#/components/schemas/metadata'
-        placement_id:
-          type: string
-          description: A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.
-          default: ''
-        contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-        reference:
-          type: string
-          description: A reference of the Section supplied by the Broker.
-          default: ''
-        description:
-          type: string
-          description: A description of the Section supplied by the Broker.
-          default: ''
-        sequence_number:
-          type: integer
-          description: The sequence number that defines the order in which Sections are ordered.
-          format: int32
-          example: 0
-        status:
-          type: string
-          description: The code that represents the Section status.
-          default: ''
-        firm_order_ready:
-          type: boolean
-          description: Indicates whether the Contract is ready to submit as a Firm Order (true) or not (false).
-          example: false
-        quote_ready:
-          type: boolean
-          description: Indicates whether the Contract is ready to submit as a Quote (true) or not (false).
-          example: false
-        period:
-          $ref: '#/components/schemas/period'
-        geographic_coverage:
-          $ref: '#/components/schemas/geographic_coverage'
-        conveyance_description:
-          type: string
-          description: A description of the subject matter insured or nature of liability.
-          default: ''
-        interest_description:
-          type: string
-          description: A description of the interest insured or nature of liability.
-          default: ''
-        order_type:
-          type: string
-          description: The code that represents the written line type, either a percentage or an amount.
-          default: ''
-        order_currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-        order_percentage:
-          type: number
-          description: The amount or percentage of the insured&#39;s risk that is covered by this Contract or Section.
-          example: 0.1
-        written_line_basis:
-          type: string
-          description: The basis upon which all written lines are applied to the Order of a Contract or Section.
-          default: ''
-        product_code:
-          type: string
-          description: The code that represents the insurance product under this Contract or Section.
-          default: ''
-        stamp_permission_type:
-          type: string
-          description: The code that represents the permitted territory type for the Contract or Section.
-          default: ''
-      additionalProperties: false
-      description: The default section of the contract represents the summary of the overall risk to be insured under the Contract.
-    error:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
-          type: string
-          description: The error code.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
     section_postput:
       required:
       - description
@@ -714,33 +626,6 @@ components:
             $ref: '#/components/schemas/section_premium'
       additionalProperties: false
       description: Section structure for creates and updates
-    period_range:
-      required:
-      - duration_number
-      - duration_unit
-      type: object
-      properties:
-        duration_number:
-          type: integer
-          description: An integer value representing the numeric element of a Period Range.
-          format: int32
-          example: 1
-          minimum: 1
-        duration_unit:
-          type: string
-          description: The code that represents the unit of measurement element of a Period Range.
-          default: ''
-      additionalProperties: false
-      description: A collection of data items to denote the Contract or Section period, as a numeric and unit of measurement.
-    section_binding_information:
-      type: object
-      properties:
-        signed_line_basis:
-          type: string
-          description: The basis upon which all signed lines are applied to the Order of a Contract or Section.
-          default: ''
-      additionalProperties: false
-      description: The Binding Information relevant to a Contract or Section.
     period_date:
       required:
       - expiry_date
@@ -770,6 +655,64 @@ components:
           pattern: ^.{1,256}$
       additionalProperties: false
       description: A collection of data items to denote the Contract or Section period using specific dates.
+    section_binding_information:
+      type: object
+      properties:
+        signed_line_basis:
+          type: string
+          description: The basis upon which all signed lines are applied to the Order of a Contract or Section.
+          default: ''
+      additionalProperties: false
+      description: The Binding Information relevant to a Contract or Section.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    geographic_coverage:
+      required:
+      - code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: indicates the type of the geographic coverage, either as a single country or a geographic region.
+          default: ''
+        code:
+          type: string
+          description: The code that represents the value of the country or region based on the geographic coverage type.
+          default: ''
+        description:
+          type: string
+          description: A high level description of the situation, territorial limits or scope, trading warranties or location.
+          default: ''
+          pattern: ^.{1,512}$
+      additionalProperties: false
+      description: A collection of data items to represent the territory of cover for a Contract or Section.
     section_premium:
       required:
       - basis_type
@@ -813,62 +756,7 @@ components:
           pattern: ^.{1,512}$
       additionalProperties: false
       description: A collection of data items that represents the financial amount to cover the risk(s) under the terms of the insurance Contract or Section.
-    section_risk:
-      required:
-      - allocation_percentage
-      - risk_code
-      type: object
-      properties:
-        risk_code:
-          type: string
-          description: The regulatory code that represents the risk for a risk classification.
-          default: ''
-        allocation_percentage:
-          type: number
-          description: The percentage of the total premium that is deemed to be the allocation of covering a particular risk code.
-          example: 0.1
-      additionalProperties: false
-      description: A collection of data items to represent the regulatory risk classification for a Contract or Section. Only supports Lloyds Agency Type Risk Codes.
-    response_sections_getall:
-      type: object
-      properties:
-        sections:
-          type: array
-          description: List of sections retrieved
-          items:
-            $ref: '#/components/schemas/section_getall'
-        page_number:
-          type: integer
-          description: Number of the page retrieved
-          format: int32
-          example: 0
-        count:
-          type: integer
-          description: The number of records on the current page
-          format: int32
-          example: 0
-        total_results:
-          type: integer
-          description: Total number of results
-          format: int32
-          example: 0
-        page_size:
-          type: integer
-          description: Size of the page retrieved
-          format: int32
-          example: 0
-      additionalProperties: false
-      description: ''
-    period:
-      type: object
-      properties:
-        period_date:
-          $ref: '#/components/schemas/period_date'
-        period_range:
-          $ref: '#/components/schemas/period_range'
-      additionalProperties: false
-      description: A collection of data items to denote the Contract or Section period.
-    section_deductible:
+    section_excess:
       required:
       - amount
       - basis_type
@@ -878,7 +766,7 @@ components:
       properties:
         type:
           type: string
-          description: The code that represents the type of deductible.
+          description: The code that represents the type of excess.
           default: ''
         currency_code:
           type: string
@@ -887,45 +775,24 @@ components:
           pattern: ^[A-Z]{3}$
         amount:
           type: number
-          description: The deductible amount applicable under the terms of the insurance Contract or Section.
+          description: The excess amount applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
           example: 0.1
         basis_type:
           type: string
-          description: The code that represents the basis of the deductible.
+          description: The code that represents the basis of the excess.
           default: ''
         type_description:
           type: string
-          description: A bespoke description of the deductible type, where not provisioned under the existing reference data type codes.
+          description: A bespoke description of the excess type, where not provisioned under the existing reference data type codes.
           default: ''
           pattern: ^.{1,512}$
         basis_description:
           type: string
-          description: A bespoke description of the deductible basis type, where not provisioned under the existing reference data basis type codes.
+          description: A bespoke description of the excess basis type, where not provisioned under the existing reference data basis type codes.
           default: ''
           pattern: ^.{1,512}$
       additionalProperties: false
-      description: A collection of data items that represent the deductible(s) that are applied against the payment of a claim, within a Contract or Section.
-    geographic_coverage:
-      required:
-      - code
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: indicates the type of the geographic coverage, either as a single country or a geographic region.
-          default: ''
-        code:
-          type: string
-          description: The code that represents the value of the country or region based on the geographic coverage type.
-          default: ''
-        description:
-          type: string
-          description: A high level description of the situation, territorial limits or scope, trading warranties or location.
-          default: ''
-          pattern: ^.{1,512}$
-      additionalProperties: false
-      description: A collection of data items to represent the territory of cover for a Contract or Section.
+      description: A collection of data items that represents the Excess(es) applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
     section_getbyid:
       required:
       - contract_id
@@ -1074,6 +941,195 @@ components:
           $ref: '#/components/schemas/section_binding_information'
       additionalProperties: false
       description: The default section of the contract represents the summary of the overall risk to be insured under the Contract.
+    period:
+      type: object
+      properties:
+        period_date:
+          $ref: '#/components/schemas/period_date'
+        period_range:
+          $ref: '#/components/schemas/period_range'
+      additionalProperties: false
+      description: A collection of data items to denote the Contract or Section period.
+    section_getall:
+      required:
+      - contract_id
+      - description
+      - firm_order_ready
+      - metadata
+      - period
+      - placement_id
+      - quote_ready
+      - reference
+      - section_id
+      - sequence_number
+      - status
+      type: object
+      properties:
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        placement_id:
+          type: string
+          description: A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.
+          default: ''
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+        reference:
+          type: string
+          description: A reference of the Section supplied by the Broker.
+          default: ''
+        description:
+          type: string
+          description: A description of the Section supplied by the Broker.
+          default: ''
+        sequence_number:
+          type: integer
+          description: The sequence number that defines the order in which Sections are ordered.
+          format: int32
+          example: 0
+        status:
+          type: string
+          description: The code that represents the Section status.
+          default: ''
+        firm_order_ready:
+          type: boolean
+          description: Indicates whether the Contract is ready to submit as a Firm Order (true) or not (false).
+          example: false
+        quote_ready:
+          type: boolean
+          description: Indicates whether the Contract is ready to submit as a Quote (true) or not (false).
+          example: false
+        period:
+          $ref: '#/components/schemas/period'
+        geographic_coverage:
+          $ref: '#/components/schemas/geographic_coverage'
+        conveyance_description:
+          type: string
+          description: A description of the subject matter insured or nature of liability.
+          default: ''
+        interest_description:
+          type: string
+          description: A description of the interest insured or nature of liability.
+          default: ''
+        order_type:
+          type: string
+          description: The code that represents the written line type, either a percentage or an amount.
+          default: ''
+        order_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        order_percentage:
+          type: number
+          description: The amount or percentage of the insured&#39;s risk that is covered by this Contract or Section.
+          example: 0.1
+        written_line_basis:
+          type: string
+          description: The basis upon which all written lines are applied to the Order of a Contract or Section.
+          default: ''
+        product_code:
+          type: string
+          description: The code that represents the insurance product under this Contract or Section.
+          default: ''
+        stamp_permission_type:
+          type: string
+          description: The code that represents the permitted territory type for the Contract or Section.
+          default: ''
+      additionalProperties: false
+      description: The default section of the contract represents the summary of the overall risk to be insured under the Contract.
+    response_sections_getall:
+      type: object
+      properties:
+        sections:
+          type: array
+          description: List of sections retrieved
+          items:
+            $ref: '#/components/schemas/section_getall'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int32
+          example: 0
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+      additionalProperties: false
+      description: ''
+    error:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    section_deductible:
+      required:
+      - amount
+      - basis_type
+      - currency_code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The code that represents the type of deductible.
+          default: ''
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          type: number
+          description: The deductible amount applicable under the terms of the insurance Contract or Section.
+          example: 0.1
+        basis_type:
+          type: string
+          description: The code that represents the basis of the deductible.
+          default: ''
+        type_description:
+          type: string
+          description: A bespoke description of the deductible type, where not provisioned under the existing reference data type codes.
+          default: ''
+          pattern: ^.{1,512}$
+        basis_description:
+          type: string
+          description: A bespoke description of the deductible basis type, where not provisioned under the existing reference data basis type codes.
+          default: ''
+          pattern: ^.{1,512}$
+      additionalProperties: false
+      description: A collection of data items that represent the deductible(s) that are applied against the payment of a claim, within a Contract or Section.
     metadata:
       required:
       - created_by
@@ -1108,59 +1164,3 @@ components:
           $ref: '#/components/schemas/metadata_user'
       additionalProperties: false
       description: A collection of data items to support the creation and update of record entities.
-    section_excess:
-      required:
-      - amount
-      - basis_type
-      - currency_code
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: The code that represents the type of excess.
-          default: ''
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-          pattern: ^[A-Z]{3}$
-        amount:
-          type: number
-          description: The excess amount applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
-          example: 0.1
-        basis_type:
-          type: string
-          description: The code that represents the basis of the excess.
-          default: ''
-        type_description:
-          type: string
-          description: A bespoke description of the excess type, where not provisioned under the existing reference data type codes.
-          default: ''
-          pattern: ^.{1,512}$
-        basis_description:
-          type: string
-          description: A bespoke description of the excess basis type, where not provisioned under the existing reference data basis type codes.
-          default: ''
-          pattern: ^.{1,512}$
-      additionalProperties: false
-      description: A collection of data items that represents the Excess(es) applicable prior to any liability the insurer has agreed to cover under the terms of the insurance Contract or Section.
-    metadata_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Metadata User.
