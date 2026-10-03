@@ -435,39 +435,26 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    company_carrier:
+    underwriter:
       required:
-      - address
-      - branches
-      - id
-      - name
+      - first_name
+      - last_name
+      - user_email
       type: object
       properties:
-        id:
+        user_email:
           type: string
-          description: A system-generated unique identifier for a Company, with a format and structure defined by the technology used.
+          description: The email address of the Underwriter.
           default: ''
-        duns_number:
+        first_name:
           type: string
-          description: The code that describes the identification of the given code set.
+          description: The first name of the Underwriter.
           default: ''
-        name:
+        last_name:
           type: string
-          description: The name of the Company, which is also referred to as the trading entity of the Organisation.
+          description: The last name of the Underwriter.
           default: ''
-        address:
-          $ref: '#/components/schemas/address'
-        stamps:
-          type: array
-          description: List of Stamp References this Company has access to.
-          items:
-            $ref: '#/components/schemas/stamps_carrier_ref'
-        branches:
-          type: array
-          description: A list of Branches that are part of the Company hierarchy.
-          items:
-            $ref: '#/components/schemas/branch_carrier'
-      description: Company structure (carrier focused).
+      description: The User information of the Underwriter.
     response_stamp_record:
       required:
       - agency_code
@@ -538,6 +525,289 @@ components:
           format: int32
           example: 0
       description: Stamp Information for the given Underwriter
+    team_carrier:
+      required:
+      - effective_from
+      - id
+      - members
+      - name
+      - status
+      type: object
+      properties:
+        id:
+          type: string
+          description: A system-generated unique identifier for a Team, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the Carrier Team, as defined by the carrier organisation.
+          default: ''
+        effective_from:
+          type: string
+          description: The date from which a Team is active.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        effective_to:
+          type: string
+          description: The date up until when a Team is active.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        status:
+          type: string
+          description: The current status of a Team.
+          default: ''
+        email:
+          type: string
+          description: The email address of the carrier team
+          default: ''
+        members:
+          type: array
+          description: A list of Members of a Team.
+          items:
+            $ref: '#/components/schemas/member_carrier'
+      description: Team structure (carrier focused).
+    response_underwriter_stamps:
+      required:
+      - company
+      - underwriter
+      type: object
+      properties:
+        company:
+          $ref: '#/components/schemas/company_underwriter'
+        underwriter:
+          $ref: '#/components/schemas/underwriter'
+        stamps:
+          type: array
+          description: List of Stamps that an Underwriter has access to, and that a Broker Team is authorised to engage with.
+          items:
+            $ref: '#/components/schemas/response_stamp_record'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int32
+          example: 0
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+      description: ''
+    branch_carrier:
+      required:
+      - address
+      - name
+      - teams
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Branch.
+          default: ''
+        address:
+          $ref: '#/components/schemas/address'
+        teams:
+          type: array
+          description: A list of Teams that are owned within a Branch.
+          items:
+            $ref: '#/components/schemas/team_carrier'
+      description: Branch structure (carrier focused).
+    stamp_code:
+      required:
+      - code
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The code that represents the stamp code type.
+          default: ''
+        code:
+          type: string
+          description: The code that is associated with the stamp.
+          default: ''
+      description: 'A mapping table between Stamp and Stamp Code Type. This captures multiple codes against a stamp in a standard way.
+
+        A stamp can have many stamp codes, and each stamp code can have a stamp code type
+
+        ---
+
+        LDM Ref:  Stamp (1) &lt;-&gt; Stamp Code (0-N)'
+    team_broker:
+      required:
+      - broker_codes
+      - effective_from
+      - id
+      - members
+      - name
+      - status
+      type: object
+      properties:
+        id:
+          type: string
+          description: A system-generated unique identifier for a Team, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        broker_codes:
+          type: array
+          description: List of broker codes that the team has access to, based on the broker codes available at the organisation level.
+          items:
+            type: string
+            default: ''
+        effective_from:
+          type: string
+          description: The date from which a Team is active.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        effective_to:
+          type: string
+          description: The date up until when a Team is active.
+          format: date
+          example: '2014-12-31T00:00:00.000Z'
+        status:
+          type: string
+          description: The current status of a Team.
+          default: ''
+        members:
+          type: array
+          description: A list of Members of a Team.
+          items:
+            $ref: '#/components/schemas/member_broker'
+      description: Team structure (broker focused).
+    company_carrier:
+      required:
+      - address
+      - branches
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: A system-generated unique identifier for a Company, with a format and structure defined by the technology used.
+          default: ''
+        duns_number:
+          type: string
+          description: The code that describes the identification of the given code set.
+          default: ''
+        name:
+          type: string
+          description: The name of the Company, which is also referred to as the trading entity of the Organisation.
+          default: ''
+        address:
+          $ref: '#/components/schemas/address'
+        stamps:
+          type: array
+          description: List of Stamp References this Company has access to.
+          items:
+            $ref: '#/components/schemas/stamps_carrier_ref'
+        branches:
+          type: array
+          description: A list of Branches that are part of the Company hierarchy.
+          items:
+            $ref: '#/components/schemas/branch_carrier'
+      description: Company structure (carrier focused).
+    line_conditions:
+      required:
+      - active
+      - description
+      - global
+      - line_condition_id
+      type: object
+      properties:
+        line_condition_id:
+          type: string
+          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
+          default: ''
+        description:
+          type: string
+          description: A description of the line condition.
+          default: ''
+        global:
+          type: boolean
+          description: Flag indicating that the line condition has been added by PPL admin and is applicable to all stamps within the platform.
+          example: false
+        active:
+          type: boolean
+          description: Indicates where a Line Condition is currently active (true) or not (false).
+          example: false
+        stamps:
+          type: array
+          description: List of Stamp References where the following Line Condition can be applied.
+          items:
+            $ref: '#/components/schemas/stamps_carrier_ref'
+      description: List of Line Conditions the Carrier Organisation has access to.
+    member_carrier:
+      required:
+      - active_member
+      - first_name
+      - is_technical_user
+      - last_name
+      - role
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+        role:
+          type: string
+          description: The role of the Member within the Team.
+          default: ''
+        active_member:
+          type: boolean
+          description: Indicates where a Team Member is currently active (true) or not (false).
+          example: false
+        is_technical_user:
+          type: boolean
+          description: Indicates where a Team Member is a Technical User (true) or not (false), i.e. Service Account.
+          example: false
+        stamps:
+          type: array
+          description: List of Stamp References this user has access to.
+          items:
+            $ref: '#/components/schemas/stamps_carrier_ref'
+      description: The User information of a Team Member.
+    branch_broker:
+      required:
+      - address
+      - name
+      - teams
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Branch.
+          default: ''
+        address:
+          $ref: '#/components/schemas/address'
+        teams:
+          type: array
+          description: A list of Teams that are owned within a Branch.
+          items:
+            $ref: '#/components/schemas/team_broker'
+      description: Branch structure (broker focused).
     organisation_broker:
       required:
       - address
@@ -594,206 +864,53 @@ components:
           items:
             $ref: '#/components/schemas/company_carrier'
       description: Organisation structure (carrier focused).
-    line_conditions:
+    company_underwriter:
       required:
-      - active
-      - description
-      - global
-      - line_condition_id
+      - name
+      - off_platform
       type: object
       properties:
-        line_condition_id:
+        name:
           type: string
-          description: A system-generated unique identifier for a Line Condition, with a format and structure defined by the technology used.
+          description: Name of the Company the User belongs to.
+          default: ''
+        off_platform:
+          type: boolean
+          description: Indicates where an Underwriter is off platform (true) or not (false).
+          example: false
+      description: The Company Information of the Underwriter&#39;s company.
+    facility_section:
+      required:
+      - description
+      - expiry_date
+      - inception_date
+      - reference
+      - section_id
+      type: object
+      properties:
+        section_id:
+          type: string
+          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          default: ''
+        reference:
+          type: string
+          description: A reference of the Section supplied by the Broker.
           default: ''
         description:
           type: string
-          description: A description of the line condition.
+          description: A description of the Section supplied by the Broker.
           default: ''
-        global:
-          type: boolean
-          description: Flag indicating that the line condition has been added by PPL admin and is applicable to all stamps within the platform.
-          example: false
-        active:
-          type: boolean
-          description: Indicates where a Line Condition is currently active (true) or not (false).
-          example: false
-        stamps:
-          type: array
-          description: List of Stamp References where the following Line Condition can be applied.
-          items:
-            $ref: '#/components/schemas/stamps_carrier_ref'
-      description: List of Line Conditions the Carrier Organisation has access to.
-    response_underwriter_record:
-      required:
-      - company
-      - underwriter
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/company_underwriter'
-        underwriter:
-          $ref: '#/components/schemas/underwriter'
-        in_underwriter_pool:
-          type: boolean
-          description: Indicates where an Underwriter is already in the Underwriter Pool of a given Placement or not.
-          example: false
-      description: The Underwriter Information record.
-    metadata_no_user:
-      type: object
-      properties:
-        created_date:
+        inception_date:
           type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-      description: A collection of data items to support the creation and update of record entities.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
-    stamps_carrier_ref:
-      required:
-      - name
-      - stamp_id
-      type: object
-      properties:
-        stamp_id:
-          type: string
-          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.
-          default: ''
-      description: List of Stamps references.
-    team_broker:
-      required:
-      - broker_codes
-      - effective_from
-      - id
-      - members
-      - name
-      - status
-      type: object
-      properties:
-        id:
-          type: string
-          description: A system-generated unique identifier for a Team, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-        broker_codes:
-          type: array
-          description: List of broker codes that the team has access to, based on the broker codes available at the organisation level.
-          items:
-            type: string
-            default: ''
-        effective_from:
-          type: string
-          description: The date from which a Team is active.
+          description: The date on which the (re)insurance Contract or Section comes into force.
           format: date
           example: '2014-12-31T00:00:00.000Z'
-        effective_to:
+        expiry_date:
           type: string
-          description: The date up until when a Team is active.
+          description: The date on which the (re)insurance Contract or Section ceases cover.
           format: date
           example: '2014-12-31T00:00:00.000Z'
-        status:
-          type: string
-          description: The current status of a Team.
-          default: ''
-        members:
-          type: array
-          description: A list of Members of a Team.
-          items:
-            $ref: '#/components/schemas/member_broker'
-      description: Team structure (broker focused).
-    company_broker:
-      required:
-      - address
-      - branches
-      - id
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          description: A system-generated unique identifier for a Company, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the Company, which is also referred to as the trading entity of the Organisation.
-          default: ''
-        address:
-          $ref: '#/components/schemas/address'
-        branches:
-          type: array
-          description: A list of Branches that are part of the Company hierarchy.
-          items:
-            $ref: '#/components/schemas/branch_broker'
-      description: Company structure (broker focused).
-    underwriter:
-      required:
-      - first_name
-      - last_name
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the Underwriter.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the Underwriter.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the Underwriter.
-          default: ''
-      description: The User information of the Underwriter.
-    error:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
-          type: string
-          description: The error code.
+      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
     member_broker:
       required:
       - active_member
@@ -829,65 +946,21 @@ components:
           description: Indicates where a Team Member is a Technical User (true) or not (false), i.e. Service Account.
           example: false
       description: The User information of a Team Member.
-    broker_team:
+    response_underwriter_record:
       required:
-      - team_id
-      - team_name
+      - company
+      - underwriter
       type: object
       properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-      description: The team information of the Broker Team responsible for the node.
-    company_underwriter:
-      required:
-      - name
-      - off_platform
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-        off_platform:
+        company:
+          $ref: '#/components/schemas/company_underwriter'
+        underwriter:
+          $ref: '#/components/schemas/underwriter'
+        in_underwriter_pool:
           type: boolean
-          description: Indicates where an Underwriter is off platform (true) or not (false).
+          description: Indicates where an Underwriter is already in the Underwriter Pool of a given Placement or not.
           example: false
-      description: The Company Information of the Underwriter&#39;s company.
-    response_facilities:
-      type: object
-      properties:
-        facilities:
-          type: array
-          description: List of facilities retrieved
-          items:
-            $ref: '#/components/schemas/response_facility_record'
-        page_number:
-          type: integer
-          description: Number of the page retrieved
-          format: int32
-          example: 0
-        count:
-          type: integer
-          description: The number of records on the current page
-          format: int32
-          example: 0
-        total_results:
-          type: integer
-          description: Total number of results
-          format: int32
-          example: 0
-        page_size:
-          type: integer
-          description: Size of the page retrieved
-          format: int32
-          example: 0
-      description: ''
+      description: The Underwriter Information record.
     address:
       required:
       - city
@@ -921,79 +994,98 @@ components:
           description: The ISO3166 alpha-2 code that represents the country as part of an address.
           default: ''
       description: The primary address where the node is situated.
-    facility_section:
-      required:
-      - description
-      - expiry_date
-      - inception_date
-      - reference
-      - section_id
+    error:
       type: object
       properties:
-        section_id:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
           type: string
-          description: A system-generated unique identifier for a Section, with a format and structure defined by the technology used.
+          description: The error code.
+    metadata_no_user:
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
           default: ''
-        reference:
+        modified_date:
           type: string
-          description: A reference of the Section supplied by the Broker.
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
           default: ''
-        description:
-          type: string
-          description: A description of the Section supplied by the Broker.
-          default: ''
-        inception_date:
-          type: string
-          description: The date on which the (re)insurance Contract or Section comes into force.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-        expiry_date:
-          type: string
-          description: The date on which the (re)insurance Contract or Section ceases cover.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-      description: A representation of a specific partition of the overall risk to be insured. A section can be based upon the cover type, coverage (e.g. class of business) and/or layer (limit of liability).
-    team_carrier:
+      description: A collection of data items to support the creation and update of record entities.
+    stamps_carrier:
       required:
-      - effective_from
-      - id
-      - members
+      - active
+      - agency_code
+      - agency_type
       - name
-      - status
+      - permission_type
+      - stamp_id
+      - stamp_type
       type: object
       properties:
-        id:
+        stamp_id:
           type: string
-          description: A system-generated unique identifier for a Team, with a format and structure defined by the technology used.
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
           default: ''
         name:
           type: string
-          description: The name of the Carrier Team, as defined by the carrier organisation.
+          description: The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.
           default: ''
+        agency_type:
+          type: string
+          description: The code that represents the agency type.
+          default: ''
+        agency_code:
+          type: string
+          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
+          default: ''
+        stamp_type:
+          type: string
+          description: The code that represents the stamp type.
+          default: ''
+        pseudonym:
+          type: string
+          description: The three character code that represents the syndicate.
+          default: ''
+        permission_type:
+          type: string
+          description: The code that represents the permitted territory type.
+          default: ''
+        active:
+          type: boolean
+          description: Indicates where a Stamp is currently active (true) or not (false).
+          example: false
         effective_from:
           type: string
-          description: The date from which a Team is active.
+          description: The earliest inception date on a Contract/Section which the stamp can be used for underwriting business.
           format: date
           example: '2014-12-31T00:00:00.000Z'
-        effective_to:
-          type: string
-          description: The date up until when a Team is active.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-        status:
-          type: string
-          description: The current status of a Team.
-          default: ''
-        email:
-          type: string
-          description: The email address of the carrier team
-          default: ''
-        members:
-          type: array
-          description: A list of Members of a Team.
-          items:
-            $ref: '#/components/schemas/member_carrier'
-      description: Team structure (carrier focused).
+      description: List of Stamps the Carrier Organisation has access to.
     response_underwriters:
       type: object
       properties:
@@ -1002,6 +1094,83 @@ components:
           description: List of underwriters retrieved
           items:
             $ref: '#/components/schemas/response_underwriter_record'
+        page_number:
+          type: integer
+          description: Number of the page retrieved
+          format: int32
+          example: 0
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+        total_results:
+          type: integer
+          description: Total number of results
+          format: int32
+          example: 0
+        page_size:
+          type: integer
+          description: Size of the page retrieved
+          format: int32
+          example: 0
+      description: ''
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    company_broker:
+      required:
+      - address
+      - branches
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: A system-generated unique identifier for a Company, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the Company, which is also referred to as the trading entity of the Organisation.
+          default: ''
+        address:
+          $ref: '#/components/schemas/address'
+        branches:
+          type: array
+          description: A list of Branches that are part of the Company hierarchy.
+          items:
+            $ref: '#/components/schemas/branch_broker'
+      description: Company structure (broker focused).
+    stamps_carrier_ref:
+      required:
+      - name
+      - stamp_id
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.
+          default: ''
+      description: List of Stamps references.
+    response_facilities:
+      type: object
+      properties:
+        facilities:
+          type: array
+          description: List of facilities retrieved
+          items:
+            $ref: '#/components/schemas/response_facility_record'
         page_number:
           type: integer
           description: Number of the page retrieved
@@ -1082,187 +1251,18 @@ components:
           items:
             $ref: '#/components/schemas/facility_section'
       description: The Facility Information record.
-    stamp_code:
+    broker_team:
       required:
-      - code
-      - type
+      - team_id
+      - team_name
       type: object
       properties:
-        type:
+        team_id:
           type: string
-          description: The code that represents the stamp code type.
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
           default: ''
-        code:
+        team_name:
           type: string
-          description: The code that is associated with the stamp.
+          description: The name of the Broker Team, as defined by the broker organisation.
           default: ''
-      description: 'A mapping table between Stamp and Stamp Code Type. This captures multiple codes against a stamp in a standard way.
-
-        A stamp can have many stamp codes, and each stamp code can have a stamp code type
-
-        ---
-
-        LDM Ref:  Stamp (1) &lt;-&gt; Stamp Code (0-N)'
-    response_underwriter_stamps:
-      required:
-      - company
-      - underwriter
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/company_underwriter'
-        underwriter:
-          $ref: '#/components/schemas/underwriter'
-        stamps:
-          type: array
-          description: List of Stamps that an Underwriter has access to, and that a Broker Team is authorised to engage with.
-          items:
-            $ref: '#/components/schemas/response_stamp_record'
-        page_number:
-          type: integer
-          description: Number of the page retrieved
-          format: int32
-          example: 0
-        count:
-          type: integer
-          description: The number of records on the current page
-          format: int32
-          example: 0
-        total_results:
-          type: integer
-          description: Total number of results
-          format: int32
-          example: 0
-        page_size:
-          type: integer
-          description: Size of the page retrieved
-          format: int32
-          example: 0
-      description: ''
-    member_carrier:
-      required:
-      - active_member
-      - first_name
-      - is_technical_user
-      - last_name
-      - role
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-        role:
-          type: string
-          description: The role of the Member within the Team.
-          default: ''
-        active_member:
-          type: boolean
-          description: Indicates where a Team Member is currently active (true) or not (false).
-          example: false
-        is_technical_user:
-          type: boolean
-          description: Indicates where a Team Member is a Technical User (true) or not (false), i.e. Service Account.
-          example: false
-        stamps:
-          type: array
-          description: List of Stamp References this user has access to.
-          items:
-            $ref: '#/components/schemas/stamps_carrier_ref'
-      description: The User information of a Team Member.
-    stamps_carrier:
-      required:
-      - active
-      - agency_code
-      - agency_type
-      - name
-      - permission_type
-      - stamp_id
-      - stamp_type
-      type: object
-      properties:
-        stamp_id:
-          type: string
-          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the stamp. This usually reflects the wet stamp and will be based on the syndicate number for Lloyd&#39;s syndicates, or entered by the broker or underwriter in the PPL platform.
-          default: ''
-        agency_type:
-          type: string
-          description: The code that represents the agency type.
-          default: ''
-        agency_code:
-          type: string
-          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
-          default: ''
-        stamp_type:
-          type: string
-          description: The code that represents the stamp type.
-          default: ''
-        pseudonym:
-          type: string
-          description: The three character code that represents the syndicate.
-          default: ''
-        permission_type:
-          type: string
-          description: The code that represents the permitted territory type.
-          default: ''
-        active:
-          type: boolean
-          description: Indicates where a Stamp is currently active (true) or not (false).
-          example: false
-        effective_from:
-          type: string
-          description: The earliest inception date on a Contract/Section which the stamp can be used for underwriting business.
-          format: date
-          example: '2014-12-31T00:00:00.000Z'
-      description: List of Stamps the Carrier Organisation has access to.
-    branch_carrier:
-      required:
-      - address
-      - name
-      - teams
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the Branch.
-          default: ''
-        address:
-          $ref: '#/components/schemas/address'
-        teams:
-          type: array
-          description: A list of Teams that are owned within a Branch.
-          items:
-            $ref: '#/components/schemas/team_carrier'
-      description: Branch structure (carrier focused).
-    branch_broker:
-      required:
-      - address
-      - name
-      - teams
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the Branch.
-          default: ''
-        address:
-          $ref: '#/components/schemas/address'
-        teams:
-          type: array
-          description: A list of Teams that are owned within a Branch.
-          items:
-            $ref: '#/components/schemas/team_broker'
-      description: Branch structure (broker focused).
+      description: The team information of the Broker Team responsible for the node.
