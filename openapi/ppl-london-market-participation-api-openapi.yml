@@ -581,89 +581,184 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    stamp_get:
-      required:
-      - agency_code
-      - agency_type
-      - name
-      - stamp_id
-      - status
+    proposed:
       type: object
       properties:
-        stamp_id:
-          type: string
-          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
-          default: ''
-        agency_type:
-          type: string
-          description: The code that represents the agency type.
-          default: ''
-        agency_code:
-          type: string
-          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
-          default: ''
-        name:
-          type: string
-          description: The legal name of the stamp, as provided by the Carrier organisation.
-          default: ''
-        stamp_role:
-          type: string
-          description: The code that represents the role or roles that the stamp plays in this Participation.
-          default: ''
-        written_line_percentage:
+        min_line_percentage:
+          type: number
+          description: The minimum underwriting value, as a percentage.
+          example: 0.1
+        max_line_percentage:
+          type: number
+          description: The maximum underwriting value, as a percentage.
+          example: 0.1
+        line_percentage:
           type: number
           description: The specified underwriting value, as a percentage.
           example: 0.1
-        written_line_currency_code:
+        currency_code:
           type: string
           description: The 3-character code that represents the currency in ISO 4217 standard.
           default: ''
-        written_line_amount:
+          pattern: ^[A-Z]{3}$
+        min_amount:
+          type: number
+          description: The minimum underwriting value, as an amount.
+          example: 0.1
+        max_amount:
+          type: number
+          description: The maximum underwriting value, as an amount.
+          example: 0.1
+        amount:
           type: number
           description: The specified underwriting value, as an amount.
           example: 0.1
-        calculated_line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage. The calculated signing down information.
-          example: 0.1
-        signed_line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage. The signed line information.
-          example: 0.1
-        line_conditions:
-          type: array
-          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-          items:
-            $ref: '#/components/schemas/line_condition_get'
-        references:
-          type: array
-          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
-          items:
-            $ref: '#/components/schemas/reference_get'
-        status:
-          type: string
-          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
       additionalProperties: false
-      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    response_participations_getall_post:
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
+    metadata:
       required:
-      - count
-      - participations
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
       type: object
       properties:
-        participations:
-          type: array
-          description: List of participations retrieved
-          items:
-            $ref: '#/components/schemas/participation_getbyid'
-        count:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      additionalProperties: false
+      description: A collection of data items to support the creation and update of record entities.
+    written:
+      required:
+      - status
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the written line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        status:
+          type: string
+          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept.
+    broker_team_org_company:
+      required:
+      - company_name
+      - organisation_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        organisation_name:
+          type: string
+          description: Name of the Organisation the User belongs to.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    sub_panel_postput:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the sub panel.
+          default: ''
+          pattern: ^.{1,256}$
+      additionalProperties: false
+      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
+    error:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    sub_panel_get:
+      required:
+      - name
+      - sequence_number
+      - sub_panel_id
+      type: object
+      properties:
+        sub_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
+          default: ''
+        name:
+          type: string
+          description: The name of the sub panel.
+          default: ''
+        sequence_number:
           type: integer
-          description: The number of records on the current page
+          description: The sequence number in which the Participations are ordered.
           format: int32
           example: 0
       additionalProperties: false
-      description: ''
+      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
     response_participations_getall:
       required:
       - count
@@ -700,73 +795,10 @@ components:
           example: 0
       additionalProperties: false
       description: ''
-    facility_panel_get:
+    broker_user:
       required:
-      - facility_id
-      - facility_panel_id
-      - proposed
-      - status
-      type: object
-      properties:
-        facility_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
-          default: ''
-        facility_id:
-          type: string
-          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
-          default: ''
-        status:
-          type: string
-          description: The code that represents the Facility Panel status, based upon the Type of Participation.
-          default: ''
-        proposed:
-          $ref: '#/components/schemas/proposed_panel'
-      additionalProperties: false
-      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
-    underwriter_user_participation:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-        off_platform_underwriter:
-          type: boolean
-          description: Indicates whether the Underwriter User is registered as an off-platform user (true) or not (false).
-          example: false
-      additionalProperties: false
-      description: The User information of the Underwriter User responsible for the Participation.
-    written_facility:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-          pattern: ^[A-Z]{3}$
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept, from the original master facility participation.
-    team_user:
-      required:
+      - first_name
+      - last_name
       - user_email
       type: object
       properties:
@@ -783,54 +815,19 @@ components:
           description: The last name of the User.
           default: ''
       additionalProperties: false
-      description: The User information of the User.
-    calculated:
+      description: The User information of the responsible Broker User.
+    stamp_postput:
       required:
-      - line_percentage
+      - stamp_id
       type: object
       properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-      additionalProperties: false
-      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
-    facility_panel_post:
-      required:
-      - facility_id
-      - proposed
-      type: object
-      properties:
-        facility_id:
+        stamp_id:
           type: string
-          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
           default: ''
           pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        import_facility_risk_codes:
-          type: boolean
-          description: Identifies where the facility risk classification will be used in this Section (true) or the current risk classification will be maintained (false).
-          example: false
-        proposed:
-          $ref: '#/components/schemas/proposed_panel'
       additionalProperties: false
-      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
-    signed:
-      required:
-      - date
-      - line_percentage
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the signed line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-      additionalProperties: false
-      description: The signed line information, that the Broker has confirmed to the Underwriter.
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
     participation_getbyid:
       required:
       - broker_team
@@ -947,79 +944,15 @@ components:
           $ref: '#/components/schemas/facility_panel_get'
       additionalProperties: false
       description: Participation information
-    metadata_user:
-      required:
-      - user_email
+    error_document:
       type: object
+      description: The error document.
       properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Metadata User.
-    facility_panel_put:
-      required:
-      - facility_id
-      - facility_panel_id
-      - proposed
-      type: object
-      properties:
-        facility_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        facility_id:
-          type: string
-          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-        proposed:
-          $ref: '#/components/schemas/proposed_panel'
-      additionalProperties: false
-      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
-    sub_panel_postput:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the sub panel.
-          default: ''
-          pattern: ^.{1,256}$
-      additionalProperties: false
-      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
-    participation_post:
-      type: object
-      properties:
-        underwriter_email:
-          type: string
-          description: The email address of the Underwriter.
-          default: ''
-          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
-        sub_panel:
-          $ref: '#/components/schemas/sub_panel_postput'
-        proposed:
-          $ref: '#/components/schemas/proposed'
-        stamps:
+        errors:
           type: array
-          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          description: A collection of errors. The list may be empty.
           items:
-            $ref: '#/components/schemas/stamp_postput'
-        facility_panel:
-          $ref: '#/components/schemas/facility_panel_post'
-      additionalProperties: false
-      description: Participation structure for creates
+            $ref: '#/components/schemas/error'
     participation_role:
       required:
       - role
@@ -1036,17 +969,9 @@ components:
           default: ''
       additionalProperties: false
       description: A mapping between Participation and Participation Role Type. This allows multiple roles to be captured against a single participation, for example both Slip Lead and Lloyd&#39;s Lead.
-    proposed:
+    proposed_panel:
       type: object
       properties:
-        min_line_percentage:
-          type: number
-          description: The minimum underwriting value, as a percentage.
-          example: 0.1
-        max_line_percentage:
-          type: number
-          description: The maximum underwriting value, as a percentage.
-          example: 0.1
         line_percentage:
           type: number
           description: The specified underwriting value, as a percentage.
@@ -1056,79 +981,12 @@ components:
           description: The 3-character code that represents the currency in ISO 4217 standard.
           default: ''
           pattern: ^[A-Z]{3}$
-        min_amount:
-          type: number
-          description: The minimum underwriting value, as an amount.
-          example: 0.1
-        max_amount:
-          type: number
-          description: The maximum underwriting value, as an amount.
-          example: 0.1
         amount:
           type: number
           description: The specified underwriting value, as an amount.
           example: 0.1
       additionalProperties: false
-      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter.
-    master_facility_get:
-      required:
-      - master_facility_id
-      - signed
-      - written
-      type: object
-      properties:
-        master_facility_id:
-          type: string
-          description: The unique identifier for a Master Facility, that this Participation record originates from.
-          default: ''
-        written:
-          $ref: '#/components/schemas/written_facility'
-        signed:
-          $ref: '#/components/schemas/signed_facility'
-      additionalProperties: false
-      description: The Master Facility information, holding original master facility information.
-    reference_get:
-      required:
-      - reference
-      type: object
-      properties:
-        reference:
-          type: string
-          description: The reference allocated by the underwriter against the Stamp.
-          default: ''
-        description:
-          type: string
-          description: A description of any processing instructions supplied with the line Reference.
-          default: ''
-        risk_codes:
-          type: array
-          description: The regulatory code(s) that are applicable to the Reference.
-          items:
-            type: string
-            default: ''
-      additionalProperties: false
-      description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
-    broker_user:
-      required:
-      - first_name
-      - last_name
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the responsible Broker User.
+      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter for this facility.
     line_condition_get:
       required:
       - code
@@ -1155,6 +1013,210 @@ components:
           default: ''
       additionalProperties: false
       description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+    facility_roles:
+      required:
+      - declaration_firm_order_role
+      - declaration_quote_role
+      type: object
+      properties:
+        declaration_quote_role:
+          type: string
+          description: The code that represents the quote role on the that the Underwriter participates in the Facility Panel, with their Participation.
+          default: ''
+        declaration_firm_order_role:
+          type: string
+          description: The code that represents the firm order role on the that the Underwriter participates in the Facility Panel, with their Participation.
+          default: ''
+      additionalProperties: false
+      description: The facility role information that the Declaration Underwriter takes part in through their Participation.
+    facility_panel_get:
+      required:
+      - facility_id
+      - facility_panel_id
+      - proposed
+      - status
+      type: object
+      properties:
+        facility_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+          default: ''
+        facility_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the Facility Panel status, based upon the Type of Participation.
+          default: ''
+        proposed:
+          $ref: '#/components/schemas/proposed_panel'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    reference_get:
+      required:
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          description: The reference allocated by the underwriter against the Stamp.
+          default: ''
+        description:
+          type: string
+          description: A description of any processing instructions supplied with the line Reference.
+          default: ''
+        risk_codes:
+          type: array
+          description: The regulatory code(s) that are applicable to the Reference.
+          items:
+            type: string
+            default: ''
+      additionalProperties: false
+      description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+    signed:
+      required:
+      - date
+      - line_percentage
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        date:
+          type: string
+          description: The date and timestamp when the signed line was provided.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter.
+    facility_panel_post:
+      required:
+      - facility_id
+      - proposed
+      type: object
+      properties:
+        facility_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        import_facility_risk_codes:
+          type: boolean
+          description: Identifies where the facility risk classification will be used in this Section (true) or the current risk classification will be maintained (false).
+          example: false
+        proposed:
+          $ref: '#/components/schemas/proposed_panel'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    facility_panel_put:
+      required:
+      - facility_id
+      - facility_panel_id
+      - proposed
+      type: object
+      properties:
+        facility_panel_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        facility_id:
+          type: string
+          description: A system-generated unique identifier for a Facility Panel set of Underwriters, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        proposed:
+          $ref: '#/components/schemas/proposed_panel'
+      additionalProperties: false
+      description: The Facility Panel information, holding values from the Master Facility as a whole. This information will be consistent across all Participation records which originate from the same Master Facility.
+    participation_put:
+      type: object
+      properties:
+        underwriter_email:
+          type: string
+          description: The email address of the Underwriter.
+          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        sub_panel:
+          $ref: '#/components/schemas/sub_panel_postput'
+        proposed:
+          $ref: '#/components/schemas/proposed'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/stamp_postput'
+        facility_roles:
+          $ref: '#/components/schemas/facility_roles'
+        is_excluded_from_panel:
+          type: boolean
+          description: Identifies whether this Underwriter has been excluded (true) from participating on the Facility Panel for this Contract or Section, or not (false).
+          example: false
+        facility_panel:
+          $ref: '#/components/schemas/facility_panel_put'
+      additionalProperties: false
+      description: Participation structure for updates
+    participation_post:
+      type: object
+      properties:
+        underwriter_email:
+          type: string
+          description: The email address of the Underwriter.
+          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        sub_panel:
+          $ref: '#/components/schemas/sub_panel_postput'
+        proposed:
+          $ref: '#/components/schemas/proposed'
+        stamps:
+          type: array
+          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+          items:
+            $ref: '#/components/schemas/stamp_postput'
+        facility_panel:
+          $ref: '#/components/schemas/facility_panel_post'
+      additionalProperties: false
+      description: Participation structure for creates
+    written_facility:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+        currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+          pattern: ^[A-Z]{3}$
+        amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+      additionalProperties: false
+      description: The written underwriting line information, that the Underwriter is willing to accept, from the original master facility participation.
+    calculated:
+      required:
+      - line_percentage
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The calculated signing down information, following the Broker invoking the signing down process in the Section.
+    signed_facility:
+      type: object
+      properties:
+        line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage.
+          example: 0.1
+      additionalProperties: false
+      description: The signed line information, that the Broker has confirmed to the Underwriter, from the original master facility participation.
     underwriter_team:
       required:
       - company_name
@@ -1181,27 +1243,43 @@ components:
           default: ''
       additionalProperties: false
       description: The Team information of the Underwriter Team responsible for the Participation.
-    error:
+    team_user:
+      required:
+      - user_email
       type: object
       properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
+        user_email:
           type: string
-          description: The error code.
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the User.
+    response_participations_getall_post:
+      required:
+      - count
+      - participations
+      type: object
+      properties:
+        participations:
+          type: array
+          description: List of participations retrieved
+          items:
+            $ref: '#/components/schemas/participation_getbyid'
+        count:
+          type: integer
+          description: The number of records on the current page
+          format: int32
+          example: 0
+      additionalProperties: false
+      description: ''
     subjectivity_get:
       required:
       - confirmation_required
@@ -1242,205 +1320,127 @@ components:
           default: ''
       additionalProperties: false
       description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-    written:
+    stamp_get:
       required:
-      - status
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-          pattern: ^[A-Z]{3}$
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-        date:
-          type: string
-          description: The date and timestamp when the written line was provided.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        status:
-          type: string
-          description: The code that represents the status of the written line when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-      additionalProperties: false
-      description: The written underwriting line information, that the Underwriter is willing to accept.
-    sub_panel_get:
-      required:
+      - agency_code
+      - agency_type
       - name
-      - sequence_number
-      - sub_panel_id
-      type: object
-      properties:
-        sub_panel_id:
-          type: string
-          description: A system-generated unique identifier for a Sub Panel, with a format and structure defined by the technology used.
-          default: ''
-        name:
-          type: string
-          description: The name of the sub panel.
-          default: ''
-        sequence_number:
-          type: integer
-          description: The sequence number in which the Participations are ordered.
-          format: int32
-          example: 0
-      additionalProperties: false
-      description: The sub panel information, identifying a group of Participations with a common set of underwriting terms.
-    proposed_panel:
-      type: object
-      properties:
-        line_percentage:
-          type: number
-          description: The specified underwriting value, as a percentage.
-          example: 0.1
-        currency_code:
-          type: string
-          description: The 3-character code that represents the currency in ISO 4217 standard.
-          default: ''
-          pattern: ^[A-Z]{3}$
-        amount:
-          type: number
-          description: The specified underwriting value, as an amount.
-          example: 0.1
-      additionalProperties: false
-      description: The proposed underwriting line information, that the Broker is proposing to the Underwriter for this facility.
-    participation_put:
-      type: object
-      properties:
-        underwriter_email:
-          type: string
-          description: The email address of the Underwriter.
-          default: ''
-          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
-        sub_panel:
-          $ref: '#/components/schemas/sub_panel_postput'
-        proposed:
-          $ref: '#/components/schemas/proposed'
-        stamps:
-          type: array
-          description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-          items:
-            $ref: '#/components/schemas/stamp_postput'
-        facility_roles:
-          $ref: '#/components/schemas/facility_roles'
-        is_excluded_from_panel:
-          type: boolean
-          description: Identifies whether this Underwriter has been excluded (true) from participating on the Facility Panel for this Contract or Section, or not (false).
-          example: false
-        facility_panel:
-          $ref: '#/components/schemas/facility_panel_put'
-      additionalProperties: false
-      description: Participation structure for updates
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
-    stamp_postput:
-      required:
       - stamp_id
+      - status
       type: object
       properties:
         stamp_id:
           type: string
           description: A system-generated unique identifier for a Stamp, with a format and structure defined by the technology used.
           default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-      additionalProperties: false
-      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
+        agency_type:
           type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
+          description: The code that represents the agency type.
           default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
+        agency_code:
           type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          description: The number that represents the stamp. For example this will be the 4-digit syndicate number for Lloyd&#39;s stamps.
           default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      additionalProperties: false
-      description: A collection of data items to support the creation and update of record entities.
-    broker_team_org_company:
-      required:
-      - company_name
-      - organisation_name
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
+        name:
           type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          description: The legal name of the stamp, as provided by the Carrier organisation.
           default: ''
-        team_name:
+        stamp_role:
           type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
+          description: The code that represents the role or roles that the stamp plays in this Participation.
           default: ''
-        organisation_name:
-          type: string
-          description: Name of the Organisation the User belongs to.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
-    facility_roles:
-      required:
-      - declaration_firm_order_role
-      - declaration_quote_role
-      type: object
-      properties:
-        declaration_quote_role:
-          type: string
-          description: The code that represents the quote role on the that the Underwriter participates in the Facility Panel, with their Participation.
-          default: ''
-        declaration_firm_order_role:
-          type: string
-          description: The code that represents the firm order role on the that the Underwriter participates in the Facility Panel, with their Participation.
-          default: ''
-      additionalProperties: false
-      description: The facility role information that the Declaration Underwriter takes part in through their Participation.
-    signed_facility:
-      type: object
-      properties:
-        line_percentage:
+        written_line_percentage:
           type: number
           description: The specified underwriting value, as a percentage.
           example: 0.1
+        written_line_currency_code:
+          type: string
+          description: The 3-character code that represents the currency in ISO 4217 standard.
+          default: ''
+        written_line_amount:
+          type: number
+          description: The specified underwriting value, as an amount.
+          example: 0.1
+        calculated_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage. The calculated signing down information.
+          example: 0.1
+        signed_line_percentage:
+          type: number
+          description: The specified underwriting value, as a percentage. The signed line information.
+          example: 0.1
+        line_conditions:
+          type: array
+          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+          items:
+            $ref: '#/components/schemas/line_condition_get'
+        references:
+          type: array
+          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+          items:
+            $ref: '#/components/schemas/reference_get'
+        status:
+          type: string
+          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
       additionalProperties: false
-      description: The signed line information, that the Broker has confirmed to the Underwriter, from the original master facility participation.
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    master_facility_get:
+      required:
+      - master_facility_id
+      - signed
+      - written
+      type: object
+      properties:
+        master_facility_id:
+          type: string
+          description: The unique identifier for a Master Facility, that this Participation record originates from.
+          default: ''
+        written:
+          $ref: '#/components/schemas/written_facility'
+        signed:
+          $ref: '#/components/schemas/signed_facility'
+      additionalProperties: false
+      description: The Master Facility information, holding original master facility information.
+    underwriter_user_participation:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+        off_platform_underwriter:
+          type: boolean
+          description: Indicates whether the Underwriter User is registered as an off-platform user (true) or not (false).
+          example: false
+      additionalProperties: false
+      description: The User information of the Underwriter User responsible for the Participation.

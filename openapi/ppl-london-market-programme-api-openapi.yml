@@ -342,43 +342,81 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    programme_put:
-      required:
-      - description
-      - user_email
-      type: object
-      properties:
-        description:
-          type: string
-          description: A description of the Programme supplied by the Broker.
-          default: ''
-          pattern: ^.{1,256}$
-        user_email:
-          type: string
-          description: The User information of the Broker User responsible for the Programme. The email address of the User.
-          default: ''
-          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
-        add_contracts:
-          type: array
-          description: A collection of insurance Contracts to be added to the Programme.
-          items:
-            $ref: '#/components/schemas/programme_contract_postput'
-      additionalProperties: false
-      description: Programme structure for updates
-    programme_contract_postput:
+    programme_contract_getbyid:
       required:
       - contract_id
+      - unique_market_reference
       type: object
       properties:
         contract_id:
           type: string
           description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
           default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+        unique_market_reference:
+          type: string
+          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
+          default: ''
       additionalProperties: false
-      description: ''
-    metadata_user:
+      description: A collection of insurance Contracts.
+    broker_team_company:
       required:
+      - company_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    metadata:
+      required:
+      - created_by
+      - created_channel
+      - created_date
+      - modified_by
+      - modified_channel
+      - modified_date
+      type: object
+      properties:
+        created_date:
+          type: string
+          description: The date and timestamp when the entity was created.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        created_channel:
+          type: string
+          description: The mechanism used to create the entity, e.g. OutSystems, API
+          default: ''
+        created_by:
+          $ref: '#/components/schemas/metadata_user'
+        modified_date:
+          type: string
+          description: The date and timestamp when the entity was modified.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        modified_channel:
+          type: string
+          description: The mechanism used to modify the entity, e.g. OutSystems, API
+          default: ''
+        modified_by:
+          $ref: '#/components/schemas/metadata_user'
+      additionalProperties: false
+      description: A collection of data items to support the creation and update of record entities.
+    broker_user:
+      required:
+      - first_name
+      - last_name
       - user_email
       type: object
       properties:
@@ -395,16 +433,7 @@ components:
           description: The last name of the User.
           default: ''
       additionalProperties: false
-      description: The User information of the Metadata User.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
+      description: The User information of the responsible Broker User.
     programme_getbyid:
       required:
       - broker_team
@@ -462,98 +491,29 @@ components:
             $ref: '#/components/schemas/programme_contract_getbyid'
       additionalProperties: false
       description: A collection of Contracts for a common purpose.
-    programme_contract_getbyid:
+    programme_put:
       required:
-      - contract_id
-      - unique_market_reference
-      type: object
-      properties:
-        contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-        unique_market_reference:
-          type: string
-          description: The reference allocated by the broker to identify the Contract for use within the placement process, as a concatenation of the Broker Code and Broker Contract Reference.
-          default: ''
-      additionalProperties: false
-      description: A collection of insurance Contracts.
-    broker_team_company:
-      required:
-      - company_name
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
-    broker_user:
-      required:
-      - first_name
-      - last_name
+      - description
       - user_email
       type: object
       properties:
+        description:
+          type: string
+          description: A description of the Programme supplied by the Broker.
+          default: ''
+          pattern: ^.{1,256}$
         user_email:
           type: string
-          description: The email address of the User.
+          description: The User information of the Broker User responsible for the Programme. The email address of the User.
           default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        add_contracts:
+          type: array
+          description: A collection of insurance Contracts to be added to the Programme.
+          items:
+            $ref: '#/components/schemas/programme_contract_postput'
       additionalProperties: false
-      description: The User information of the responsible Broker User.
-    metadata:
-      required:
-      - created_by
-      - created_channel
-      - created_date
-      - modified_by
-      - modified_channel
-      - modified_date
-      type: object
-      properties:
-        created_date:
-          type: string
-          description: The date and timestamp when the entity was created.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        created_channel:
-          type: string
-          description: The mechanism used to create the entity, e.g. OutSystems, API
-          default: ''
-        created_by:
-          $ref: '#/components/schemas/metadata_user'
-        modified_date:
-          type: string
-          description: The date and timestamp when the entity was modified.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        modified_channel:
-          type: string
-          description: The mechanism used to modify the entity, e.g. OutSystems, API
-          default: ''
-        modified_by:
-          $ref: '#/components/schemas/metadata_user'
-      additionalProperties: false
-      description: A collection of data items to support the creation and update of record entities.
+      description: Programme structure for updates
     error:
       type: object
       properties:
@@ -598,3 +558,43 @@ components:
             $ref: '#/components/schemas/programme_contract_postput'
       additionalProperties: false
       description: Programme structure for creates
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    programme_contract_postput:
+      required:
+      - contract_id
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: ''

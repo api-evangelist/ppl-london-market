@@ -264,109 +264,71 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    stamp_transaction:
+    document_transaction:
       required:
-      - name
-      - status
+      - description
+      - document_version_id
+      - filename
+      - type
       type: object
       properties:
-        name:
+        document_version_id:
           type: string
-          description: The legal name of the stamp, as provided by the Carrier organisation.
+          description: A system-generated unique identifier for a Document, with a format and structure defined by the technology used.
           default: ''
-        status:
+        filename:
           type: string
-          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
+          description: The file name of the Document, including its file extension.
           default: ''
-        written_line:
+        description:
           type: string
-          description: The written underwriting value, as a percentage or a currency code and amount.
+          description: A description about the Document and / or its contents.
           default: ''
-        signed_line:
-          type: number
-          description: The signed underwriting value, as a percentage.
-          example: 0.1
-        references:
-          type: array
-          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
-          items:
-            $ref: '#/components/schemas/reference_transaction'
-        risk_classification:
-          type: array
-          description: The regulatory code(s) that are applicable to the Stamp.
-          items:
-            $ref: '#/components/schemas/risk_classification_transaction'
-        line_conditions:
-          type: array
-          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
-          items:
-            $ref: '#/components/schemas/line_condition_transaction'
-      additionalProperties: false
-      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
-    response_transaction_getall:
-      required:
-      - context
-      - metadata
-      - recipient
-      - sender
-      - transaction_id
-      type: object
-      properties:
-        transaction_id:
-          type: string
-          description: A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used.
-          default: ''
-        metadata:
-          $ref: '#/components/schemas/metadata_transaction'
         type:
           type: string
-          description: The code that represents the transaction type.
+          description: A code that represents the type of Document.
           default: ''
         category:
           type: string
-          description: The code that represents the transaction category type.
+          description: A code that represents the category of the Document.
           default: ''
-        context:
-          $ref: '#/components/schemas/context_transaction'
-        sender:
-          $ref: '#/components/schemas/sender_transaction'
-        sent_on_behalf_of_user:
-          $ref: '#/components/schemas/sender_onbehalf_transaction'
-        recipient:
-          $ref: '#/components/schemas/recipient_transaction'
       additionalProperties: false
-      description: The Transaction Information record.
-    sender_onbehalf_transaction:
+      description: Document reference
+    satisfaction_attempt_transaction:
       required:
-      - company_name
-      - first_name
-      - last_name
-      - sender_email
-      - team_name
+      - attempt_number
+      - date
+      - status
+      - user
       type: object
       properties:
-        sender_email:
+        status:
           type: string
-          description: The email address of the Sender.
+          description: The code that represents the status of the Satisfaction Attempt.
           default: ''
-        first_name:
+        date:
           type: string
-          description: The first name of the Sender.
-          default: ''
-        last_name:
+          description: Date of the satisfaction attempt.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        message:
           type: string
-          description: The last name of the Sender.
+          description: The message sent with the Satisfaction Attempt.
           default: ''
-        team_name:
-          type: string
-          description: The name of the Team, as defined by the organisation.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
+        user:
+          $ref: '#/components/schemas/broker_user'
+        documents:
+          type: array
+          description: A list of Document references supplied as part of a Satisfaction Attempt.
+          items:
+            $ref: '#/components/schemas/document_transaction'
+        attempt_number:
+          type: integer
+          description: A enumerator of the Satisfaction Attempt number.
+          format: int32
+          example: 0
       additionalProperties: false
-      description: The User information of the Sender that should have been responsible for the Transaction.
+      description: A collection of data items to support Subjectivity Management information.
     response_transaction_getbyid:
       required:
       - context
@@ -427,77 +389,114 @@ components:
             $ref: '#/components/schemas/endorsement_transaction'
       additionalProperties: false
       description: The Transaction Information record.
-    subjectivity_transaction:
-      required:
-      - description
-      - off_cover
-      - status
+    error:
       type: object
       properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    context_transaction:
+      required:
+      - context_id
+      - description
+      - placement_id
+      - type
+      type: object
+      properties:
+        context_id:
+          type: string
+          description: The unique identifier within the hierarchical structure of a Placement where this Transaction is generated.
+          default: ''
+        type:
+          type: string
+          description: Identifies where within the hierarchical structure of a Placement this Transaction is generated.
+          default: ''
         description:
           type: string
-          description: A description of the subjectivity and any associated terms.
+          description: The description of the element at the moment of the transaction log.
           default: ''
-        confirmation_required_by_date:
+        placement_id:
           type: string
-          description: The date and timestamp by which the Subjectivity needs to be met.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        off_cover:
-          type: boolean
-          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
-          example: false
-        status:
-          type: string
-          description: The code that represents the status of the Subjectivity.
+          description: A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.
           default: ''
-        satisfaction_attempts:
-          type: array
-          description: A collection of data items to support Subjectivity Management information.
-          items:
-            $ref: '#/components/schemas/satisfaction_attempt_transaction'
-        comments:
-          type: array
-          description: Array of comments on the subjectivities negotiation.
-          items:
-            $ref: '#/components/schemas/comment_transaction'
-      additionalProperties: false
-      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
-    satisfaction_attempt_transaction:
-      required:
-      - attempt_number
-      - date
-      - status
-      - user
-      type: object
-      properties:
-        status:
+        programme_id:
           type: string
-          description: The code that represents the status of the Satisfaction Attempt.
+          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
           default: ''
-        date:
-          type: string
-          description: Date of the satisfaction attempt.
-          format: date-time
-          example: '2014-12-31T23:59:59.938Z'
-        message:
-          type: string
-          description: The message sent with the Satisfaction Attempt.
-          default: ''
-        user:
-          $ref: '#/components/schemas/broker_user'
-        documents:
-          type: array
-          description: A list of Document references supplied as part of a Satisfaction Attempt.
-          items:
-            $ref: '#/components/schemas/document_transaction'
-        attempt_number:
+        contract_version:
           type: integer
-          description: A enumerator of the Satisfaction Attempt number.
+          description: Holds the version of the contract. That means this field will only be filled for transaction logs referring to a contract.
           format: int32
           example: 0
       additionalProperties: false
-      description: A collection of data items to support Subjectivity Management information.
+      description: Contextual information about where this Transaction is generated.
+    broker_user:
+      required:
+      - first_name
+      - last_name
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the responsible Broker User.
+    recipient_transaction:
+      required:
+      - company_name
+      - first_name
+      - last_name
+      - recipient_email
+      - team_name
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          description: The email address of the Recipient.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the Recipient.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the Recipient.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Team the Recipient belongs to.
+          default: ''
+        company_name:
+          type: string
+          description: The name of the Company, which is also referred to as the trading entity of the Organisation.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Recipient of the Transaction.
     endorsement_transaction:
       required:
       - agreement_party
@@ -555,22 +554,26 @@ components:
           $ref: '#/components/schemas/broker_user'
       additionalProperties: false
       description: A list of Endorsements relating to a single transaction.
-    attribute_transaction:
+    line_condition_transaction:
       required:
-      - key
-      - value
+      - description
+      - status
       type: object
       properties:
-        key:
+        description:
           type: string
-          description: The code that represents the generic attribute to which a code value has been provided for.
+          description: A description of the line condition.
           default: ''
-        value:
+        status:
           type: string
-          description: The value relating to the key attribute.
+          description: The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        code:
+          type: string
+          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
           default: ''
       additionalProperties: false
-      description: The User information of the Recipient of the Transaction.
+      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
     response_transactions:
       required:
       - count
@@ -606,44 +609,126 @@ components:
           example: 1234567891234567
       additionalProperties: false
       description: ''
-    metadata_user:
-      required:
-      - user_email
+    message_transaction:
       type: object
       properties:
-        user_email:
+        ad_hoc_message:
           type: string
-          description: The email address of the User.
+          description: An ad-hoc message exchange from the Sender to the Recipient.
+          default: ''
+        personal_message:
+          type: string
+          description: A personal message for the underwriter in relation to their Participation.
+          default: ''
+        general_message:
+          type: string
+          description: A general message sent to all participating underwriters included in this Submission Pack.
+          default: ''
+        comment:
+          type: string
+          description: A comment from the Sender.
+          default: ''
+        status_reason:
+          type: string
+          description: The code that represents the reason for the Negotiation status
+          default: ''
+        automatic_response:
+          type: string
+          description: Message to be shown in the transaction log due to the corrections
+          default: ''
+        quote_narrative:
+          type: string
+          description: Quote narrative from the UW response.
+          default: ''
+      additionalProperties: false
+      description: Message relating to the transaction.
+    sender_transaction:
+      required:
+      - company_name
+      - first_name
+      - last_name
+      - sender_email
+      - team_name
+      type: object
+      properties:
+        sender_email:
+          type: string
+          description: The email address of the Sender.
           default: ''
         first_name:
           type: string
-          description: The first name of the User.
+          description: The first name of the Sender.
           default: ''
         last_name:
           type: string
-          description: The last name of the User.
+          description: The last name of the Sender.
           default: ''
-      description: The User information of the Metadata User.
-    line_condition_transaction:
-      required:
-      - description
-      - status
-      type: object
-      properties:
-        description:
+        team_name:
           type: string
-          description: A description of the line condition.
+          description: The name of the Team, as defined by the organisation.
           default: ''
-        status:
+        company_name:
           type: string
-          description: The code that represents the status of the line condition when this is under negotiation, i.e. differs from that which was originally proposed.
-          default: ''
-        code:
-          type: string
-          description: The code that identifies whether a line condition is global line condition that functionally impacts platform behaviour.
+          description: Name of the Company the User belongs to.
           default: ''
       additionalProperties: false
-      description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+      description: The User information of the Author responsible for the Transaction.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    sender_onbehalf_transaction:
+      required:
+      - company_name
+      - first_name
+      - last_name
+      - sender_email
+      - team_name
+      type: object
+      properties:
+        sender_email:
+          type: string
+          description: The email address of the Sender.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the Sender.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the Sender.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Team, as defined by the organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Sender that should have been responsible for the Transaction.
+    risk_classification_transaction:
+      required:
+      - code
+      - percentage
+      type: object
+      properties:
+        code:
+          type: string
+          description: The regulatory code.
+          default: ''
+        percentage:
+          type: number
+          description: The specified underwriting value, as a percentage, applicable to the Stamp.
+          example: 0.1
+      additionalProperties: false
+      description: The regulatory code(s) that are applicable to the Stamp.
     metadata_transaction:
       required:
       - created_by
@@ -663,6 +748,42 @@ components:
           $ref: '#/components/schemas/metadata_user'
       additionalProperties: false
       description: A collection of data items to support the creation and update of record entities.
+    subjectivity_transaction:
+      required:
+      - description
+      - off_cover
+      - status
+      type: object
+      properties:
+        description:
+          type: string
+          description: A description of the subjectivity and any associated terms.
+          default: ''
+        confirmation_required_by_date:
+          type: string
+          description: The date and timestamp by which the Subjectivity needs to be met.
+          format: date-time
+          example: '2014-12-31T23:59:59.938Z'
+        off_cover:
+          type: boolean
+          description: Indicates whether the Underwriter&#39;s participation is off-cover (true) until the Subjectivity is satisfied, or continues to be on cover (false).
+          example: false
+        status:
+          type: string
+          description: The code that represents the status of the Subjectivity.
+          default: ''
+        satisfaction_attempts:
+          type: array
+          description: A collection of data items to support Subjectivity Management information.
+          items:
+            $ref: '#/components/schemas/satisfaction_attempt_transaction'
+        comments:
+          type: array
+          description: Array of comments on the subjectivities negotiation.
+          items:
+            $ref: '#/components/schemas/comment_transaction'
+      additionalProperties: false
+      description: The Subjectivity information, identifying the Subjectivity itself, the status of cover prior to its agreement/satisfaction and any deadline applied to satisfy.
     message_endorsement_transaction:
       type: object
       properties:
@@ -676,6 +797,94 @@ components:
           default: ''
       additionalProperties: false
       description: The message written on this Endorsement.
+    stamp_transaction:
+      required:
+      - name
+      - status
+      type: object
+      properties:
+        name:
+          type: string
+          description: The legal name of the stamp, as provided by the Carrier organisation.
+          default: ''
+        status:
+          type: string
+          description: The code that represents the status of the Stamp when this is under negotiation, i.e. differs from that which was originally proposed.
+          default: ''
+        written_line:
+          type: string
+          description: The written underwriting value, as a percentage or a currency code and amount.
+          default: ''
+        signed_line:
+          type: number
+          description: The signed underwriting value, as a percentage.
+          example: 0.1
+        references:
+          type: array
+          description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
+          items:
+            $ref: '#/components/schemas/reference_transaction'
+        risk_classification:
+          type: array
+          description: The regulatory code(s) that are applicable to the Stamp.
+          items:
+            $ref: '#/components/schemas/risk_classification_transaction'
+        line_conditions:
+          type: array
+          description: The Line Condition information, identifying the Line Condition itself, the status of its agreement.
+          items:
+            $ref: '#/components/schemas/line_condition_transaction'
+      additionalProperties: false
+      description: The Stamp information, identifying information about the underwriting entity, roles and line references to said underwriting.
+    attribute_transaction:
+      required:
+      - key
+      - value
+      type: object
+      properties:
+        key:
+          type: string
+          description: The code that represents the generic attribute to which a code value has been provided for.
+          default: ''
+        value:
+          type: string
+          description: The value relating to the key attribute.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Recipient of the Transaction.
+    response_transaction_getall:
+      required:
+      - context
+      - metadata
+      - recipient
+      - sender
+      - transaction_id
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          description: A system-generated unique identifier for a Transaction, with a format and structure defined by the technology used.
+          default: ''
+        metadata:
+          $ref: '#/components/schemas/metadata_transaction'
+        type:
+          type: string
+          description: The code that represents the transaction type.
+          default: ''
+        category:
+          type: string
+          description: The code that represents the transaction category type.
+          default: ''
+        context:
+          $ref: '#/components/schemas/context_transaction'
+        sender:
+          $ref: '#/components/schemas/sender_transaction'
+        sent_on_behalf_of_user:
+          $ref: '#/components/schemas/sender_onbehalf_transaction'
+        recipient:
+          $ref: '#/components/schemas/recipient_transaction'
+      additionalProperties: false
+      description: The Transaction Information record.
     comment_transaction:
       required:
       - date
@@ -717,73 +926,8 @@ components:
             default: ''
       additionalProperties: false
       description: The line reference information, which captures the line references in relating to the Contract or Section that is being underwritten. Also maintain the Risk Classification mapping against the line references.
-    message_transaction:
-      type: object
-      properties:
-        ad_hoc_message:
-          type: string
-          description: An ad-hoc message exchange from the Sender to the Recipient.
-          default: ''
-        personal_message:
-          type: string
-          description: A personal message for the underwriter in relation to their Participation.
-          default: ''
-        general_message:
-          type: string
-          description: A general message sent to all participating underwriters included in this Submission Pack.
-          default: ''
-        comment:
-          type: string
-          description: A comment from the Sender.
-          default: ''
-        status_reason:
-          type: string
-          description: The code that represents the reason for the Negotiation status
-          default: ''
-        automatic_response:
-          type: string
-          description: Message to be shown in the transaction log due to the corrections
-          default: ''
-        quote_narrative:
-          type: string
-          description: Quote narrative from the UW response.
-          default: ''
-      additionalProperties: false
-      description: Message relating to the transaction.
-    document_transaction:
+    metadata_user:
       required:
-      - description
-      - document_version_id
-      - filename
-      - type
-      type: object
-      properties:
-        document_version_id:
-          type: string
-          description: A system-generated unique identifier for a Document, with a format and structure defined by the technology used.
-          default: ''
-        filename:
-          type: string
-          description: The file name of the Document, including its file extension.
-          default: ''
-        description:
-          type: string
-          description: A description about the Document and / or its contents.
-          default: ''
-        type:
-          type: string
-          description: A code that represents the type of Document.
-          default: ''
-        category:
-          type: string
-          description: A code that represents the category of the Document.
-          default: ''
-      additionalProperties: false
-      description: Document reference
-    broker_user:
-      required:
-      - first_name
-      - last_name
       - user_email
       type: object
       properties:
@@ -799,148 +943,4 @@ components:
           type: string
           description: The last name of the User.
           default: ''
-      additionalProperties: false
-      description: The User information of the responsible Broker User.
-    context_transaction:
-      required:
-      - context_id
-      - description
-      - placement_id
-      - type
-      type: object
-      properties:
-        context_id:
-          type: string
-          description: The unique identifier within the hierarchical structure of a Placement where this Transaction is generated.
-          default: ''
-        type:
-          type: string
-          description: Identifies where within the hierarchical structure of a Placement this Transaction is generated.
-          default: ''
-        description:
-          type: string
-          description: The description of the element at the moment of the transaction log.
-          default: ''
-        placement_id:
-          type: string
-          description: A system-generated unique identifier for a Placement, with a format and structure defined by the technology used.
-          default: ''
-        programme_id:
-          type: string
-          description: A system-generated unique identifier for a Programme, with a format and structure defined by the technology used.
-          default: ''
-        contract_version:
-          type: integer
-          description: Holds the version of the contract. That means this field will only be filled for transaction logs referring to a contract.
-          format: int32
-          example: 0
-      additionalProperties: false
-      description: Contextual information about where this Transaction is generated.
-    error:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
-          type: string
-          description: The error code.
-    recipient_transaction:
-      required:
-      - company_name
-      - first_name
-      - last_name
-      - recipient_email
-      - team_name
-      type: object
-      properties:
-        recipient_email:
-          type: string
-          description: The email address of the Recipient.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the Recipient.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the Recipient.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Team the Recipient belongs to.
-          default: ''
-        company_name:
-          type: string
-          description: The name of the Company, which is also referred to as the trading entity of the Organisation.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Recipient of the Transaction.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
-    sender_transaction:
-      required:
-      - company_name
-      - first_name
-      - last_name
-      - sender_email
-      - team_name
-      type: object
-      properties:
-        sender_email:
-          type: string
-          description: The email address of the Sender.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the Sender.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the Sender.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Team, as defined by the organisation.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Author responsible for the Transaction.
-    risk_classification_transaction:
-      required:
-      - code
-      - percentage
-      type: object
-      properties:
-        code:
-          type: string
-          description: The regulatory code.
-          default: ''
-        percentage:
-          type: number
-          description: The specified underwriting value, as a percentage, applicable to the Stamp.
-          example: 0.1
-      additionalProperties: false
-      description: The regulatory code(s) that are applicable to the Stamp.
+      description: The User information of the Metadata User.
