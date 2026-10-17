@@ -358,27 +358,6 @@ components:
           default: ''
       additionalProperties: false
       description: A collection of insurance Contracts.
-    broker_team_company:
-      required:
-      - company_name
-      - team_id
-      - team_name
-      type: object
-      properties:
-        team_id:
-          type: string
-          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
-          default: ''
-        team_name:
-          type: string
-          description: The name of the Broker Team, as defined by the broker organisation.
-          default: ''
-        company_name:
-          type: string
-          description: Name of the Company the User belongs to.
-          default: ''
-      additionalProperties: false
-      description: The team information of the Broker Team responsible for the node.
     metadata:
       required:
       - created_by
@@ -413,6 +392,134 @@ components:
           $ref: '#/components/schemas/metadata_user'
       additionalProperties: false
       description: A collection of data items to support the creation and update of record entities.
+    error:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+          description: The error message.
+        argument:
+          type:
+          - string
+          - 'null'
+          description: The syntax argument used to validate the field against (if on syntax validation).
+        field:
+          type:
+          - string
+          - 'null'
+          description: The field where the error occurred (if field specific).
+        code:
+          type: string
+          description: The error code.
+    programme_post:
+      required:
+      - description
+      - user_email
+      type: object
+      properties:
+        description:
+          type: string
+          description: A description of the Programme supplied by the Broker.
+          default: ''
+          pattern: ^.{1,256}$
+        user_email:
+          type: string
+          description: The User information of the Broker User responsible for the Programme. The email address of the User.
+          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        add_contracts:
+          type: array
+          description: A collection of insurance Contracts to be added to the Programme.
+          items:
+            $ref: '#/components/schemas/programme_contract_postput'
+      additionalProperties: false
+      description: Programme structure for creates
+    metadata_user:
+      required:
+      - user_email
+      type: object
+      properties:
+        user_email:
+          type: string
+          description: The email address of the User.
+          default: ''
+        first_name:
+          type: string
+          description: The first name of the User.
+          default: ''
+        last_name:
+          type: string
+          description: The last name of the User.
+          default: ''
+      additionalProperties: false
+      description: The User information of the Metadata User.
+    programme_contract_postput:
+      required:
+      - contract_id
+      type: object
+      properties:
+        contract_id:
+          type: string
+          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
+          default: ''
+          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
+      additionalProperties: false
+      description: ''
+    broker_team_company:
+      required:
+      - company_name
+      - team_id
+      - team_name
+      type: object
+      properties:
+        team_id:
+          type: string
+          description: A system-generated unique identifier for a Broker Team, with a format and structure defined by the technology used.
+          default: ''
+        team_name:
+          type: string
+          description: The name of the Broker Team, as defined by the broker organisation.
+          default: ''
+        company_name:
+          type: string
+          description: Name of the Company the User belongs to.
+          default: ''
+      additionalProperties: false
+      description: The team information of the Broker Team responsible for the node.
+    error_document:
+      type: object
+      description: The error document.
+      properties:
+        errors:
+          type: array
+          description: A collection of errors. The list may be empty.
+          items:
+            $ref: '#/components/schemas/error'
+    programme_put:
+      required:
+      - description
+      - user_email
+      type: object
+      properties:
+        description:
+          type: string
+          description: A description of the Programme supplied by the Broker.
+          default: ''
+          pattern: ^.{1,256}$
+        user_email:
+          type: string
+          description: The User information of the Broker User responsible for the Programme. The email address of the User.
+          default: ''
+          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+        add_contracts:
+          type: array
+          description: A collection of insurance Contracts to be added to the Programme.
+          items:
+            $ref: '#/components/schemas/programme_contract_postput'
+      additionalProperties: false
+      description: Programme structure for updates
     broker_user:
       required:
       - first_name
@@ -491,110 +598,3 @@ components:
             $ref: '#/components/schemas/programme_contract_getbyid'
       additionalProperties: false
       description: A collection of Contracts for a common purpose.
-    programme_put:
-      required:
-      - description
-      - user_email
-      type: object
-      properties:
-        description:
-          type: string
-          description: A description of the Programme supplied by the Broker.
-          default: ''
-          pattern: ^.{1,256}$
-        user_email:
-          type: string
-          description: The User information of the Broker User responsible for the Programme. The email address of the User.
-          default: ''
-          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
-        add_contracts:
-          type: array
-          description: A collection of insurance Contracts to be added to the Programme.
-          items:
-            $ref: '#/components/schemas/programme_contract_postput'
-      additionalProperties: false
-      description: Programme structure for updates
-    error:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-          description: The error message.
-        argument:
-          type:
-          - string
-          - 'null'
-          description: The syntax argument used to validate the field against (if on syntax validation).
-        field:
-          type:
-          - string
-          - 'null'
-          description: The field where the error occurred (if field specific).
-        code:
-          type: string
-          description: The error code.
-    programme_post:
-      required:
-      - description
-      - user_email
-      type: object
-      properties:
-        description:
-          type: string
-          description: A description of the Programme supplied by the Broker.
-          default: ''
-          pattern: ^.{1,256}$
-        user_email:
-          type: string
-          description: The User information of the Broker User responsible for the Programme. The email address of the User.
-          default: ''
-          pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
-        add_contracts:
-          type: array
-          description: A collection of insurance Contracts to be added to the Programme.
-          items:
-            $ref: '#/components/schemas/programme_contract_postput'
-      additionalProperties: false
-      description: Programme structure for creates
-    metadata_user:
-      required:
-      - user_email
-      type: object
-      properties:
-        user_email:
-          type: string
-          description: The email address of the User.
-          default: ''
-        first_name:
-          type: string
-          description: The first name of the User.
-          default: ''
-        last_name:
-          type: string
-          description: The last name of the User.
-          default: ''
-      additionalProperties: false
-      description: The User information of the Metadata User.
-    error_document:
-      type: object
-      description: The error document.
-      properties:
-        errors:
-          type: array
-          description: A collection of errors. The list may be empty.
-          items:
-            $ref: '#/components/schemas/error'
-    programme_contract_postput:
-      required:
-      - contract_id
-      type: object
-      properties:
-        contract_id:
-          type: string
-          description: A system-generated unique identifier for a Contract, with a format and structure defined by the technology used.
-          default: ''
-          pattern: ^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$
-      additionalProperties: false
-      description: ''
