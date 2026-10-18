@@ -54,7 +54,7 @@ tags:
 - Lloyd's of London
 - Reinsurance
 - Commercial Insurance
-- Brokers
+- Brokerage
 - Underwriting
 - Placement
 - Market Infrastructure
@@ -73,6 +73,7 @@ tags_raw:
 - Market Infrastructure
 - ACORD
 - Electronic Placing
+- Brokers
 created: '2026-07-25'
 modified: '2026-07-25'
 specificationVersion: '0.23'
